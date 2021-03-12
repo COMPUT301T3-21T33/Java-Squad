@@ -70,6 +70,15 @@ public class Experiment {
     public String getRules(){ return rules; }
 
     /**
+     * Sets the minimum number of trials before results are considered.
+     * @param newTrials
+     * number of trials.
+     */
+    public void setMinTrials(int newTrials) { minTrials = newTrials;}
+
+    public int getMinTrials() {return minTrials;}
+
+    /**
      * Changes the public visibility of the experiment. Experiment List looks at publicity and lists
      * the experiment if it is published.
      * @param published
@@ -117,6 +126,30 @@ public class Experiment {
             throw new IllegalArgumentException();
         else
             subscibers.remove((User) user);
+    }
+
+    /**
+     * adds a contributor to the experiment.
+     * @param user
+     * User to add.
+     */
+    public void addContributor(User user){
+        if (contributors.contains((User) user))
+            throw new IllegalArgumentException();
+        else
+            contributors.add(user);
+    }
+
+    /**
+     * removes a user from contributors list. DOES NOT REMOVE THEIR EXPERIMENTS YET
+     * @param user
+     * User to remove.
+     */
+    public void removeContributor(User user){
+        if (!contributors.contains((User) user))
+            throw new IllegalArgumentException();
+        else
+            contributors.remove((User) user);
     }
 
 }
