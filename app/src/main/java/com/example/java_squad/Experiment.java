@@ -52,6 +52,24 @@ public class Experiment {
     }
 
     /**
+     * Updates the description with a new string.
+     * @param newDesc
+     * New description of the experiment.
+     */
+    public void setDescription(String newDesc){ description = newDesc; }
+
+    public String getDescription(){ return description; }
+
+    /**
+     * Updates the rules of the experiment
+     * @param newRules
+     * New rules string.
+     */
+    public void setRules(String newRules){ rules = newRules; }
+
+    public String getRules(){ return rules; }
+
+    /**
      * Changes the public visibility of the experiment. Experiment List looks at publicity and lists
      * the experiment if it is published.
      * @param published
@@ -75,6 +93,30 @@ public class Experiment {
      */
     public void endExperiment(){
         active = false;
+    }
+
+    /**
+     * subscribes a user to the experiment. Must not already be subscibed to the experiment.
+     * @param user
+     * User to subscribe.
+     */
+    public void addSubscriber(User user){
+        if (subscibers.contains((User) user))
+            throw new IllegalArgumentException();
+        else
+            subscibers.add(user);
+    }
+
+    /**
+     * unsubscribes a user from the exeperiment. Must be already subscribed.
+     * @param user
+     * User to unsubscribe.
+     */
+    public void removeSubsciber(User user){
+        if (!subscibers.contains((User) user))
+            throw new IllegalArgumentException();
+        else
+            subscibers.remove((User) user);
     }
 
 }
