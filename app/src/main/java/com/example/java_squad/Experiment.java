@@ -10,6 +10,7 @@ import java.util.List;
 public class Experiment {
     //Owner is assigned when constructing the Experiment, then cannot be changed.
     private User owner;
+    private String name = "";
     private String description = "";
     private String rules = "";
 
@@ -44,7 +45,8 @@ public class Experiment {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experiment(User owner, String description, String rules, int minTrials){
+    Experiment(User owner,String name, String description, String rules, int minTrials){
+        this.name = name;
         this.owner = owner;
         this.description = description;
         this.rules = rules;
