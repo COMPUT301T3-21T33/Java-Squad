@@ -27,6 +27,9 @@ public class Experiment {
     //users who have contributed to the project (may not be needed)
     private List<User> contributors = new ArrayList<>();
 
+    //Type of trials recorded by experiment.
+    private int type;
+
     //minimum number of trials before results are considered
     private int minTrials;
     private List<Trial> trials = new ArrayList<>();
@@ -45,13 +48,23 @@ public class Experiment {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experiment(User owner,String name, String description, String rules, int minTrials){
+    Experiment(User owner,String name, String description, String rules, int type, int minTrials){
         this.name = name;
         this.owner = owner;
         this.description = description;
         this.rules = rules;
+        this.type = type;
         this.minTrials = minTrials;
     }
+
+    /**
+     * Updates name of the experiment.
+     * @param newName
+     * the new name, in a string.
+     */
+    public void setName(String newName) { name = newName; }
+
+    public String getName() { return name; }
 
     /**
      * Updates the description with a new string.
@@ -81,6 +94,47 @@ public class Experiment {
     public int getMinTrials() {return minTrials;}
 
     /**
+     * changes the type of trials recorded by the experiment.
+     * !!!SHOULD NOT BE CALLED AFTER TRIALS ARE RECORDED!!!
+     * @param newType
+     * type of trials to record in integer format.
+     * 0 = Count (how many did you see)
+     * 1 = Binomial Trial (Pass / Fail)
+     * 2 = non-negative integer counts (each trial has 0 or more)
+     * 3 = measurement trials (like the temperature)
+     */
+    public void setType(int newType) { type = newType; }
+
+    /**
+     * Returns the type of trial of the experiment.
+     * @return
+     * type of trials to record in integer format.
+     * 0 = Count (how many did you see)
+     * 1 = Binomial Trial (Pass / Fail)
+     * 2 = non-negative integer counts (each trial has 0 or more)
+     * 3 = measurement trials (like the temperature)
+     */
+    public int getType() { return type; }
+
+    /**
+     * Returns the type of trial of the experiment in string format.
+     * @return
+     * String with the type of trial.
+     */
+    public String getTypeString() {
+        if (type == 0)
+            return "Count";
+        else if (type == 1)
+            return "Binomial";
+        else if (type == 2)
+            return "Non-Negative Integer Count";
+        else if (type == 3)
+            return "Measurement";
+
+        return "Error, invalid type";
+    }
+
+    /**
      * Changes the public visibility of the experiment. Experiment List looks at publicity and lists
      * the experiment if it is published.
      * @param published
@@ -105,6 +159,8 @@ public class Experiment {
     public void endExperiment(){
         active = false;
     }
+
+    public Boolean getActive() { return active; }
 
     /**
      * subscribes a user to the experiment. Must not already be subscibed to the experiment.
