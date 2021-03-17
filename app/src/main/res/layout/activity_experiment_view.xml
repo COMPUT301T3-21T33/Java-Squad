@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:onClick="togglePublished"
                 android:text="ToggleButton"
                 android:textOff="PRIVATE"
                 android:textOn="PUBLIC"
@@ -135,6 +136,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
+        android:onClick="endExperiment"
         android:text="End Experiment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

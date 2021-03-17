@@ -3,6 +3,7 @@ package com.example.java_squad;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -47,5 +48,16 @@ public class ExperimentView extends AppCompatActivity {
         expRules.setText(currentExperiment.getRules());
 
 
+    }
+
+    public void togglePublished(View view) {
+        if (currentExperiment.getPublished())
+            currentExperiment.setPublished(false);
+        else
+            currentExperiment.setPublished(true);
+    }
+
+    public void endExperiment(View view) {
+        currentExperiment.endExperiment();
     }
 }
