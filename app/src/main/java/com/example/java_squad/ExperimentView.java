@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class ExperimentView extends AppCompatActivity {
-    public Experiment currentExperiment;
+    public Experimental currentExperiment;
 
     TextView expName;
     //needs expLocation once implemented
