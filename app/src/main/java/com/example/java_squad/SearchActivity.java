@@ -74,9 +74,9 @@ public class SearchActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        //关闭进度
+                        //close
                         loading.dismiss();
-                        //成功
+                        //success
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //document.toObject converts QueryDocumentSnapshot into an object
@@ -92,7 +92,7 @@ public class SearchActivity extends AppCompatActivity {
                             //Refresh adapter
                             adatper.notifyDataSetChanged();
                         } else {
-                            //失败
+                            //fail
                             Toast.makeText(SearchActivity.this,"error",Toast.LENGTH_SHORT).show();
                         }
                     }
