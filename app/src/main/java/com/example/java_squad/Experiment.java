@@ -1,5 +1,7 @@
 package com.example.java_squad;
 
+import com.example.java_squad.user.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
