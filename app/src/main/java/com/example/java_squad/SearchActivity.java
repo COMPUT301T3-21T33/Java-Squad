@@ -1,4 +1,4 @@
-package com.test.serachapp;
+package com.example.java_squad;
 
 
 import android.app.ProgressDialog;

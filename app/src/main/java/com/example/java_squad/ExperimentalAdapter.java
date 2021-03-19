@@ -1,4 +1,4 @@
-package com.test.serachapp;
+package com.example.java_squad;
 
 import android.content.Context;
 import android.view.View;
@@ -29,8 +29,11 @@ public class ExperimentalAdapter extends RecyclerView.Adapter<ExperimentalAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvName.setText(datas.get(position).getName());
-        holder.tvStatus.setText(datas.get(position).getStatus());
-        holder.tvDesc.setText(datas.get(position).getDesc());
+        if (datas.get(position).getActive())
+            holder.tvStatus.setText("In Progress");
+        else
+            holder.tvStatus.setText("Ended");
+        holder.tvDesc.setText(datas.get(position).getDescription());
     }
 
 
