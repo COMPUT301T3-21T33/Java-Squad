@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.java_squad.R;
+
+public class MainActivity2 extends AppCompatActivity {
 
     private EditText etName;
     private EditText etPassword;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (name.equals("123456")&&password.equals("123456")){
-            startActivity(new Intent(this,SearchActivity.class));
+            startActivity(new Intent(this, com.test.serachapp.SearchActivity.class));
         }else{
             Toast.makeText(this,"error",Toast.LENGTH_SHORT).show();
         }
