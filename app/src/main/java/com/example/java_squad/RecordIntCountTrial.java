@@ -14,11 +14,12 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class RecordMeasurementTrial extends AppCompatActivity implements AddMeasurementTrialFragment.OnFragmentInteractionListener {
+public class RecordIntCountTrial extends AppCompatActivity implements AddIntCountTrialFragment.OnFragmentInteractionListener {
+    //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
 
     ListView trialList; // Reference to listview inside activity_main.xml
-    ArrayAdapter<Measurement> trialAdapter; // Bridge between dataList and cityList.
-    ArrayList<Measurement> trialDataList; // Holds the data that will go into the listview
+    ArrayAdapter<IntCount> trialAdapter; // Bridge between dataList and cityList.
+    ArrayList<IntCount> trialDataList; // Holds the data that will go into the listview
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +30,24 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
         String[] experimenter = {};
         Date[] experiment_date = {};
-        String[] unit = {};
-        double[] amount = {};
+        Integer[] count = {};
 
         trialDataList = new ArrayList<>();
         for (int i = 0; i < experimenter.length; i++) {
-            trialDataList.add((new Measurement(experimenter[i], experiment_date[i],unit[i],amount[i])));
+            trialDataList.add((new IntCount(experimenter[i], experiment_date[i],count[i])));
         }
-        trialAdapter = new MeasurementCustomList(this, trialDataList);
+        trialAdapter = new IntCountCustomList(this, trialDataList);
 
         trialList.setAdapter(trialAdapter);
         Button addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
+                new AddIntCountTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
         });
-        //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -70,6 +69,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 return true;
             }
         });
+
 //        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -86,7 +86,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
 
     @Override
-    public void onOkPressed(Measurement newTrail) {
+    public void onOkPressed(IntCount newTrail) {
         trialAdapter.add(newTrail);
     }
 }

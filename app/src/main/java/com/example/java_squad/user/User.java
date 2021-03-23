@@ -1,7 +1,7 @@
 package com.example.java_squad.user;
 
 
-import com.example.java_squad.Experiment;
+import com.example.java_squad.Experimental;
 
 import java.util.ArrayList;
 
@@ -10,8 +10,14 @@ public class User{
     private String contact;
     private String userID;
 
-    ArrayList<Experiment> ownedExperimentList;
-    ArrayList<Experiment> followedExperimentList;
+    ArrayList<Experimental> ownedExperimentList;
+    ArrayList<Experimental> followedExperimentList;
+
+    public User(String username, String contact, String userID) {
+        this.username = username;
+        this.contact = contact;
+        this.userID = userID;
+    }
 
     public String getUsername(){
         return username;
@@ -37,19 +43,19 @@ public class User{
         this.userID = userID;
     }
 
-    public ArrayList<Experiment> getOwnedExperimentList(){
+    public ArrayList<Experimental> getOwnedExperimentList(){
         return ownedExperimentList;
     }
 
-    public void setOwnedExperimentList(ArrayList<Experiment> ownedExperimentList){
+    public void setOwnedExperimentList(ArrayList<Experimental> ownedExperimentList){
         this.ownedExperimentList = ownedExperimentList;
     }
 
-    public ArrayList<Experiment> getFollowedExperimentList(){
+    public ArrayList<Experimental> getFollowedExperimentList(){
         return followedExperimentList;
     }
 
-    public void setFollowedExperimentList(ArrayList<Experiment> followedExperimentList){
+    public void setFollowedExperimentList(ArrayList<Experimental> followedExperimentList){
         this.followedExperimentList = followedExperimentList;
     }
 
