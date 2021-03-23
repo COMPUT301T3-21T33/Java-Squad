@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.java_squad.user.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ShowAllExperiments extends AppCompatActivity {
+public class ShowAllFollowedExperiments extends AppCompatActivity{
     ListView followedExpList; // Reference to listview inside activity_main.xml
     ArrayAdapter<Experimental> followedExpAdapter; // Bridge between dataList and cityList.
     ArrayList<Experimental> followedExpDataList; // Holds the data that will go into the listview
@@ -56,30 +57,37 @@ public class ShowAllExperiments extends AppCompatActivity {
                 //* 3 = measurement trials (like the temperature)
                 Integer exp_type = experiment.getType();
                 if (exp_type == 0){
-                    startActivity(new Intent(ShowAllExperiments.this, RecordIntCountTrial.class));
+                    Intent intent = new Intent(ShowAllFollowedExperiments.this, RecordIntCountTrial.class);
 
-//                    Intent intent = new Intent(ShowAllExperiments.this, RecordIntCountTrial.class);
-//
-//                    Log.d("main activity","on item click to start record trails");
-//
-//                    intent.putExtra("experiment", experiment);
-//                    intent.putExtra("position", i);
-//
-//                    Log.d("main activity","send intent to Trail activity");
-//                    startActivityForResult(intent,1);
+                    //Log.d("main activity","on item click to start record trails");
+
+                    intent.putExtra("experiment", experiment);
+                    startActivity(intent);
 
                 }
                 else if (exp_type == 1) {
-                    startActivity(new Intent(ShowAllExperiments.this, RecordBinomialTrial.class));
+                    Intent intent = new Intent(ShowAllFollowedExperiments.this, RecordBinomialTrial.class);
 
+                    //Log.d("main activity","on item click to start record trails");
+
+                    intent.putExtra("experiment", experiment);
+                    startActivity(intent);
                 }
                 else if (exp_type == 2) {
-                    startActivity(new Intent(ShowAllExperiments.this, RecordCountTrial.class));
+                    Intent intent = new Intent(ShowAllFollowedExperiments.this, RecordCountTrial.class);
 
+                    //Log.d("main activity","on item click to start record trails");
+
+                    intent.putExtra("experiment", experiment);
+                    startActivity(intent);
                 }
                 else if (exp_type == 3) {
-                    startActivity(new Intent(ShowAllExperiments.this, RecordMeasurementTrial.class));
+                    Intent intent = new Intent(ShowAllFollowedExperiments.this, RecordMeasurementTrial.class);
 
+                    //Log.d("main activity","on item click to start record trails");
+
+                    intent.putExtra("experiment", experiment);
+                    startActivity(intent);
                 }
 
             }

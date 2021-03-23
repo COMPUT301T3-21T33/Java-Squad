@@ -1,5 +1,6 @@
 package com.example.java_squad;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,11 +19,42 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ListView trialList; // Reference to listview inside activity_main.xml
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
+    Experimental experiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
+        Intent intent = getIntent();
+
+        experiment = (Experimental) intent.getSerializableExtra("experiment");
+
+        TextView experimentName = findViewById(R.id.experiment_name);
+        TextView owner = findViewById(R.id.owner);
+        TextView description = findViewById(R.id.experiment_description_content);
+        TextView type = findViewById(R.id.type);
+
+        experimentName.setText(experiment.getName());
+        //owner.setText(experiment.getOwner());
+        description.setText(experiment.getDescription());
+        int exp_type = experiment.getType();
+        String typeInStr = "";
+        if (exp_type == 0){
+            typeInStr = "Count";
+        }
+        else if (exp_type == 1) {
+            typeInStr = "Binomial";
+
+        }
+        else if (exp_type == 2) {
+            typeInStr = "Non-neg Count";
+
+        }
+        else if (exp_type == 3) {
+            typeInStr = "Measurement";
+
+        }
+        type.setText(typeInStr);
 
         trialList = findViewById(R.id.trail_list);
 

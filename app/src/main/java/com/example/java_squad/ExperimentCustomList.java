@@ -1,6 +1,7 @@
 package com.example.java_squad;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.ExifInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +39,28 @@ public class ExperimentCustomList extends ArrayAdapter<Experimental> {
         TextView experiment_name = view.findViewById(R.id.experiment);
         TextView type = view.findViewById(R.id.type);
         Integer exp_type = experiment.getType();
+        String typeInStr = "";
+        //* 0 = Count (how many did you see
+        //* 1 = Binomial Trial (Pass / Fail)
+        //* 2 = non-negative integer counts (each trial has 0 or more)
+        //* 3 = measurement trials (like the temperature)
+        if (exp_type == 0){
+            typeInStr = "Count";
+        }
+        else if (exp_type == 1) {
+            typeInStr = "Binomial";
+
+        }
+        else if (exp_type == 2) {
+            typeInStr = "Non-neg Count";
+
+        }
+        else if (exp_type == 3) {
+            typeInStr = "Measurement";
+
+        }
         experiment_name.setText(experiment.getName());
-        type.setText(String.valueOf(exp_type));
+        type.setText(typeInStr);
 
         return view;
     }

@@ -8,14 +8,8 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import com.example.java_squad.user.User;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     TextView tvUIDS;
@@ -37,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
-                startActivity(new Intent(MainActivity.this, ShowAllExperiments.class));
+                startActivity(new Intent(MainActivity.this, ShowAllFollowedExperiments.class));
                 Log.d("show all exp activity","show all experiments button clicked");
 
             }
