@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
+        
+        tvUIDS.setText(sb.toString());
 
 
         Button addTrialButton = findViewById(R.id.show_all_followed_exp);
