@@ -43,7 +43,7 @@
         android:weightSum="2">
 
         <TextView
-            android:id="@+id/experiment_trial"
+            android:id="@+id/your_experiment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -76,7 +76,7 @@
         android:weightSum="2">
 
         <TextView
-            android:id="@+id/experiment_trial"
+            android:id="@+id/followed_experiment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -86,8 +86,8 @@
     </LinearLayout>
 
     <ListView
-        android:layout_width="368dp"
-        android:layout_height="90dp"
+        android:layout_width="wrap_content"
+        android:layout_height="91dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/border_ui" />
