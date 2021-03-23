@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
-        <activity android:name=".ExperimentView"></activity>
+        <activity android:name=".ExperimentList"></activity>
+        <activity android:name=".ExperimentView" />
         <activity android:name=".ExperimentConstructor" />
         <activity android:name=".MainActivity">
             <intent-filter>

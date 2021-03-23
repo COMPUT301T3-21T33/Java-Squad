@@ -60,6 +60,8 @@ public class Experimental {
         this.minTrials = minTrials;
     }
 
+    public String getOwnerName() { return owner.getUsername(); };
+
     /**
      * Updates name of the experiment.
      * @param newName
