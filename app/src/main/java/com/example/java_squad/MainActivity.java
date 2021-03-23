@@ -23,10 +23,24 @@ public class MainActivity extends AppCompatActivity {
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
 
+        tvUIDS.setText(sb.toString();
+
     }
+
+    public void onDestroy(){
+        super.onDestroy();
+        FirebaseAuth.getInstance().getCurrentUser().delete();
+    }
+
 
     public void launchSearch(View view){
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
+    /** public void launchexperiment(View view){
+     * Intent intent = new Intent(this, com.test.experiment.class);
+     *         startActivity(intent);
+     */
+}
 }
