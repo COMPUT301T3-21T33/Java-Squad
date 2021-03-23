@@ -35,7 +35,7 @@ public class Experimental {
 
     //minimum number of trials before results are considered
     private int minTrials;
-    private List<Trial> trials = new ArrayList<>();
+    public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
 
