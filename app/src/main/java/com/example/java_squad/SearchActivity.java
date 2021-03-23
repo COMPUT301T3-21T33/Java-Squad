@@ -83,8 +83,7 @@ public class SearchActivity extends AppCompatActivity {
                                 Experimental experimental = document.toObject(Experimental.class);
                                 if (TextUtils.isEmpty(name)||experimental.getName().toLowerCase().contains(name.toLowerCase())
                                         ||experimental.getName().toLowerCase().equals(name.toLowerCase())
-                                ||experimental.getStatus().toLowerCase().equals(name.toLowerCase())
-                                        ||experimental.getDesc().toLowerCase().contains(name.toLowerCase())){
+                                        ||experimental.getDescription().toLowerCase().contains(name.toLowerCase())){
                                     experimentals.add(experimental);
                                 }
 

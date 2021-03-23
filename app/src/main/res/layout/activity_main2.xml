@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/colorPrimary">
+        android:background="@color/purple_700">
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Welcome"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/purple_700"
             android:textSize="24sp" />
 
         <LinearLayout
@@ -56,8 +56,6 @@
                 android:textColorHint="#ccc"
                 android:textCursorDrawable="@null"
                 android:textSize="16sp" />
-
-
         </LinearLayout>
 
         <ImageView
@@ -98,10 +96,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/purple_700"
             android:text="Sign in"
             android:textColor="#FFFFFF" />
-
     </LinearLayout>
 </LinearLayout>
 
