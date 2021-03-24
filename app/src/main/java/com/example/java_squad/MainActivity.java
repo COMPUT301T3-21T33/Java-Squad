@@ -38,10 +38,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
+
 
     public void launchSearch(View view){
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
+    /** public void launchexperiment(View view){
+     * Intent intent = new Intent(this, com.test.experiment.class);
+     *         startActivity(intent);
+     */
+}
 }
