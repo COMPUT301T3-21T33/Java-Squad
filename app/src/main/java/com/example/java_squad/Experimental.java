@@ -36,7 +36,7 @@ public class Experimental implements Serializable {
 
     //minimum number of trials before results are considered
     private int minTrials;
-    private List<Trial> trials = new ArrayList<>();
+    public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
 
@@ -60,6 +60,8 @@ public class Experimental implements Serializable {
         this.type = type;
         this.minTrials = minTrials;
     }
+
+    public String getOwnerName() { return owner.getUsername(); };
 
     /**
      * Updates name of the experiment.
