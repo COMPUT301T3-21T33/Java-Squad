@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
         <activity android:name=".ExperimentView"></activity>
+        <activity android:name=".ShowAllFollowedExperiments"></activity>
+        <activity android:name=".RecordMeasurementTrial"></activity>
+        <activity android:name=".RecordCountTrial"></activity>
+        <activity android:name=".RecordBinomialTrial"></activity>
+        <activity android:name=".RecordIntCountTrial"></activity>
         <activity android:name=".ExperimentConstructor" />
         <activity android:name=".MainActivity">
             <intent-filter>

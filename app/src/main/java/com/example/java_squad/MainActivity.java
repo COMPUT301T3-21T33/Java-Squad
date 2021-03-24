@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,14 +24,21 @@ public class MainActivity extends AppCompatActivity {
 
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
+        
+        tvUIDS.setText(sb.toString());
 
-        tvUIDS.setText(sb.toString();
 
-    }
+        Button addTrialButton = findViewById(R.id.show_all_followed_exp);
+        addTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
+                startActivity(new Intent(MainActivity.this, ShowAllFollowedExperiments.class));
+                Log.d("show all exp activity","show all experiments button clicked");
 
-    public void onDestroy(){
-        super.onDestroy();
-        FirebaseAuth.getInstance().getCurrentUser().delete();
+            }
+        });
+
     }
 
 

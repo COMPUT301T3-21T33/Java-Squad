@@ -2,6 +2,7 @@ package com.example.java_squad;
 
 import com.example.java_squad.user.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * !!Renamed to Experimental to merge code and work with search functionality
  * WIP. Written by Michael Harbidge
  */
-public class Experimental {
+public class Experimental implements Serializable {
     //Owner is assigned when constructing the Experiment, then cannot be changed.
     private User owner;
     private String name = "";
