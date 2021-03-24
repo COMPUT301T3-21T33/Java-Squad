@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.java_squad">
 
+    <uses-permission android:name = "android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
-        <activity android:name=".ExperimentList"></activity>
-        <activity android:name=".ExperimentView" />
+        <activity android:name=".ExperimentView"></activity>
+        <activity android:name=".ShowAllFollowedExperiments"></activity>
+        <activity android:name=".RecordMeasurementTrial"></activity>
+        <activity android:name=".RecordCountTrial"></activity>
+        <activity android:name=".RecordBinomialTrial"></activity>
+        <activity android:name=".RecordIntCountTrial"></activity>
         <activity android:name=".ExperimentConstructor" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -19,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SearchActivity"/>
     </application>
 
 </manifest>

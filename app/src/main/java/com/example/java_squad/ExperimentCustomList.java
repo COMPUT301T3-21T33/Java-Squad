@@ -1,6 +1,8 @@
 package com.example.java_squad;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.ExifInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,54 +12,55 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
-
-/**
- * Custom list class for displaying all experiments.
- * List entry currently displays Title, Owner's name, Type of trials being recorded, status (is active), and number of trials recorded so far.
- * Written by Michael Harbidge
- */
 public class ExperimentCustomList extends ArrayAdapter<Experimental> {
-
     private ArrayList<Experimental> experiments;
     private Context context;
 
-    public ExperimentCustomList(Context context, ArrayList<Experimental> experiments) {
-        super(context,0,experiments);
+    public ExperimentCustomList(Context context, ArrayList<Experimental> experiments){
+        super(context,0, experiments);
         this.experiments = experiments;
         this.context = context;
     }
-
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
 
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.experiment_list_content,parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.followed_exp_content,parent,false);
         }
 
         Experimental experiment = experiments.get(position);
+        /**
+         * This section will need to be changed to show the results of different kinds of trials
+         */
+        TextView experiment_name = view.findViewById(R.id.experiment);
+        TextView type = view.findViewById(R.id.type);
+        Integer exp_type = experiment.getType();
+        String typeInStr = "";
+        //* 0 = Count (how many did you see
+        //* 1 = Binomial Trial (Pass / Fail)
+        //* 2 = non-negative integer counts (each trial has 0 or more)
+        //* 3 = measurement trials (like the temperature)
+        if (exp_type == 0){
+            typeInStr = "Count";
+        }
+        else if (exp_type == 1) {
+            typeInStr = "Binomial";
 
-        TextView expTitle = view.findViewById(R.id.exp_list_title);
-        TextView expOwner = view.findViewById(R.id.exp_list_owner);
-        TextView expType = view.findViewById(R.id.exp_list_type);
-        TextView expActive = view.findViewById(R.id.exp_list_active);
-        TextView expTrials = view.findViewById(R.id.exp_list_trials);
+        }
+        else if (exp_type == 2) {
+            typeInStr = "Non-neg Count";
 
-        expTitle.setText(experiment.getName()); //Should be changed for consistency
+        }
+        else if (exp_type == 3) {
+            typeInStr = "Measurement";
 
-        String ownerString = "Owner: " + experiment.getOwnerName();
-        expOwner.setText(ownerString);
-
-        String typeString = "Type: " + experiment.getTypeString();
-        expType.setText(typeString);
-
-        if (experiment.getActive())
-            expActive.setText("In Progress");
-        else
-            expActive.setText("Finished");
-
-        expTrials.setText(String.valueOf(experiment.trials.size()));
+        }
+        experiment_name.setText(experiment.getName());
+        type.setText(typeInStr);
 
         return view;
     }
