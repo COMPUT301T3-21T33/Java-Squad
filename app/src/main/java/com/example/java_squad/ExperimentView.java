@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -19,6 +21,9 @@ public class ExperimentView extends AppCompatActivity {
     TextView expActive;
     TextView expDescription;
     TextView expRules;
+
+    ListView trialList;
+    ArrayAdapter<Trial> trialAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,9 @@ public class ExperimentView extends AppCompatActivity {
         expDescription.setText(currentExperiment.getDescription());
         expRules.setText(currentExperiment.getRules());
 
+        trialList = findViewById(R.id.exp_trial_list);
 
+        trialAdapter = new TrialCustomList(this, currentExperiment.trials);
     }
 
     public void togglePublished(View view) {
