@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Statistic_RecordBinomialTrial">
+
+
+    <TableLayout
+        android:id="@+id/result_table_binomial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:stretchColumns="*">
+
+        <TextView
+            android:text="Experiment Ststistics"
+            android:padding="6dp"
+            android:textColor="@color/teal_700"
+            android:textStyle="bold"/>
+
+        <TableRow
+            android:layout_margin="1dp"
+            android:layout_height="match_parent"
+            android:layout_width="fill_parent">
+            <TextView
+                android:text="low_quartile"
+                android:padding="3dp" />
+            <TextView
+                android:text="median"
+                android:padding="3dp"/>
+            <TextView
+                android:text="up_quartile"
+                android:padding="3dp"/>
+            <TextView
+                android:text="mean"
+                android:padding="3dp"/>
+            <TextView
+                android:text="stdev"
+                android:padding="3dp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_margin="1dp">
+            <TextView
+                android:id="@+id/low_quartile_num_binomial"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/median_num_binomial"
+                android:padding="3dp"/>
+
+            <TextView
+                android:id="@+id/up_quartile_num_binomial"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/mean_num_binomial"
+                android:padding="3dp"/>
+
+            <TextView
+                android:id="@+id/stdev_num_binomial"
+                android:padding="3dp"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:text="Histogram_Graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:textColor="@color/teal_700"
+        android:textStyle="bold"/>
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/histogram_graph_binomial"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+    <TextView
+        android:text="Plot_Graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:textColor="@color/teal_700"
+        android:textStyle="bold"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/plot_binomial"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:padding="3dp"/>
+
+    <Button
+        android:id="@+id/back_button_binomial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_gravity="bottom|right"
+        android:padding="5dp"
+        android:layout_marginRight="15dp"/>
+
+
+</LinearLayout>
