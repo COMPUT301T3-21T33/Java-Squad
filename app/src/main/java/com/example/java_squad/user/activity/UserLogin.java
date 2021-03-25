@@ -37,67 +37,67 @@ public class UserLogin extends AppCompatActivity {
         buttonRegister = findViewById(R.id.Button_register);
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case userRegister: {
-                if (resultCode == Activity.RESULT_OK) {
-                    User user = (User) data.getSerializableExtra("UserRegister.user");
-                    createUsername.setText(user.getUsername());
-                }
-            }
-        }
-    }
-
-    public void btLoginOnClick(View v) {
-        String username = createUsername.getText().toString();
-
-        if (username.equals("")) {
-            new AlertDialog.Builder(UserLogin.this)
-                    .setTitle("Empty Fields")
-                    .setMessage("Please provide username.")
-                    .setPositiveButton("OK", null)
-                    .show();
-            return;
-        }
-
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference users = db.collection("Users");
-
-        users.document(username)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (!documentSnapshot.exists()) {                   // query returned no document!
-                            new AlertDialog.Builder(UserLogin.this)
-                                    .setTitle("Invalid Username")
-                                    .setMessage("This username is not a registered user. Please register your username.")
-                                    .setPositiveButton("OK", null)
-                                    .show();
-                            return;
-                        }
-
-                        User user = documentSnapshot.toObject(User.class);
-                        Intent intent = new Intent();
-                        intent.putExtra("UserLogin.user", user);
-                        setResult(0, intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("UserLogin.DB", "Failed to perform query. Detail: ", e);
-                    }
-                });
-    }
-
-    public void btRegisterOnClick(View v) {
-        Intent intent = new Intent(this, UserRegister.class);
-        startActivityForResult(intent, userRegister);
-    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//            case userRegister: {
+//                if (resultCode == Activity.RESULT_OK) {
+//                    User user = (User) data.getSerializableExtra("UserRegister.user");
+//                    createUsername.setText(user.getUsername());
+//                }
+//            }
+//        }
+//    }
+//
+//    public void btLoginOnClick(View v) {
+//        String username = createUsername.getText().toString();
+//
+//        if (username.equals("")) {
+//            new AlertDialog.Builder(UserLogin.this)
+//                    .setTitle("Empty Fields")
+//                    .setMessage("Please provide username.")
+//                    .setPositiveButton("OK", null)
+//                    .show();
+//            return;
+//        }
+//
+//
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        CollectionReference users = db.collection("Users");
+//
+//        users.document(username)
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                        if (!documentSnapshot.exists()) {                   // query returned no document!
+//                            new AlertDialog.Builder(UserLogin.this)
+//                                    .setTitle("Invalid Username")
+//                                    .setMessage("This username is not a registered user. Please register your username.")
+//                                    .setPositiveButton("OK", null)
+//                                    .show();
+//                            return;
+//                        }
+//
+//                        User user = documentSnapshot.toObject(User.class);
+//                        Intent intent = new Intent();
+//                        intent.putExtra("UserLogin.user", user);
+//                        setResult(0, intent);
+//                        finish();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d("UserLogin.DB", "Failed to perform query. Detail: ", e);
+//                    }
+//                });
+//    }
+//
+//    public void btRegisterOnClick(View v) {
+//        Intent intent = new Intent(this, UserRegister.class);
+//        startActivityForResult(intent, userRegister);
+//    }
 }

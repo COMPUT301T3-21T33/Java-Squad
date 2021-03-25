@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     TextView tvUIDS;
+    Button editProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +25,42 @@ public class MainActivity extends AppCompatActivity {
 
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
+        String userid = sb.toString();
+        tvUIDS.setText(userid);
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        Button addTrialButton = findViewById(R.id.show_all_followed_exp);
+        addTrialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
+                startActivity(new Intent(MainActivity.this, ShowAllFollowedExperiments.class));
+                Log.d("show all exp activity","show all experiments button clicked");
+
+            }
+        });
+
 
     }
+
+
+
 
     public void launchSearch(View view){
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
+
+    /** public void launchexperiment(View view){
+     * Intent intent = new Intent(this, com.test.experiment.class);
+     *         startActivity(intent);
+     */
 }
