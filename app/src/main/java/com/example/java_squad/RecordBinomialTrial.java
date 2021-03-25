@@ -13,8 +13,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class RecordBinomialTrial extends AppCompatActivity implements AddBinomialTrialFragment.OnFragmentInteractionListener {
 
@@ -22,6 +25,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     ArrayAdapter<Binomial> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Binomial> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +39,30 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         TextView owner = findViewById(R.id.owner);
         TextView description = findViewById(R.id.experiment_description_content);
         TextView type = findViewById(R.id.type);
+        TextView availability = findViewById(R.id.availability);
+        TextView status = findViewById(R.id.status);
+
+        db = FirebaseFirestore.getInstance();
+        HashMap data = new HashMap();
 
         experimentName.setText(experiment.getName());
-        //owner.setText(experiment.getOwner());
+        owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
+
+        if (experiment.getPublished() == true){
+            availability.setText("Public");
+        }
+        else{
+            availability.setText("Private");
+        }
+
+        if (experiment.getActive() == true){
+            status.setText("In progress");
+        }
+        else{
+            status.setText("End");
+        }
+
         int exp_type = experiment.getType();
         String typeInStr = "";
         if (exp_type == 0){

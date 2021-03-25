@@ -69,7 +69,7 @@ public class ViewFollowActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Experimental exp = snapshot.child(owner).getValue(Experimental.class);
                 String description = exp.getDescription();
-                User user = exp.getOwner();
+                //User user = exp.getOwnerName();
                 String name = exp.getName();
                 String rules = exp.getRules();
                 int type = exp.getType();
@@ -77,7 +77,7 @@ public class ViewFollowActivity extends AppCompatActivity {
                 exp.setDescription(description);
                 exp.setMinTrials(minTrials);
                 exp.setName(name);
-                exp.setOwner(user);
+                //exp.setOwner(user);
                 exp.setRules(rules);
             }
 
