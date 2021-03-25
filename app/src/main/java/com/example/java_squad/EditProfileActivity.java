@@ -3,6 +3,8 @@ package com.example.java_squad;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.java_squad.user.User;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class EditProfileActivity extends AppCompatActivity {
-    FirebaseAuth mAuth;
-    FirebaseUser current;
+    //FirebaseAuth mAuth;
+    //FirebaseUser current;
     EditText name, email;
     Button update;
     FirebaseDatabase db;
@@ -37,14 +39,14 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-
-        mAuth = FirebaseAuth.getInstance();
-        current = mAuth.getCurrentUser();
+        Intent intent = getIntent();
+        //mAuth = FirebaseAuth.getInstance();
+        //current = mAuth.getCurrentUser();
         name = findViewById(R.id.username);
         email = findViewById(R.id.useremail);
         update = findViewById(R.id.updateprofile);
 
-        df = FirebaseDatabase.getInstance().getReference("User").child(current.getUid());
+        df = FirebaseDatabase.getInstance().getReference("User").child(intent.getStringExtra("id"));
 
 
         update.setOnClickListener(new View.OnClickListener() {
@@ -52,12 +54,12 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = name.getText().toString();
                 String useremail = email.getText().toString();
-                Log.d("find1z", username);
-                current.updateEmail(useremail);
+                //current.updateEmail(useremail);
 
                     /*user = new User();
                     user.setEmail(useremail);
                     user.setUsername(username);*/
+
                 HashMap data = new HashMap();
                 data.put("Name", username);
                 data.put("Email", useremail);
