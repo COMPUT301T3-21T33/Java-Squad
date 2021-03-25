@@ -28,7 +28,8 @@
         <activity android:name=".RecordIntCountTrial" 
             android:parentActivityName=".ShowAllFollowedExperiments"/>
 
-        <activity android:name=".ExperimentConstructor" />
+        <activity android:name=".ExperimentConstructor"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
