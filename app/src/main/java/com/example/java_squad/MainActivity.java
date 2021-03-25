@@ -1,5 +1,6 @@
 package com.example.java_squad;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,8 +12,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.java_squad.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
+
 public class MainActivity extends AppCompatActivity {
     TextView tvUIDS;
+    Button editProfile;
+    User user;
+    FirebaseDatabase db;
+    DatabaseReference df;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +38,42 @@ public class MainActivity extends AppCompatActivity {
 
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
-        
+
+        String userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         tvUIDS.setText(sb.toString());
+
+        db = FirebaseDatabase.getInstance();
+        df =db.getReference("User").child(userid);
+        Log.d("TAG123", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+
+        user = new User();
+        user.setUsername("");
+        user.setContact("");
+
+        HashMap data = new HashMap();
+        data.put("Name", "");
+        data.put("Email", "");
+        df.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Log.d("TAG", "onComplete: successful created an account");
+                }
+                else{
+                    Log.d("Tag", "fail to create an account");
+                }
+            }
+        });
+
+        editProfile = findViewById(R.id.editProfile);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), EditProfileActivity.class);
+                intent.putExtra("id", userid);
+                startActivity(intent);
+            }
+        });
 
 
         Button addTrialButton = findViewById(R.id.show_all_followed_exp);
@@ -39,11 +87,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
 
     public void launchSearch(View view){
         Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+    public void createExperiment(View view){
+        Intent intent = new Intent(view.getContext(), ExperimentConstructor.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 
