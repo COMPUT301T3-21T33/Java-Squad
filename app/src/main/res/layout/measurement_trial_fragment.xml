@@ -57,45 +57,31 @@
             android:paddingLeft="10dp"
             android:singleLine="true"/>
     </LinearLayout>
+  
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="2">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="1.3"
+            android:layout_weight="0.6"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="Count:"/>
-        <Button
-            android:id="@+id/decrease"
-            android:layout_width="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.4"
-            android:text="-"/>
-
-        <TextView
-            android:id="@+id/count"
+            android:text="Date:"/>
+        <EditText
+            android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:layout_weight="0.8"
-            android:text="0"
-            android:gravity="center_vertical"
+            android:layout_weight="1.4"
+            android:hint="yyyy-mm-dd"
+            android:imeOptions="actionNext"
             android:paddingLeft="10dp"
             android:singleLine="true"/>
-        <Button
-            android:id="@+id/increase"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.4"
-            android:text="+"/>
-
     </LinearLayout>
 
 </LinearLayout>

@@ -28,6 +28,7 @@ public class User implements Serializable {
         this.contact = contact;
     }
 
+
     public String getUsername(){
         return username;
     }

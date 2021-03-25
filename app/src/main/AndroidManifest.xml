@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
+
         <activity android:name=".ViewFollowActivity"
             android:parentActivityName=".SearchActivity"></activity>
         <activity android:name=".EditProfileActivity" />
@@ -21,6 +22,7 @@
         <activity android:name=".RecordCountTrial" />
         <activity android:name=".RecordBinomialTrial" />
         <activity android:name=".RecordIntCountTrial" />
+
         <activity android:name=".ExperimentConstructor" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -29,7 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".SearchActivity" />
+、
     </application>
 
 </manifest>

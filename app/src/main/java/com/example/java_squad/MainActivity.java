@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
+
         String userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         tvUIDS.setText(sb.toString());
 
@@ -88,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     public void launchSearch(View view){
