@@ -23,8 +23,8 @@
         <activity android:name=".RecordCountTrial" />
         <activity android:name=".RecordBinomialTrial" />
         <activity android:name=".RecordIntCountTrial" />
-
-        <activity android:name=".ExperimentConstructor" />
+        <activity android:name=".ExperimentConstructor"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,10 +2,13 @@ package com.example.java_squad;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+
+import com.example.java_squad.user.User;
 
 /**
  * Activity for entering info for a new experiment or updating an old one.
@@ -18,6 +21,8 @@ public class ExperimentConstructor extends AppCompatActivity {
     RadioGroup trialType;
     EditText minTrials;
 
+    User owner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,9 @@ public class ExperimentConstructor extends AppCompatActivity {
         expDesc = findViewById(R.id.editText_description);
         expRules = findViewById(R.id.editText_rules);
         minTrials = findViewById(R.id.editText_minTrials);
+
+        Intent intent = getIntent();
+        User owner = (User) intent.getSerializableExtra("user");
     }
 
     /**
@@ -44,7 +52,10 @@ public class ExperimentConstructor extends AppCompatActivity {
         String newRules = expRules.getText().toString();
         int newMinTrials = Integer.parseInt(minTrials.getText().toString());
 
-        //not working yet
-        //Experimental newExperiment = new Experimental(User owner, newName, newDesc, newRules, 0 , newMinTrials);
+        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, 0 , newMinTrials);
+
+        //put exp on firebase
+
+        finish();
     }
 }
