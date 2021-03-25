@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -24,14 +23,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Statistic_RecordBinomialTrial extends AppCompatActivity {
-
     ArrayList<Binomial> trialDataList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic__record_binomial_trial);
-
 
         //three statistic result for binomial trials
 
@@ -208,6 +204,7 @@ public class Statistic_RecordBinomialTrial extends AppCompatActivity {
                 finish();
             }
         });
+
 
 
 

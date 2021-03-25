@@ -115,6 +115,18 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 //
 //            }
 //        });
+
+        //Add Statistic view button for measurement trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_M = new Intent(RecordMeasurementTrial.this, Statistic_RecordMeasurementTrial.class);
+                intent_s_M.putExtra("DataList_of_M_trials", trialDataList);
+                startActivity(intent_s_M);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
     }
 
 

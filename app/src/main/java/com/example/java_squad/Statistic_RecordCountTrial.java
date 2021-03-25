@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -15,7 +14,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -24,14 +22,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Statistic_RecordCountTrial extends AppCompatActivity {
-
     ArrayList<Count> trialDataList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic__record_count_trial);
-
         //three statistic result for non negative count trials
 
 
@@ -187,6 +182,7 @@ public class Statistic_RecordCountTrial extends AppCompatActivity {
                 finish();
             }
         });
+
 
 
     }
