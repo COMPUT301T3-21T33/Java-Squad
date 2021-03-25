@@ -22,7 +22,12 @@
                 android:layout_height="wrap_content"
                 android:text="Enter Experiment Details"
                 android:textSize="30sp" />
-
+            <TextView
+                android:id="@+id/prompt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Experiment Name:"
+                android:textSize="18sp" />
             <EditText
                 android:id="@+id/editText_name"
                 android:layout_width="match_parent"
@@ -30,13 +35,6 @@
                 android:ems="10"
                 android:hint="Name"
                 android:inputType="textPersonName" />
-
-            <TextView
-                android:id="@+id/prompt_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Experiment Name:"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/prompt_description"
