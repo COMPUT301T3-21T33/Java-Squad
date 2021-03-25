@@ -19,12 +19,16 @@
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".ExperimentView" />
         <activity android:name=".ShowAllFollowedExperiments" />
-        <activity android:name=".RecordMeasurementTrial" />
-        <activity android:name=".RecordCountTrial" />
-        <activity android:name=".RecordBinomialTrial" />
-        <activity android:name=".RecordIntCountTrial" />
-        <activity android:name=".ExperimentConstructor"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".RecordMeasurementTrial"
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordCountTrial" 
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordBinomialTrial" 
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordIntCountTrial" 
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+
+        <activity android:name=".ExperimentConstructor" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
