@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="74dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            tools:srcCompat="@tools:sample/avatars">
 
             <ImageView
                 android:id="@+id/imageView"
