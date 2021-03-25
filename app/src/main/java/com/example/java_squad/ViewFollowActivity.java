@@ -62,32 +62,7 @@ public class ViewFollowActivity extends AppCompatActivity {
         String eName = experimentName.getText().toString();
         myRef = FirebaseDatabase.getInstance().getReference("User");
         Query query = myRef.orderByChild("name").equalTo(owner);
-        Experimental exp = new Experimental();
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Experimental exp = snapshot.child(owner).getValue(Experimental.class);
-                String description = exp.getDescription();
-                //User user = exp.getOwnerName();
-                String name = exp.getName();
-                String rules = exp.getRules();
-                int type = exp.getType();
-                int minTrials = exp.getMinTrials();
-                exp.setDescription(description);
-                exp.setMinTrials(minTrials);
-                exp.setName(name);
-                //exp.setOwner(user);
-                exp.setRules(rules);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+        
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +72,42 @@ public class ViewFollowActivity extends AppCompatActivity {
                     follow.setText("following");
                     viewStatistics.setClickable(true);
                     viewQuestion.setClickable(true);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                                String parent = childSnapshot.getKey();
+                                String email = snapshot.child(parent).child("email").getValue().toString();
+                                String username = snapshot.child(parent).child("name").getValue().toString();
+                                User user = new User(username,email,parent);
+                                String nameofE = snapshot.child(parent).child("Experiment").child(eName).child("name").getValue().toString();
+                                String rules = snapshot.child(parent).child("Experiment").child(eName).child("rules").getValue().toString();
+                                String type = snapshot.child(parent).child("Experiment").child(eName).child("type").getValue().toString();
+                                String minTrials = snapshot.child(parent).child("Experiment").child(eName).child("minTrails").getValue().toString();
+                                String description = snapshot.child(parent).child("Experiment").child(eName).child("description").getValue().toString();
+                                Log.i("email12", description);
+                                int t = Integer.parseInt(type);
+                                int m = Integer.parseInt(minTrials);
+                                Experimental exp = new Experimental(user,nameofE, description, rules, t, m) ;
+                                myRef.child(current.getUid()).child("followed").child(eName).setValue(exp).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            Log.i("email14","successful");
+                                        }
+                                        else{
+                                            Log.i("email13","not successful");
+                                        }
+                                    }
+                                });
+                            }
 
-                    myRef.child("followed").setValue(exp);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }});
 
                 }
                 else{
