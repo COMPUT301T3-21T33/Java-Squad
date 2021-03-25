@@ -32,6 +32,7 @@ public class ExperimentConstructor extends AppCompatActivity {
         expDesc = findViewById(R.id.editText_description);
         expRules = findViewById(R.id.editText_rules);
         minTrials = findViewById(R.id.editText_minTrials);
+        trialType = findViewById(R.id.RadioGroup);
 
         Intent intent = getIntent();
         User owner = (User) intent.getSerializableExtra("user");
@@ -52,7 +53,11 @@ public class ExperimentConstructor extends AppCompatActivity {
         String newRules = expRules.getText().toString();
         int newMinTrials = Integer.parseInt(minTrials.getText().toString());
 
-        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, 0 , newMinTrials);
+        int radioButtonID = trialType.getCheckedRadioButtonId();
+        View radioButton = trialType.findViewById(radioButtonID);
+        int idx = trialType.indexOfChild(radioButton);
+
+        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, idx , newMinTrials);
 
         //put exp on firebase
 

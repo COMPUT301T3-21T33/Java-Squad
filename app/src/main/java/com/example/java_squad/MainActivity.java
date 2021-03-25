@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createExperiment(View view){
-        Intent intent = new Intent(view.getContext(), EditProfileActivity.class);
+        Intent intent = new Intent(view.getContext(), ExperimentConstructor.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
