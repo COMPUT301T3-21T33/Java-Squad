@@ -13,11 +13,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Objects;
 
 public class RecordBinomialTrial extends AppCompatActivity implements AddBinomialTrialFragment.OnFragmentInteractionListener {
 
@@ -25,7 +23,6 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     ArrayAdapter<Binomial> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Binomial> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,30 +36,10 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         TextView owner = findViewById(R.id.owner);
         TextView description = findViewById(R.id.experiment_description_content);
         TextView type = findViewById(R.id.type);
-        TextView availability = findViewById(R.id.availability);
-        TextView status = findViewById(R.id.status);
-
-        db = FirebaseFirestore.getInstance();
-        HashMap data = new HashMap();
 
         experimentName.setText(experiment.getName());
-        owner.setText(experiment.getOwnerName());
+        //owner.setText(experiment.getOwner());
         description.setText(experiment.getDescription());
-
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
-
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
-
         int exp_type = experiment.getType();
         String typeInStr = "";
         if (exp_type == 0){
@@ -104,6 +81,21 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
+
+
+        //Add Statistic view button for binomial trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_B = new Intent(RecordBinomialTrial.this, Statistic_RecordBinomialTrial.class);
+                intent_s_B.putExtra("DataList_of_B_trials", trialDataList);
+                startActivity(intent_s_B);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
         //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override

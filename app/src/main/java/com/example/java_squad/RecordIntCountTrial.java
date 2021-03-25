@@ -36,26 +36,10 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         TextView owner = findViewById(R.id.owner);
         TextView description = findViewById(R.id.experiment_description_content);
         TextView type = findViewById(R.id.type);
-        TextView availability = findViewById(R.id.availability);
-        TextView status = findViewById(R.id.status);
+
         experimentName.setText(experiment.getName());
-        owner.setText(experiment.getOwnerName());
+        //owner.setText(experiment.getOwner());
         description.setText(experiment.getDescription());
-
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
-
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
-
         int exp_type = experiment.getType();
         String typeInStr = "";
         if (exp_type == 0){
@@ -97,6 +81,21 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
+
+
+        //Add Statistic view button for integer count trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordIntCountTrial
+                Intent intent_s_IntC = new Intent(RecordIntCountTrial.this, Statistic_RecordIntCountTrial.class);
+                intent_s_IntC.putExtra("DataList_of_IntC_trials", trialDataList);
+                startActivity(intent_s_IntC);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

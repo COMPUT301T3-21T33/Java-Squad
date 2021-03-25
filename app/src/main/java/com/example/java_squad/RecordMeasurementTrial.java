@@ -35,28 +35,10 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         TextView owner = findViewById(R.id.owner);
         TextView description = findViewById(R.id.experiment_description_content);
         TextView type = findViewById(R.id.type);
-        TextView availability = findViewById(R.id.availability);
-        TextView status = findViewById(R.id.status);
 
         experimentName.setText(experiment.getName());
-        owner.setText(experiment.getOwnerName());
+        //owner.setText(experiment.getOwner());
         description.setText(experiment.getDescription());
-
-
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
-
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
-
         int exp_type = experiment.getType();
         String typeInStr = "";
         if (exp_type == 0){
@@ -99,6 +81,24 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
+
+
+
+        //Add Statistic view button for measurement trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_M = new Intent(RecordMeasurementTrial.this, Statistic_RecordMeasurementTrial.class);
+                intent_s_M.putExtra("DataList_of_M_trials", trialDataList);
+                startActivity(intent_s_M);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
+
+
         //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override

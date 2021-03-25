@@ -20,15 +20,6 @@ public class User implements Serializable {
         this.userID = userID;
     }
 
-    public User() {
-    }
-
-    public User(String username, String contact) {
-        this.username = username;
-        this.contact = contact;
-    }
-
-
     public String getUsername(){
         return username;
     }
