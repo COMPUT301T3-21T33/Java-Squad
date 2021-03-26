@@ -35,28 +35,10 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         TextView owner = findViewById(R.id.owner);
         TextView description = findViewById(R.id.experiment_description_content);
         TextView type = findViewById(R.id.type);
-        TextView availability = findViewById(R.id.availability);
-        TextView status = findViewById(R.id.status);
 
         experimentName.setText(experiment.getName());
-        owner.setText(experiment.getOwnerName());
+        //owner.setText(experiment.getOwner());
         description.setText(experiment.getDescription());
-
-
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
-
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
-
         int exp_type = experiment.getType();
         String typeInStr = "";
         if (exp_type == 0){

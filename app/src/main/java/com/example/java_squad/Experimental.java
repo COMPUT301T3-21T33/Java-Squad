@@ -61,10 +61,6 @@ public class Experimental implements Serializable {
         this.minTrials = minTrials;
     }
 
-    public Experimental() {
-
-    }
-
     public String getOwnerName() { return owner.getUsername(); };
 
     /**
