@@ -81,6 +81,21 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
+
+
+        //Add Statistic view button for integer count trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordIntCountTrial
+                Intent intent_s_IntC = new Intent(RecordIntCountTrial.this, Statistic_RecordIntCountTrial.class);
+                intent_s_IntC.putExtra("DataList_of_IntC_trials", trialDataList);
+                startActivity(intent_s_IntC);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -115,19 +130,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 //
 //            }
 //        });
-
-        //Add Statistic view button for integer count trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pass this datalist to statistic_RecordIntCountTrial
-                Intent intent_s_IntC = new Intent(RecordIntCountTrial.this, Statistic_RecordIntCountTrial.class);
-                intent_s_IntC.putExtra("DataList_of_IntC_trials", trialDataList);
-                startActivity(intent_s_IntC);
-                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
-            }
-        });
-
     }
 
 

@@ -13,34 +13,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
         <activity android:name=".Statistic_RecordMeasurementTrial"
-            android:label="Statistic for Measurement Trial"></activity>
+            android:label="Statistic of Measurement Trials">
+
+        </activity>
         <activity android:name=".Statistic_RecordIntCountTrial"
-            android:label="Statistic for Integer Count Trial"/>
+            android:label="Statistic of Integer Count Trials">
+
+        </activity>
         <activity android:name=".Statistic_RecordCountTrial"
-            android:label="Statistic for Count Trial"/>
+            android:label="Statistic of Count Trials">
+
+        </activity>
         <activity android:name=".Statistic_RecordBinomialTrial"
-            android:label="Statistic for Binomial Trial"/>
-        <activity
-            android:name=".ViewFollowActivity"
-            android:parentActivityName=".SearchActivity" />
-        <activity android:name=".EditProfileActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:label="Statistic of Binomial Trials">
+
+        </activity>
         <activity android:name=".ExperimentView" />
         <activity android:name=".ShowAllFollowedExperiments"
-            android:label="Followed Experiments"
             android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".RecordMeasurementTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordCountTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordBinomialTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordIntCountTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
+        <activity android:name=".RecordMeasurementTrial"
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordCountTrial"
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordBinomialTrial"
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordIntCountTrial"
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
         <activity android:name=".ExperimentConstructor" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -49,8 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SearchActivity" />
     </application>
 
 </manifest>

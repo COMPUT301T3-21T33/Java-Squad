@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class RecordBinomialTrial extends AppCompatActivity implements AddBinomialTrialFragment.OnFragmentInteractionListener {
 
@@ -80,6 +81,21 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
+
+
+        //Add Statistic view button for binomial trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_B = new Intent(RecordBinomialTrial.this, Statistic_RecordBinomialTrial.class);
+                intent_s_B.putExtra("DataList_of_B_trials", trialDataList);
+                startActivity(intent_s_B);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
         //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
@@ -115,24 +131,6 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 //
 //            }
 //        });
-
-
-
-        //Add Statistic view button for binomial trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pass this datalist to statistic_RecordCountTrial
-                Intent intent_s_B = new Intent(RecordBinomialTrial.this, Statistic_RecordBinomialTrial.class);
-                intent_s_B.putExtra("DataList_of_B_trials", trialDataList);
-                startActivity(intent_s_B);
-                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
-            }
-        });
-
-
-
-
     }
 
 

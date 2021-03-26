@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".Statistic_RecordMeasurementTrial">
 
+
     <TableLayout
         android:id="@+id/result_table_measurement"
         android:layout_width="match_parent"
@@ -90,10 +91,9 @@
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/plot_measurement"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="250dp"
         android:padding="3dp"/>
-
 
     <Button
         android:id="@+id/back_button_measurement"
@@ -103,8 +103,6 @@
         android:layout_gravity="bottom|right"
         android:padding="5dp"
         android:layout_marginRight="15dp"/>
-
-
 
 
 </LinearLayout>
