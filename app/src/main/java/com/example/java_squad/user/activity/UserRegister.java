@@ -22,48 +22,48 @@ public class UserRegister extends AppCompatActivity {
     private EditText createUsername;
     private EditText createID;
     private Button registerButton;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_register);
-
-        createUsername = findViewById(R.id.EditText_username);
-        createID = findViewById(R.id.EditText_contact);
-        registerButton = findViewById(R.id.Button_register);
-    }
-
-    public void registerButtonOnClick(View v){
-        String username = createUsername.getText().toString();
-        String ID = createID.getText().toString();
-
-        if(username.equals("") || ID.equals("")){
-            new AlertDialog.Builder(UserRegister.this)
-                    .setTitle("Blank")
-                    .setMessage("Please Provide username and contact info")
-                    .setPositiveButton("OK", null)
-                    .show();
-            return;
-        }
-
-        User user = new User(username, ID);
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(username)
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // return our user object through an intent
-                        Intent intent = new Intent();
-                        intent.putExtra("UserRegister.user", user);
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { Log.d("UserRegister.DB", "Failed to add the new user to db. Detail: ", e); }
-                });
-    }
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState){
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_user_register);
+//
+//        createUsername = findViewById(R.id.EditText_username);
+//        createID = findViewById(R.id.EditText_contact);
+//        registerButton = findViewById(R.id.Button_register);
+//    }
+//
+//    public void registerButtonOnClick(View v){
+//        String username = createUsername.getText().toString();
+//        String ID = createID.getText().toString();
+//
+//        if(username.equals("") || ID.equals("")){
+//            new AlertDialog.Builder(UserRegister.this)
+//                    .setTitle("Blank")
+//                    .setMessage("Please Provide username and contact info")
+//                    .setPositiveButton("OK", null)
+//                    .show();
+//            return;
+//        }
+//
+//        User user = new User(username, ID);
+//        FirebaseFirestore.getInstance().collection("Users")
+//                .document(username)
+//                .set(user)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        // return our user object through an intent
+//                        Intent intent = new Intent();
+//                        intent.putExtra("UserRegister.user", user);
+//                        setResult(Activity.RESULT_OK, intent);
+//                        finish();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) { Log.d("UserRegister.DB", "Failed to add the new user to db. Detail: ", e); }
+//                });
+//    }
 
 }

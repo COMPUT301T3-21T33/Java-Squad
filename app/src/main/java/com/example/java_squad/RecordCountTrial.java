@@ -1,26 +1,27 @@
 package com.example.java_squad;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
-public class RecordMeasurementTrial extends AppCompatActivity implements AddMeasurementTrialFragment.OnFragmentInteractionListener {
-
+public class RecordCountTrial extends AppCompatActivity implements AddCountTrialFragment.OnFragmentInteractionListener{
     ListView trialList; // Reference to listview inside activity_main.xml
-    ArrayAdapter<Measurement> trialAdapter; // Bridge between dataList and cityList.
-    ArrayList<Measurement> trialDataList; // Holds the data that will go into the listview
+    ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
+    ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
 
     @Override
@@ -41,7 +42,6 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
-
 
         if (experiment.getPublished() == true){
             availability.setText("Public");
@@ -80,21 +80,21 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
         String[] experimenter = {};
         Date[] experiment_date = {};
-        String[] unit = {};
-        double[] amount = {};
+        String[] object = {};
+        Integer[] amount = {};
 
         trialDataList = new ArrayList<>();
         for (int i = 0; i < experimenter.length; i++) {
-            trialDataList.add((new Measurement(experimenter[i], experiment_date[i],unit[i],amount[i])));
+            trialDataList.add((new Count(experimenter[i], experiment_date[i],object[i],amount[i])));
         }
-        trialAdapter = new MeasurementCustomList(this, trialDataList);
+        trialAdapter = new CountCustomList(this, trialDataList);
 
         trialList.setAdapter(trialAdapter);
         Button addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
+                new AddCountTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
@@ -121,23 +121,13 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 return true;
             }
         });
-//        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-////                Intent pass = new Intent(view.getContext(), AddCityFragment.class);
-//                Measurement trial = trialDataList.get(i);
-//
-////                AddMeasurementTrailFragment frag = new AddMeasurementTrailFragment().newInstance(city);
-////                frag.show(getSupportFragmentManager(), "add trial");
-//
-//            }
-//        });
     }
 
 
     @Override
-    public void onOkPressed(Measurement newTrail) {
+    public void onOkPressed(Count newTrail) {
         trialAdapter.add(newTrail);
     }
+
+
 }
