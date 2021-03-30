@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class RecordCountTrial extends AppCompatActivity implements AddCountTrialFragment.OnFragmentInteractionListener{
     ListView trialList; // Reference to listview inside activity_main.xml
@@ -33,10 +36,27 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         TextView owner = findViewById(R.id.owner);
         TextView description = findViewById(R.id.experiment_description_content);
         TextView type = findViewById(R.id.type);
+        TextView availability = findViewById(R.id.availability);
+        TextView status = findViewById(R.id.status);
 
         experimentName.setText(experiment.getName());
-        //owner.setText(experiment.getOwner());
+        owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
+
+        if (experiment.getPublished() == true){
+            availability.setText("Public");
+        }
+        else{
+            availability.setText("Private");
+        }
+
+        if (experiment.getActive() == true){
+            status.setText("In progress");
+        }
+        else{
+            status.setText("End");
+        }
+
         int exp_type = experiment.getType();
         String typeInStr = "";
         if (exp_type == 0){

@@ -47,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void createExperiment(View view){
+        Intent intent = new Intent(view.getContext(), ExperimentConstructor.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
     /** public void launchexperiment(View view){
      * Intent intent = new Intent(this, com.test.experiment.class);
      *         startActivity(intent);
