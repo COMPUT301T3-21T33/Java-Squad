@@ -15,8 +15,12 @@ import android.widget.TextView;
 import com.example.java_squad.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -43,23 +47,30 @@ public class MainActivity extends AppCompatActivity {
         userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         tvUIDS.setText(sb.toString());
 
-        db = FirebaseDatabase.getInstance();
-        df =db.getReference("User");
+
 
         user = new User("","",userid);
-
-
-        df.child(userid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
+        Query query = myRef.equalTo(userid);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Log.d("TAG", "onComplete: successful created an account");
-                }
-                else{
-                    Log.d("Tag", "fail to create an account");
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String parent = childSnapshot.getKey();
+                    if (parent != userid){
+                        myRef.child(userid).setValue(user);
+                    }
+
+                    }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+        
 
         editProfile = findViewById(R.id.editProfile);
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -103,3 +114,4 @@ public class MainActivity extends AppCompatActivity {
      *         startActivity(intent);
      */
 }
+
