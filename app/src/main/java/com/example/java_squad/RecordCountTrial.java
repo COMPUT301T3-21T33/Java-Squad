@@ -121,6 +121,17 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 return true;
             }
         });
+        
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
     }
 
 
