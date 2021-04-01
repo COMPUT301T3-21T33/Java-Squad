@@ -2,6 +2,7 @@ package com.example.java_squad;
 
 import com.example.java_squad.user.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import java.util.List;
  * !!Renamed to Experimental to merge code and work with search functionality
  * WIP. Written by Michael Harbidge
  */
-public class Experimental {
+public class Experimental implements Serializable {
     //Owner is assigned when constructing the Experiment, then cannot be changed.
     private User owner;
     private String name = "";
     private String description = "";
+
+
+
     private String rules = "";
 
     //private Location location
@@ -35,7 +39,7 @@ public class Experimental {
 
     //minimum number of trials before results are considered
     private int minTrials;
-    private List<Trial> trials = new ArrayList<>();
+    public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
 
@@ -59,6 +63,20 @@ public class Experimental {
         this.type = type;
         this.minTrials = minTrials;
     }
+
+    public Experimental(String name, String description, String rules, int type, int minTrials) {
+        this.name = name;
+        this.description = description;
+        this.rules = rules;
+        this.type = type;
+        this.minTrials = minTrials;
+    }
+
+    public Experimental() {
+
+    }
+
+    public String getOwnerName() { return owner.getUsername(); };
 
     /**
      * Updates name of the experiment.

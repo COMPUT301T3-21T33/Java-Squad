@@ -10,11 +10,6 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,21 +34,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date: xxxx-xx-xx"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/exp_owner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Owner: xxxx"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/exp_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Experiment Type: xxx"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ConstraintLayout"
@@ -66,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
                 android:text="Availability:"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -96,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Status: In Progress"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <TextView
@@ -104,14 +99,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description:"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/exp_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/border_ui"
             android:text="*Description goes here*"
-            android:textSize="18sp" />
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/exp_rules_text"
@@ -141,26 +140,33 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button_questions"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+    <ListView
+        android:id="@+id/exp_trial_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="View Questions"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/border_ui"
         app:layout_constraintBottom_toTopOf="@+id/button_end_experiment"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-    <Button
-        android:id="@+id/button_statistics"
-        android:layout_width="200dp"
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="View Statistics"
-        app:layout_constraintBottom_toTopOf="@+id/button_questions"
+        android:text="Trials:"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/exp_trial_list"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
