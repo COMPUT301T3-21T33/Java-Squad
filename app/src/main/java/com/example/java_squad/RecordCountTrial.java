@@ -23,7 +23,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-
+    Button viewQuestion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
