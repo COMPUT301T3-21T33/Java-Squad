@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ public class ViewQuestionActivity extends AppCompatActivity {
     Button addQuestionBtn;
     private int countQuestion = 0;
     List<Question> questionList;
+    DatabaseReference df;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,29 +40,30 @@ public class ViewQuestionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        DatabaseReference df = FirebaseDatabase.getInstance().getReference("Question")
+        df = FirebaseDatabase.getInstance().getReference("Question")
                 .child(intent.getStringExtra("experimentName"));
-
-        /*df.addValueEventListener(new ValueEventListener() {
+        df.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+               
                 questionList.clear();
                 for(DataSnapshot snapshot: datasnapshot.getChildren()){
-                    String questions = snapshot.getValue(String.class);
-                    Log.d("frieda1", questions.toString());
-                   //questionList.add(questions);
+                    Question index = snapshot.getValue(Question.class);
+                    Log.d("frieda4", index.getText());
+
+                   questionList.add(index);
                 }
-               /* QuestionListAdapter adapter =
+                QuestionListAdapter adapter =
                         new QuestionListAdapter(ViewQuestionActivity.this, questionList);
 
-                questionListView.setAdapter(adapter);*/
+                questionListView.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
 
         question = findViewById(R.id.add_question);
         addQuestionBtn = findViewById(R.id.add_question_button);
@@ -69,23 +72,9 @@ public class ViewQuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String getQuestion = question.getText().toString();
-                DatabaseReference df1 = FirebaseDatabase.getInstance().getReference("Question")
-                    .child(intent.getStringExtra("experimentName"));
+               
                 Question newQuestion = new Question(getQuestion);
-                df1.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        countQuestion = (int) snapshot.getChildrenCount();
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                int next = countQuestion + 1;
-                Log.d("frieda", String.valueOf(next));
-                Log.d("frieda2",newQuestion.toString() );
-                df1.child(String.valueOf(next)).setValue(newQuestion);
+                df.push().setValue(newQuestion);
                 question.setText("");
 
             }
