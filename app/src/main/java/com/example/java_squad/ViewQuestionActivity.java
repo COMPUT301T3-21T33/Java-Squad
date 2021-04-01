@@ -41,7 +41,7 @@ public class ViewQuestionActivity extends AppCompatActivity {
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("Question")
                 .child(intent.getStringExtra("experimentName"));
 
-        df.addValueEventListener(new ValueEventListener() {
+        /*df.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 questionList.clear();
@@ -60,7 +60,7 @@ public class ViewQuestionActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
 
         question = findViewById(R.id.add_question);
         addQuestionBtn = findViewById(R.id.add_question_button);
