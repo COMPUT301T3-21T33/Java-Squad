@@ -23,6 +23,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     ArrayAdapter<IntCount> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<IntCount> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    Button viewQuestion;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
