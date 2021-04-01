@@ -22,6 +22,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
     ArrayAdapter<Measurement> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Measurement> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    Button viewQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
