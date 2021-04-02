@@ -17,6 +17,7 @@ public class Experimental implements Serializable {
     private String name = "";
     private String description = "";
     private String rules = "";
+    private int enableGeo;
 
     //private Location location
     //dont know how to implement this yet
@@ -59,10 +60,19 @@ public class Experimental implements Serializable {
         this.rules = rules;
         this.type = type;
         this.minTrials = minTrials;
+        //this.enableGeo = enableGeo;
     }
 
     public Experimental() {
 
+    }
+
+    public int getEnableGeo() {
+        return enableGeo;
+    }
+
+    public void setEnableGeo(int enableGeo) {
+        this.enableGeo = enableGeo;
     }
 
     public String getOwnerName() { return owner.getUsername(); };

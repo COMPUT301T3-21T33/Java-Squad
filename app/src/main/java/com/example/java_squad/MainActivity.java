@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.java_squad.Geo.ShowMap;
 import com.example.java_squad.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -101,7 +102,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("user", user);
         startActivity(intent);
     }
-
+    public void showMap(View view){
+        Intent intent = new Intent(this, ShowMap.class);
+//        intent.putExtra("user", user);
+        startActivity(intent);
+    }
     /** public void launchexperiment(View view){
      * Intent intent = new Intent(this, com.test.experiment.class);
      *         startActivity(intent);
