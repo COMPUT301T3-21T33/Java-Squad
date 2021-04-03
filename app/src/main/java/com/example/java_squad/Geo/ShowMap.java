@@ -68,7 +68,6 @@ public class ShowMap extends FragmentActivity implements OnMapReadyCallback {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
                     Toast.makeText(ShowMap.this,"User Canceled Dialog", Toast.LENGTH_SHORT).show();
-
                 }
             });
             dialog.show();
