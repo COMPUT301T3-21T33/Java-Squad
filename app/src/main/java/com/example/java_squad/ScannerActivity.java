@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -52,10 +53,11 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                         scannerView.startCamera();
                     }
+
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        Toast.makeText(getBaseContext(), ""+permissionDeniedResponse.isPermanentlyDenied(),  Toast.LENGTH_SHORT).show();
-                        if (permissionDeniedResponse.isPermanentlyDenied()){
+                        Toast.makeText(getBaseContext(), "" + permissionDeniedResponse.isPermanentlyDenied(), Toast.LENGTH_SHORT).show();
+                        if (permissionDeniedResponse.isPermanentlyDenied()) {
                             //permission is permanently denied navigate to user setting
                             new AlertDialog.Builder(ScannerActivity.this)
                                     .setTitle("Camera permission was denied permanently.")
@@ -85,6 +87,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                         }
 
                     }
+
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
                         permissionToken.continuePermissionRequest();
@@ -95,62 +98,19 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
     @Override
     public void handleResult(Result rawResult) {
-
-        String[] values = rawResult.getText().split(",");
-
-        if (rawResult.getBarcodeFormat().toString().contains("QR_CODE")) {
-
-            if (values[3].equals("Binomial")){
-
-                for (int i = 1; i <= Integer.parseInt(values[2]); i++ ){
-                    Trial trial = new Trial( Boolean.parseBoolean(values[4]),
-                            values[3],
-                            Boolean.parseBoolean(values[5]),
-                            values[1],
-                            UUID.randomUUID().toString());
-                    database.addTrialToDB(db.collection("Experiments")
-                            .document(values[0])
-                            .collection("Trials")
-                            .document(trial.getTrialID()), trial);
-                }
-
-            } else{
-                Trial trial = new Trial(Boolean.parseBoolean(values[4]),
-                        values[3],
-                        Float.parseFloat(values[2]),
-                        values[1],
-                        UUID.randomUUID().toString());
-                database.(db.collection("Experiments")
-                        .document(values[0])
-                        .collection("Trials")
-                        .document(trial.()), trial);
+        Log.e("format", rawResult.getBarcodeFormat().toString());
+        Intent intent = getIntent();
+        Experimental experiment = (Experimental) intent.getSerializableExtra("experiment");
+        String type = intent.getStringExtra("Flag");
+        if (type.equals("Scan")) {
+            if (rawResult.getBarcodeFormat().toString().contains("QR_CODE")) {
+                QRCodeScanned(rawResult.toString());
             }
             onBackPressed();
-
-        } else {
-            View trialView = LayoutInflater.from(ScannerActivity.this).inflate(R.layout.activity_barcode, null);
-
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(ScannerActivity.this);
-            builder.setTitle("Enter value for trial")
-                    .setView(trialView)
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            onBackPressed();
-                        }
-                    })
-                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            onBackPressed();
-                        }
-                    })
-                    .create()
-                    .show();
         }
 
     }
+
 
     @Override
     protected void onPause() {
@@ -170,5 +130,48 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         scannerView.stopCamera();
     }
 
-}
+    private void QRCodeScanned(String rawResult) {
+        String[] values = rawResult.getText().split(",");
+
+        if (rawResult.getBarcodeFormat().toString().contains("QR_CODE")) {
+
+            if (values[3].equals("Binomial")) {
+
+                for (int i = 1; i <= Integer.parseInt(values[2]); i++) {
+                    Trial trial = new Trial(Boolean.parseBoolean(values[4]),
+                            values[3],
+                            Boolean.parseBoolean(values[5]),
+                            values[1],
+                            UUID.randomUUID().toString());
+                    database.addTrialToDB(db.collection("Experiments")
+                            .document(values[0])
+                            .collection("Trials")
+                            .document(trial.getTrialID()), trial);
+                }
+
+            } else {
+                Trial trial = new Trial(Boolean.parseBoolean(values[4]),
+                        values[3],
+                        Float.parseFloat(values[2]),
+                        values[1],
+                        UUID.randomUUID().toString());
+                database. (db.collection("Experiments")
+                        .document(values[0])
+                        .collection("Trials")
+                        .document(trial. ()),trial);
+            }
+            onBackPressed();
+
+        } else {
+            Trial trial = new Trial(Boolean.parseBoolean(values[4]),
+                    values[3],
+                    Float.parseFloat(values[2]),
+                    values[1],
+                    UUID.randomUUID().toString(),
+            database.addTrialToDB(db.collection("Experiments")
+                    .document(values[0])
+                    .collection("Trials")
+                    .document(trial.getTrialID()), trial);
+        }
+    }
 }
