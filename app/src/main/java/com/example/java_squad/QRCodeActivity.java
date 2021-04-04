@@ -18,7 +18,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.auth.User;
 
 public class QRCodeActivity extends AppCompatActivity {
-    //User user = User.getUser();
     QRCode QRcode = new QRCode();
     private static final int passID = 1;
     private static final int failID = 0;
@@ -43,12 +42,12 @@ public class QRCodeActivity extends AppCompatActivity {
 
         int inputType = InputType.TYPE_CLASS_NUMBER;
 
-        if (experiment().getequals("Count")){
+        if (experiment.getTypeString().equals("Count")){
             inputType += InputType.TYPE_NUMBER_FLAG_SIGNED;
-        } else if (experiment.get().equals("Measurement")){
+        } else if (experiment.getTypeString().equals("Measurement")){
             inputType += InputType.TYPE_NUMBER_FLAG_DECIMAL;
         }
-        else if (experiment.().equals("Binomial")){
+        else if (experiment.getTypeString().equals("Binomial")){
             pass.setVisibility(View.VISIBLE);
             fail.setVisibility(View.VISIBLE);
         }
@@ -63,13 +62,13 @@ public class QRCodeActivity extends AppCompatActivity {
                 String QRCodeMessage;
                 Log.d("Value", "" + value.getText().toString());
 
-                if (experiment.().equals("Binomial")){
+                if (experiment.getTypeString().equals("Binomial")){
 
-                    QRCodeMessage = experiment.()+","+user.getUserUniqueID()+"," + value.getText().toString() +","+experiment.getTrialType()+","+experiment.getRegionOn() + "," + findBinoType(binoChoice.getCheckedRadioButtonId());
+                    QRCodeMessage = value.getText().toString() +","+experiment.getTypeString()+","+experiment.getRegionOn() + "," + findBinoType(binoChoice.getCheckedRadioButtonId());
 
                 } else {
 
-                    QRCodeMessage = experiment.() + "," + user.getUserUniqueID() + "," + value.getText().toString() + "," + experiment.getTrialType() + "," + experiment.getRegionOn();
+                    QRCodeMessage =  value.getText().toString() + "," + experiment.getTypeString() + "," + experiment.getRegionOn();
 
                 }
 
