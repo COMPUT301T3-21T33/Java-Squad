@@ -19,6 +19,13 @@ public class Trial implements  Serializable{
         this.experimenter = experimenter;
         this.experiment_date = experiment_date;
     }
+
+    public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1, String toString) {
+    }
+
+    public Trial(boolean parseBoolean, String value, float parseFloat, String value1, String toString) {
+    }
+
     /**
      * experimenter getter
      */

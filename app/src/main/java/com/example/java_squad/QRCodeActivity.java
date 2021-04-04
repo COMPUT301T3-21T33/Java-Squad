@@ -43,7 +43,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
         int inputType = InputType.TYPE_CLASS_NUMBER;
 
-        if (experiment().equals("Count")){
+        if (experiment().getequals("Count")){
             inputType += InputType.TYPE_NUMBER_FLAG_SIGNED;
         } else if (experiment.get().equals("Measurement")){
             inputType += InputType.TYPE_NUMBER_FLAG_DECIMAL;

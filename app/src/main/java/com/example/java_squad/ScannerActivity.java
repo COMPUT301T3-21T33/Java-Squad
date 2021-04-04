@@ -101,15 +101,17 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         if (rawResult.getBarcodeFormat().toString().contains("QR_CODE")) {
 
             if (values[3].equals("Binomial")){
-                //Still need to finish
+
                 for (int i = 1; i <= Integer.parseInt(values[2]); i++ ){
-                    Trial trial = new Trial(Boolean.parseBoolean(values[4], values[3],
-                            Boolean.parseBoolean(values[5]), values[1],
+                    Trial trial = new Trial( Boolean.parseBoolean(values[4]),
+                            values[3],
+                            Boolean.parseBoolean(values[5]),
+                            values[1],
                             UUID.randomUUID().toString());
-                    database.(db.collection("Experiments")
+                    database.addTrialToDB(db.collection("Experiments")
                             .document(values[0])
                             .collection("Trials")
-                            .document(trial.()), trial);
+                            .document(trial.getTrialID()), trial);
                 }
 
             } else{
