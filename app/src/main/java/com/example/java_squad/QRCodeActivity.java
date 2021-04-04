@@ -33,17 +33,6 @@ public class QRCodeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Experimental experiment = (Experimental) intent.getSerializableExtra("experiment");
 
-        Button regBarcode = findViewById(R.id.barcode);
-        regBarcode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(QRCodeActivity.this, ScannerActivity.class);
-                intent.putExtra("experiment", (Parcelable) experiment);
-                intent.putExtra("Flag", "Register");
-                startActivity(intent);
-            }
-        });
-
         EditText value = findViewById(R.id.;
 
         RadioGroup binoChoice = findViewById(R.id.binoRadioGroup);
@@ -65,6 +54,21 @@ public class QRCodeActivity extends AppCompatActivity {
             fail.setVisibility(View.VISIBLE);
         }
         value.setInputType(inputType);
+
+        //merge with location when moved to test branch
+
+        CheckBox location = findViewById(R.id.TrialLocationCheckBox);
+
+        if(experiment.()){
+            location.setChecked(true);
+        }
+
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Location was turned "+experiment.()+" for this experiment.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         MaterialButton generate = findViewById(R.id.generateCodeBTN);
 
