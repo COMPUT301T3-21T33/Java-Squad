@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
@@ -14,6 +15,10 @@ import androidx.lifecycle.LifecycleOwner;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Size;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -30,12 +35,25 @@ public class BarcodeActivity extends AppCompatActivity {
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
+    private Button barcodeFoundButton;
+    private String barcode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
 
         previewView = findViewById(R.id.cameraPreview);
+
+        barcodeFoundButton = findViewById(R.id.button);
+        barcodeFoundButton.setVisibility(View.INVISIBLE);
+        barcodeFoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), barcode, Toast.LENGTH_SHORT).show();
+                Log.i(MainActivity.class.getSimpleName(), "QR Code Found: " + barcode);
+            }
+        });
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         requestCamera();
@@ -95,6 +113,27 @@ public class BarcodeActivity extends AppCompatActivity {
 
         preview.setSurfaceProvider(previewView.createSurfaceProvider());
 
+        ImageAnalysis imageAnalysis =
+                new ImageAnalysis.Builder()
+                        .setTargetResolution(new Size(1280, 720))
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .build();
+
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new BarcodeImageAnalyzer(new BarcodeFoundListener() {
+            @Override
+            public void onBarcodeFound(String _barcode) {
+                barcode = _barcode;
+                barcodeFoundButton.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void barcodeNotFound() {
+                barcodeFoundButton.setVisibility(View.INVISIBLE);
+            }
+        }));
+
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview);
     }
+
+
 }

@@ -54,10 +54,7 @@ dependencies {
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation 'com.karumi:dexter:6.2.2'
 
-<<<<<<< Updated upstream
     implementation 'com.google.zxing:core:3.4.1'
-=======
     implementation 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     implementation 'com.google.zxing:core:3.2.0'
->>>>>>> Stashed changes
 }
