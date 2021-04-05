@@ -17,6 +17,7 @@ public class Experimental implements Serializable {
     private String name = "";
     private String description = "";
     private String rules = "";
+    private String expID;
 
     //private Location location
     //dont know how to implement this yet
@@ -52,13 +53,14 @@ public class Experimental implements Serializable {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
+    Experimental(User owner,String name, String description, String rules, int type, int minTrials, String expID){
         this.name = name;
         this.owner = owner;
         this.description = description;
         this.rules = rules;
         this.type = type;
         this.minTrials = minTrials;
+        this.expID = expID;
     }
 
     public Experimental() {
@@ -218,6 +220,10 @@ public class Experimental implements Serializable {
             throw new IllegalArgumentException();
         else
             contributors.remove((User) user);
+    }
+
+    public String getExpID() {
+        return expID;
     }
 
 }

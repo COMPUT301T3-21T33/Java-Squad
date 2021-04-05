@@ -33,7 +33,7 @@ public class QRCodeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Experimental experiment = (Experimental) intent.getSerializableExtra("experiment");
 
-        EditText value = findViewById(R.id.;
+        EditText value = findViewById(R.id.passesEditTextQR);
 
         RadioGroup binoChoice = findViewById(R.id.binoRadioGroup);
         RadioButton pass = findViewById(R.id.pass_radio_button);
@@ -59,16 +59,16 @@ public class QRCodeActivity extends AppCompatActivity {
 
         CheckBox location = findViewById(R.id.TrialLocationCheckBox);
 
-        if(experiment.()){
-            location.setChecked(true);
-        }
+      //  if(experiment.getRegionOn()){
+     //       location.setChecked(true);
+    //    }
 
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Location was turned "+experiment.()+" for this experiment.", Toast.LENGTH_SHORT).show();
-            }
-        });
+    //    location.setOnClickListener(new View.OnClickListener() {
+      //      @Override
+     //       public void onClick(View v) {
+   //             Toast.makeText(getBaseContext(), "Location was turned "+experiment.()+" for this experiment.", Toast.LENGTH_SHORT).show();
+   //         }
+   //     });
 
         MaterialButton generate = findViewById(R.id.generateCodeBTN);
 
@@ -81,11 +81,11 @@ public class QRCodeActivity extends AppCompatActivity {
 
                 if (experiment.getTypeString().equals("Binomial")){
 
-                    QRCodeMessage = value.getText().toString() +","+experiment.getTypeString()+","+experiment.getRegionOn() + "," + findBinoType(binoChoice.getCheckedRadioButtonId());
+                    QRCodeMessage = experiment.getExpID()+","+ value.getText().toString() +","+experiment.getTypeString()+",";//experiment.getRegionOn() + "," + findBinoType(binoChoice.getCheckedRadioButtonId());
 
                 } else {
 
-                    QRCodeMessage =  value.getText().toString() + "," + experiment.getTypeString() + "," + experiment.getRegionOn();
+                    QRCodeMessage = experiment.getExpID()+"," + value.getText().toString() + "," + experiment.getTypeString() + ","; //experiment.getRegionOn();
 
                 }
 

@@ -8,6 +8,7 @@ import java.util.Date;
 public class Trial implements  Serializable{
     private String experimenter;
     private Date experiment_date;
+    private String trialID;
     /**
      * Constructor for Binomial class.
      * @param experimenter
@@ -15,9 +16,11 @@ public class Trial implements  Serializable{
      * @param experiment_date
      * Date to create the new trial
      */
-    public Trial(String experimenter, Date experiment_date) {
+    public Trial(String experimenter, Date experiment_date, String trialID) {
         this.experimenter = experimenter;
         this.experiment_date = experiment_date;
+        this.trialID = trialID;
+
     }
 
     public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1, String toString) {
@@ -49,5 +52,9 @@ public class Trial implements  Serializable{
      */
     public void setExperiment_date(Date experiment_date) {
         this.experiment_date = experiment_date;
+    }
+
+    public String getTrialID(){
+        return trialID;
     }
 }

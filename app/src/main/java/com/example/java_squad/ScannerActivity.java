@@ -131,10 +131,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     }
 
     private void QRCodeScanned(String rawResult) {
-        String[] values = rawResult.getText().split(",");
-
-        if (rawResult.getBarcodeFormat().toString().contains("QR_CODE")) {
-
+        String[] values = rawResult.split(",");
             if (values[3].equals("Binomial")) {
 
                 for (int i = 1; i <= Integer.parseInt(values[2]); i++) {
@@ -143,7 +140,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                             Boolean.parseBoolean(values[5]),
                             values[1],
                             UUID.randomUUID().toString());
-                    database.addTrialToDB(db.collection("Experiments")
+                    database.(db.collection("Experiments")
                             .document(values[0])
                             .collection("Trials")
                             .document(trial.getTrialID()), trial);
@@ -155,23 +152,12 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                         Float.parseFloat(values[2]),
                         values[1],
                         UUID.randomUUID().toString());
-                database. (db.collection("Experiments")
+                database.(db.collection("Experiments")
                         .document(values[0])
                         .collection("Trials")
-                        .document(trial. ()),trial);
+                        .document(trial.getTrialID ()),trial);
             }
             onBackPressed();
-
-        } else {
-            Trial trial = new Trial(Boolean.parseBoolean(values[4]),
-                    values[3],
-                    Float.parseFloat(values[2]),
-                    values[1],
-                    UUID.randomUUID().toString(),
-            database.addTrialToDB(db.collection("Experiments")
-                    .document(values[0])
-                    .collection("Trials")
-                    .document(trial.getTrialID()), trial);
         }
     }
 }
