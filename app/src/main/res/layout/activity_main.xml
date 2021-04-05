@@ -156,8 +156,8 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:onClick="showMap"
-            android:text="showMap"
+            android:onClick="MapsActivity"
+            android:text="show Map"
             android:textSize="10sp" />
 
     </LinearLayout>
