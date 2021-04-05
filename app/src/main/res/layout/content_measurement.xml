@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="3">
 
     <TextView
         android:id="@+id/amount"
@@ -12,23 +13,26 @@
         android:textSize="30sp"
         android:padding = "10sp"
         android:layout_marginLeft="20dp"
+        android:layout_weight="0.6"
         android:text="Amount" />
     <TextView
         android:id="@+id/unit"
         android:text="Unit"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:padding = "10sp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
+        android:layout_weight="0.6"
         android:layout_height="wrap_content">
     </TextView>
     <TextView
         android:id="@+id/experimenter"
         android:text="name"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:padding = "10sp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
+        android:layout_weight="1.8"
         android:layout_height="wrap_content">
     </TextView>
 </LinearLayout>

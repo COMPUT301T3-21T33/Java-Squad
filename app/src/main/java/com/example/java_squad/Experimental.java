@@ -41,6 +41,16 @@ public class Experimental implements Serializable {
 
     private List<Question> questions = new ArrayList<>();
 
+    public Experimental(User owner, String name, String description, String rules, int type, int minTrials, int enableGeo) {
+        this.owner = owner;
+        this.name = name;
+        this.description = description;
+        this.rules = rules;
+        this.enableGeo = enableGeo;
+        this.type = type;
+        this.minTrials = minTrials;
+    }
+
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
      * Experiment starts as active but not published. Can be changed after.
@@ -53,19 +63,20 @@ public class Experimental implements Serializable {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
-        this.name = name;
-        this.owner = owner;
-        this.description = description;
-        this.rules = rules;
-        this.type = type;
-        this.minTrials = minTrials;
-        this.enableGeo = enableGeo;
-    }
 
-    public Experimental(User owner, String newName, String newDesc, String newRules, int idx, int newMinTrials, int geoidx) {
-
-    }
+//    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
+//        this.name = name;
+//        this.owner = owner;
+//        this.description = description;
+//        this.rules = rules;
+//        this.type = type;
+//        this.minTrials = minTrials;
+//        this.enableGeo = enableGeo;
+//    }
+//
+//    public Experimental(User owner, String newName, String newDesc, String newRules, int idx, int newMinTrials, int enableGeo) {
+//
+//    }
 
     public int getEnableGeo() {
         return enableGeo;
