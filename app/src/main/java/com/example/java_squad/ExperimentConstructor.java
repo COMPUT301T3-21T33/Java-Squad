@@ -62,8 +62,8 @@ public class ExperimentConstructor extends AppCompatActivity {
         View geoRadioButton = enableGeo.findViewById(geoRadioButtonID);
         int geoidx = enableGeo.indexOfChild(geoRadioButton);
 
-//        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, idx , newMinTrials, int enableGeo);
-        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, idx , newMinTrials);
+        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, idx , newMinTrials, geoidx);
+//        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, idx , newMinTrials);
 
         //put exp on firebase
 

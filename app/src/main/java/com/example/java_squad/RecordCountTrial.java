@@ -38,11 +38,16 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         TextView type = findViewById(R.id.type);
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
+        TextView geo = findViewById(R.id.geo);
 
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
-
+        if (experiment.getEnableGeo() == 1){
+            geo.setText("Enabled");
+        } else{
+            geo.setText("Disabled");
+        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }

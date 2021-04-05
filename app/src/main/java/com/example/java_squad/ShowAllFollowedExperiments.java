@@ -32,12 +32,13 @@ public class ShowAllFollowedExperiments extends AppCompatActivity{
         String name[] ={"experiment1","experiment2","experiment3","experiment4"};
         String description[] = {"exp_description1","exp_description2","exp_description3","exp_description4"};
         String rules[] = {"rule1","rule2","rule3","rule4"};
+        Integer location[] = {1,1,0,0};
         int type[] ={0,1,2,3};
         int minTrials[] = {4,5,6,7};
 
         followedExpDataList = new ArrayList<>();
         for (int i = 0; i < owner.length; i++) {
-            followedExpDataList.add((new Experimental(owner[i], name[i],description[i],rules[i],type[i],minTrials[i])));
+            followedExpDataList.add((new Experimental(owner[i], name[i],description[i],rules[i],type[i],minTrials[i],location[i])));
         }
         followedExpAdapter = new ExperimentCustomList(this, followedExpDataList);
 

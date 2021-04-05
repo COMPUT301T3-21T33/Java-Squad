@@ -39,7 +39,9 @@ public class ExperimentCustomList extends ArrayAdapter<Experimental> {
         TextView experiment_name = view.findViewById(R.id.experiment);
         TextView type = view.findViewById(R.id.type);
         Integer exp_type = experiment.getType();
+//        Integer location = experiment.getEnableGeo();
         String typeInStr = "";
+
         //* 0 = Count (how many did you see
         //* 1 = Binomial Trial (Pass / Fail)
         //* 2 = non-negative integer counts (each trial has 0 or more)

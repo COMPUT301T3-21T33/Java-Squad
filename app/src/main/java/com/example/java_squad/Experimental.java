@@ -60,10 +60,10 @@ public class Experimental implements Serializable {
         this.rules = rules;
         this.type = type;
         this.minTrials = minTrials;
-        //this.enableGeo = enableGeo;
+        this.enableGeo = enableGeo;
     }
 
-    public Experimental() {
+    public Experimental(User owner, String newName, String newDesc, String newRules, int idx, int newMinTrials, int geoidx) {
 
     }
 

@@ -33,7 +33,6 @@
 
         <activity android:name=".ExperimentConstructor"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".Geo.ShowMap"/>
         <activity android:name=".Geo.MapsActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
