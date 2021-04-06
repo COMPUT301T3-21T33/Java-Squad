@@ -84,9 +84,9 @@ public class AddBinomialTrialFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
 //                Log.d("show all exp activity","show all experiments button clicked");
-                Intent intent = new Intent(view.getContext(), com.example.java_squad.Geo.SelectLocationActivity.class);
-//        intent.putExtra("user", user);
-                startActivity(intent);
+//                Intent intent = new Intent(view.getContext(), com.example.java_squad.Geo.SelectLocationActivity.class);
+////        intent.putExtra("user", user);
+//                startActivity(intent);
             }
         });
 
