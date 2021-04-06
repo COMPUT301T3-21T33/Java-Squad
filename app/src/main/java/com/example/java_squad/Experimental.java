@@ -89,6 +89,14 @@ public class Experimental implements Serializable {
 
     public String getDescription(){ return description; }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     /**
      * Updates the rules of the experiment
      * @param newRules

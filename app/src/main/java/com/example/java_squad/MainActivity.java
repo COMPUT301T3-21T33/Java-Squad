@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
-                startActivity(new Intent(MainActivity.this, ShowAllFollowedExperiments.class));
+                Intent intent = new Intent(MainActivity.this, ShowAllFollowedExperiments.class);
+                intent.putExtra("id", userid);
+                startActivity(intent);
                 Log.d("show all exp activity","show all experiments button clicked");
 
             }
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchSearch(View view){
         Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra("id", userid);
         startActivity(intent);
     }
 
