@@ -16,10 +16,11 @@ public class Trial implements  Serializable{
      * @param experiment_date
      * Date to create the new trial
      */
-    public Trial(String experimenter, Date experiment_date, String trialID) {
+    public Trial(String experimenter, Date experiment_date, String trialID, Integer enableGeo) {
         this.experimenter = experimenter;
         this.experiment_date = experiment_date;
         this.trialID = trialID;
+        this.enableGeo = enableGeo;
 
     }
 
@@ -57,4 +58,13 @@ public class Trial implements  Serializable{
     public String getTrialID(){
         return trialID;
     }
+
+    public Integer getEnableGeo() {
+        return enableGeo;
+    }
+
+    public void setEnableGeo(Integer enableGeo) {
+        this.enableGeo = enableGeo;
+    }
+
 }
