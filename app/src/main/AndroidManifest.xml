@@ -15,13 +15,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
-
-        <activity android:name=".ViewFollowActivity"
-            android:parentActivityName=".SearchActivity"></activity>
-        <activity android:name=".EditProfileActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ViewReplyActivity"></activity>
+        <activity
+            android:name=".ViewQuestionActivity"
+            android:parentActivityName=".ShowAllFollowedExperiments" />
+        <activity
+            android:name=".ViewFollowActivity"
+            android:parentActivityName=".SearchActivity" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".ExperimentView" />
         <activity android:name=".ShowAllFollowedExperiments" />
+
         <activity android:name=".RecordMeasurementTrial"
             android:parentActivityName=".ShowAllFollowedExperiments"/>
         <activity android:name=".RecordCountTrial" 
@@ -34,6 +40,7 @@
         <activity android:name=".ExperimentConstructor"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".Geo.MapsActivity"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,8 +48,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".SearchActivity" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -52,6 +59,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="" />
+
 
     </application>
 

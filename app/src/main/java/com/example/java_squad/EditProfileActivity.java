@@ -61,8 +61,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     user.setUsername(username);*/
 
                 HashMap data = new HashMap();
-                data.put("Name", username);
-                data.put("Email", useremail);
+                data.put("username", username);
+                data.put("contact", useremail);
                 df.updateChildren(data);
 
                 name.setText("");

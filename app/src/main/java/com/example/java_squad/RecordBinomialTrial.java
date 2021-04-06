@@ -47,6 +47,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     String userid;
     String expName;
     FirebaseFirestore fs;
+    Button viewQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +201,19 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 //
 //            }
 //        });
+
+
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
+
 
         df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

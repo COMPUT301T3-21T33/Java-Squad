@@ -39,6 +39,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     String userid;
     String expName;
     FirebaseFirestore fs;
+    Button viewQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +175,17 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 return true;
             }
         });
+
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
     }
 
 
@@ -183,19 +195,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         trialAdapter.add(newTrail);
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
 
-//        df.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists())
-//                    maxid = snapshot.getChildrenCount();
-//                    Log.d("add trial show max id", "id = "+ String.valueOf(maxid));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

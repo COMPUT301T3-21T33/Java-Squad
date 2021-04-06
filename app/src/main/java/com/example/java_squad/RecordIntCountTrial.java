@@ -39,6 +39,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     String userid;
     String expName;
     FirebaseFirestore fs;
+    Button viewQuestion;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -182,19 +183,17 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         trialAdapter.add(newTrail);
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
 
-//        df.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists())
-//                    maxid = snapshot.getChildrenCount();
-//                    Log.d("add trial show max id", "id = "+ String.valueOf(maxid));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
+
 
         df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

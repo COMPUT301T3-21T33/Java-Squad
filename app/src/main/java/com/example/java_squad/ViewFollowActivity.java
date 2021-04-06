@@ -66,8 +66,6 @@ public class ViewFollowActivity extends AppCompatActivity {
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("find3", "clicked follow");
-                Toast.makeText(ViewFollowActivity.this, "fail to update account", Toast.LENGTH_LONG).show();
                 if(follow.getText().toString().equals("follow")){
                     follow.setText("following");
                     viewStatistics.setClickable(true);
@@ -119,6 +117,13 @@ public class ViewFollowActivity extends AppCompatActivity {
                 }
             }
         });
+
+       /* findViewById(R.id.back_button_binomial).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });*/
 
     }
     }

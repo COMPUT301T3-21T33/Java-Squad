@@ -16,8 +16,12 @@ import com.example.java_squad.Geo.MapsActivity;
 import com.example.java_squad.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     User user;
     FirebaseDatabase db;
     DatabaseReference df;
+    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,31 +45,35 @@ public class MainActivity extends AppCompatActivity {
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
 
-        String userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         tvUIDS.setText(sb.toString());
 
-        db = FirebaseDatabase.getInstance();
-        df =db.getReference("User").child(userid);
-        Log.d("TAG123", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
 
-        user = new User();
-        user.setUsername("");
-        user.setContact("");
 
-        HashMap data = new HashMap();
-        data.put("Name", "");
-        data.put("Email", "");
-        df.updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+        user = new User("","",userid);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
+        Query query = myRef.equalTo(userid);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Log.d("TAG", "onComplete: successful created an account");
-                }
-                else{
-                    Log.d("Tag", "fail to create an account");
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String parent = childSnapshot.getKey();
+                    if (parent != userid){
+                        myRef.child(userid).setValue(user);
+                    }
+
+                    }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+        //DatabaseReference r =FirebaseDatabase.getInstance().getReference("Question");
+        //r.child("experiment2").removeValue();
+
 
         editProfile = findViewById(R.id.editProfile);
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void createExperiment(View view){
         Intent intent = new Intent(view.getContext(), ExperimentConstructor.class);
-        intent.putExtra("user", user);
+        intent.putExtra("id", userid);
         startActivity(intent);
     }
     public void MapsActivity(View view){
