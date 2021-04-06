@@ -41,6 +41,8 @@ public class Experimental implements Serializable {
 
     private List<Question> questions = new ArrayList<>();
 
+    private List<BarcodeTrial> barcodeTrials = new ArrayList<>();
+
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
      * Experiment starts as active but not published. Can be changed after.
@@ -226,4 +228,11 @@ public class Experimental implements Serializable {
         return expID;
     }
 
+    public List<BarcodeTrial> getBarcodeTrials() {
+        return barcodeTrials;
+    }
+
+    public void addBarcodeTrial(BarcodeTrial barcodeTrial) {
+        barcodeTrials.add(barcodeTrial);
+    }
 }
