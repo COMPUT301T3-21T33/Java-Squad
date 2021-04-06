@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,6 +71,25 @@ public class AddBinomialTrialFragment extends DialogFragment {
             addMarker.setEnabled(true);
         }
 
+        String longitude = getArguments().getString("Longitude");
+        String latitude = getArguments().getString("Latitude");
+
+        if(longitude != null && !longitude.trim().isEmpty()){
+            Log.d("longitude : ",longitude);
+            Log.d("latitude and lat : ",latitude);
+
+        }
+
+        addMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Log.d("show all exp activity","show all experiments button clicked");
+                Intent intent = new Intent(view.getContext(), com.example.java_squad.Geo.SelectLocationActivity.class);
+//        intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
+
         result= view.findViewById(R.id.result);
         experimenter= view.findViewById(R.id.author);
         date= view.findViewById(R.id.date);
@@ -106,9 +126,5 @@ public class AddBinomialTrialFragment extends DialogFragment {
                 }).create();
         // getArguments().getSerializable("someInt", 0);
     }
-//    public void checkButton(View v) {
-//        int radioId = radioGroup.getCheckedRadioButtonId();
-//        radioButton = v.findViewById(radioId);
-//    }
 }
 
