@@ -23,6 +23,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     ArrayAdapter<IntCount> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<IntCount> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    Button viewQuestion;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -97,21 +98,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
-
-
-        //Add Statistic view button for integer count trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pass this datalist to statistic_RecordIntCountTrial
-                Intent intent_s_IntC = new Intent(RecordIntCountTrial.this, Statistic_RecordIntCountTrial.class);
-                intent_s_IntC.putExtra("DataList_of_IntC_trials", trialDataList);
-                startActivity(intent_s_IntC);
-                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
-            }
-        });
-
-
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -146,6 +132,17 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 //
 //            }
 //        });
+
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
     }
 
 

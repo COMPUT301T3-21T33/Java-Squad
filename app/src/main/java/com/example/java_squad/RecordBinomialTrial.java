@@ -25,6 +25,8 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     ArrayAdapter<Binomial> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Binomial> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    Button viewQuestion;
+
     private FirebaseFirestore db;
 
     @Override
@@ -139,6 +141,18 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 //
 //            }
 //        });
+
+
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
     }
 
 

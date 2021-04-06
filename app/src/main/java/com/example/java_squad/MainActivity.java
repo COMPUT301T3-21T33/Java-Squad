@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        
+        //DatabaseReference r =FirebaseDatabase.getInstance().getReference("Question");
+        //r.child("experiment2").removeValue();
+
 
         editProfile = findViewById(R.id.editProfile);
         editProfile.setOnClickListener(new View.OnClickListener() {
@@ -114,4 +116,3 @@ public class MainActivity extends AppCompatActivity {
      *         startActivity(intent);
      */
 }
-

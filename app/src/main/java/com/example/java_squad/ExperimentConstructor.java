@@ -14,8 +14,11 @@ import android.widget.RadioGroup;
 import com.example.java_squad.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Activity for entering info for a new experiment or updating an old one.
@@ -23,13 +26,14 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ExperimentConstructor extends AppCompatActivity {
 
     EditText expName;
+
     EditText expDesc;
     EditText expRules;
     RadioGroup trialType;
     EditText minTrials;
     Button submit;
     FirebaseDatabase db;
-    DatabaseReference df;
+    DatabaseReference df, saveToExperiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class ExperimentConstructor extends AppCompatActivity {
 
 
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
+        saveToExperiment = FirebaseDatabase.getInstance().getReference("Experiment");
 
 
 
@@ -81,6 +86,29 @@ public class ExperimentConstructor extends AppCompatActivity {
                     }
                 });
 
+                FirebaseDatabase.getInstance().getReference("User").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String userName = snapshot.child(userid).child("username").getValue().toString();
+                        String userEmail = snapshot.child(userid).child("contact").getValue().toString();
+                        String ID = snapshot.child(userid).child("userID").getValue().toString();
+                        User owner = new User();
+                        owner.setUserID(ID);
+                        owner.setContact(userEmail);
+                        owner.setUsername(userName);
+                        Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin);
+                        saveToExperiment.child(Ename).setValue(addToExp);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+
             }
         });
     }
@@ -94,20 +122,4 @@ public class ExperimentConstructor extends AppCompatActivity {
         finish();
     }
 
-    /*public void submitButton(View view){
-        String newName = expName.getText().toString();
-        String newDesc = expDesc.getText().toString();
-        String newRules = expRules.getText().toString();
-        int newMinTrials = Integer.parseInt(minTrials.getText().toString());
-
-        int radioButtonID = trialType.getCheckedRadioButtonId();
-        View radioButton = trialType.findViewById(radioButtonID);
-        int idx = trialType.indexOfChild(radioButton);
-
-        Experimental newExperiment = new Experimental(owner, newName, newDesc, newRules, idx , newMinTrials);
-
-        //put exp on firebase
-
-        finish();
-    }*/
 }

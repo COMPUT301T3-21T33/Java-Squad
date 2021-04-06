@@ -23,6 +23,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    Button viewQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,21 +100,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-
-
-        //Add Statistic view button for count trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pass this datalist to statistic_RecordCountTrial
-                Intent intent_s_C = new Intent(RecordCountTrial.this, Statistic_RecordCountTrial.class);
-                intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
-                startActivity(intent_s_C);
-                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
-            }
-        });
-
-
         //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
@@ -134,6 +120,17 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 // Handle ListView touch events.
                 v.onTouchEvent(event);
                 return true;
+            }
+        });
+
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
             }
         });
     }

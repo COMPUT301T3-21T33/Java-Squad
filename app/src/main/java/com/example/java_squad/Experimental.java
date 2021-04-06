@@ -16,6 +16,9 @@ public class Experimental implements Serializable {
     private User owner;
     private String name = "";
     private String description = "";
+
+
+
     private String rules = "";
 
     //private Location location
@@ -60,6 +63,7 @@ public class Experimental implements Serializable {
         this.type = type;
         this.minTrials = minTrials;
     }
+
 
     public Experimental() {
 
