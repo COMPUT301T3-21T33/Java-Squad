@@ -9,7 +9,9 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.java_squad.user.User;
@@ -22,16 +24,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
     TextView tvUIDS;
-    Button editProfile;
+    Button editProfile,showAllOwened;
     User user;
     FirebaseDatabase db;
     DatabaseReference df;
     String userid;
+    ListView showAllOwnedList, followExp;
+    ArrayAdapter<Experimental> allExpAdapter; // Bridge between dataList and cityList.
+    ArrayList<Experimental> allExpDataList; // Holds the data that will go into the listview
+    ArrayAdapter<Experimental> followExpAdapter; // Bridge between dataList and cityList.
+    ArrayList<Experimental> followExpDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +78,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        //DatabaseReference r =FirebaseDatabase.getInstance().getReference("Question");
-        //r.child("experiment2").removeValue();
+
+
+        showAllOwnedList = findViewById(R.id.trail_list);
+        allExpDataList = new ArrayList<>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User").child(userid);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild("Experiment")){
+                    allExpDataList.clear();
+                    for (DataSnapshot datasnapshot: snapshot.child("Experiment").getChildren()){
+                        Experimental exp = datasnapshot.getValue(Experimental.class);
+                        allExpDataList.add(exp);
+                    }
+                    allExpAdapter.notifyDataSetChanged();
+                }
+                else{
+                    allExpDataList.clear();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        allExpAdapter = new ExperimentCustomList(this, allExpDataList);
+        showAllOwnedList.setAdapter(allExpAdapter);
 
 
         editProfile = findViewById(R.id.editProfile);
@@ -95,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 Log.d("show all exp activity","show all experiments button clicked");
 
+            }
+        });
+
+        showAllOwened = findViewById(R.id.show_all_owned);
+        showAllOwened.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ShowAllOwnedActivity.class);
+                intent.putExtra("id", userid);
+                startActivity(intent);
             }
         });
 

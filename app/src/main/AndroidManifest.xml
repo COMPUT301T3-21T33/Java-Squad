@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
-        <activity android:name=".ViewReplyActivity"></activity>
+        <activity android:name=".ShowAllOwnedActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".ViewReplyActivity" />
         <activity
             android:name=".ViewQuestionActivity"
             android:parentActivityName=".ShowAllFollowedExperiments" />
@@ -24,8 +26,9 @@
             android:name=".EditProfileActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ExperimentView" />
-        <activity android:name=".ShowAllFollowedExperiments"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ShowAllFollowedExperiments"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RecordMeasurementTrial"
             android:parentActivityName=".ShowAllFollowedExperiments" />
