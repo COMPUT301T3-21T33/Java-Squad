@@ -70,11 +70,4 @@ public class Trial implements  Serializable{
         return trialID;
     }
 
-    public Integer getEnableGeo() {
-        return enableGeo;
-    }
-
-    public void setEnableGeo(Integer enableGeo) {
-        this.enableGeo = enableGeo;
-    }
 }

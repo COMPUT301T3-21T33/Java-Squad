@@ -12,8 +12,6 @@ public class User implements Serializable {
     private String contact;
     private String userID;
 
-    public User(){}
-
     public static User getUser(){
         if (user == null){
             user = new User();

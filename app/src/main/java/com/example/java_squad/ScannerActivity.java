@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
@@ -36,6 +37,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     ZXingScannerView scannerView;
     FirebaseDatabase database;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DatabaseReference df;
 
     Intent intent = getIntent();
     Experimental experiment = (Experimental) intent.getSerializableExtra("experiment");
@@ -140,7 +142,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                             Boolean.parseBoolean(values[5]),
                             values[1],
                             UUID.randomUUID().toString());
-                    database.(db.collection("Experiments")
+                    database.(.collection("FollowedExperiment")
                             .document(values[0])
                             .collection("Trials")
                             .document(trial.getTrialID()), trial);
