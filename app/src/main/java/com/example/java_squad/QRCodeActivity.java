@@ -109,5 +109,3 @@ public class QRCodeActivity extends AppCompatActivity {
     }
 
 }
-
-}
