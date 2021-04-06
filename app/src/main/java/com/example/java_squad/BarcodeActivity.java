@@ -123,6 +123,9 @@ public class BarcodeActivity extends AppCompatActivity {
             @Override
             public void onBarcodeFound(String _barcode) {
                 barcode = _barcode;
+
+                //needs to search through current experiments
+
                 barcodeFoundButton.setVisibility(View.VISIBLE);
             }
 
