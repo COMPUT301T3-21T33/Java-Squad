@@ -8,7 +8,9 @@ import java.util.Date;
 public class Trial implements  Serializable{
     private String experimenter;
     private Date experiment_date;
+    private String trialID;
     private Integer enableGeo;
+
     /**
      * Constructor for Binomial class.
      * @param experimenter
@@ -16,10 +18,19 @@ public class Trial implements  Serializable{
      * @param experiment_date
      * Date to create the new trial
      */
-    public Trial(String experimenter, Date experiment_date,Integer enableGeo) {
+
+    public Trial(String experimenter, Date experiment_date, String trialID, Integer enableGeo) {
         this.experimenter = experimenter;
         this.experiment_date = experiment_date;
+        this.trialID = trialID;
         this.enableGeo = enableGeo;
+
+    }
+
+    public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1, String toString) {
+    }
+
+    public Trial(boolean parseBoolean, String value, float parseFloat, String value1, String toString) {
     }
 
     public Integer getEnableGeo() {
@@ -55,4 +66,15 @@ public class Trial implements  Serializable{
         this.experiment_date = experiment_date;
     }
 
+    public String getTrialID(){
+        return trialID;
+    }
+
+    public Integer getEnableGeo() {
+        return enableGeo;
+    }
+
+    public void setEnableGeo(Integer enableGeo) {
+        this.enableGeo = enableGeo;
+    }
 }

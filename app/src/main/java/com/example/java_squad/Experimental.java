@@ -17,9 +17,8 @@ public class Experimental implements Serializable {
     private String name = "";
     private String description = "";
 
-
-
     private String rules = "";
+    private String expID;
     private int enableGeo;
 
     //private Location location
@@ -43,6 +42,8 @@ public class Experimental implements Serializable {
     public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
+    private List<BarcodeTrial> barcodeTrials = new ArrayList<>();
+
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
      * Experiment starts as active but not published. Can be changed after.
@@ -55,7 +56,8 @@ public class Experimental implements Serializable {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    public Experimental(User owner, String name, String description, String rules, int type, int minTrials, int enableGeo) {
+
+    Experimental(User owner,String name, String description, String rules, int type, int minTrials, int enableGeo, String expID){
         this.owner = owner;
         this.name = name;
         this.description = description;
@@ -63,6 +65,7 @@ public class Experimental implements Serializable {
         this.enableGeo = enableGeo;
         this.type = type;
         this.minTrials = minTrials;
+        this.expID = expID;
     }
     public Experimental() {
         }
@@ -231,6 +234,17 @@ public class Experimental implements Serializable {
             contributors.remove((User) user);
     }
 
+    public String getExpID() {
+        return expID;
+    }
+
+    public List<BarcodeTrial> getBarcodeTrials() {
+        return barcodeTrials;
+    }
+
+    public void addBarcodeTrial(BarcodeTrial barcodeTrial) {
+        barcodeTrials.add(barcodeTrial);
+    }
 }
 
 
