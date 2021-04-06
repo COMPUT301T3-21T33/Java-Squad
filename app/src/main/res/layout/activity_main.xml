@@ -41,15 +41,6 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <TextView
-                android:id="@+id/your_experiment"
-                android:layout_width="283dp"
-
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="10sp"
-                android:text="Your Experiment:"
-                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,6 +64,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
+            <TextView
+                android:id="@+id/your_experiment"
+                android:layout_width="283dp"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="10sp"
+                android:text="Your Experiment:"
+                android:textSize="15sp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show All"
+                android:id="@+id/show_all_owned"
+                />
 
         </LinearLayout>
 
