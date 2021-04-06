@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class AddMeasurementTrialFragment extends DialogFragment {
     private EditText unit;
     private EditText experimenter;
     private EditText date;
+    private Button addMarker;
     private OnFragmentInteractionListener listener;
 
 
@@ -55,6 +57,14 @@ public class AddMeasurementTrialFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.measurement_trial_fragment,null);
+
+        String geo = getArguments().getString("enable geo");
+        Log.d("fragment get geo","get received = "+geo);
+
+        if (geo.equals("1")){
+            addMarker = view.findViewById(R.id.location);
+            addMarker.setEnabled(true);
+        }
         amount= view.findViewById(R.id.amount);
         unit = view.findViewById(R.id.unit);
         experimenter= view.findViewById(R.id.author);

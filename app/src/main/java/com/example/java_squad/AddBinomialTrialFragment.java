@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,6 +29,7 @@ public class AddBinomialTrialFragment extends DialogFragment {
     private RadioButton radioButton;
     private EditText experimenter;
     private EditText date;
+    private Button addMarker;
     private OnFragmentInteractionListener listener;
 
 
@@ -59,6 +61,15 @@ public class AddBinomialTrialFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.binomial_trial_fragment,null);
+
+        String geo = getArguments().getString("enable geo");
+        Log.d("fragment get geo","get received = "+geo);
+
+        if (geo.equals("1")){
+            addMarker = view.findViewById(R.id.location);
+            addMarker.setEnabled(true);
+        }
+
         result= view.findViewById(R.id.result);
         experimenter= view.findViewById(R.id.author);
         date= view.findViewById(R.id.date);

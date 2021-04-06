@@ -143,12 +143,16 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         });
 
 
-
         Button addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddCountTrialFragment().show(getSupportFragmentManager(), "add trial");
+                Bundle bundle = new Bundle();
+                bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
+                // set Fragmentclass Arguments
+                AddCountTrialFragment fragobj = new AddCountTrialFragment();
+                fragobj.setArguments(bundle);
+                fragobj.show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
@@ -187,7 +191,11 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             }
         });
     }
-
+    public void MapsActivity(View view){
+        Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
+//        intent.putExtra("user", user);
+        startActivity(intent);
+    }
 
     @Override
     public void onOkPressed(Count newTrail) {

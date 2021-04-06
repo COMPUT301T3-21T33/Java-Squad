@@ -135,13 +135,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(latLng.latitude + ":" +latLng.longitude);
+                mMap.clear();
+                //LatLng currentPosition = new LatLng(location.latitude, location.longitude);
+                Location loc = mMap.getMyLocation();
+                LatLng currentLoc = new LatLng(loc.getLatitude(), loc.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLoc,17));
+                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                mMap.addMarker(markerOptions);
+            }
+        });
+//
+//        // Add a marker in Sydney and move the camera
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions()
+//                .position(sydney)
+//                .title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 }

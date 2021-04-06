@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         tvUIDS.setText(sb.toString());
 
-
-
         user = new User("","",userid);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
         Query query = myRef.equalTo(userid);
@@ -61,11 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     if (parent != userid){
                         myRef.child(userid).setValue(user);
                     }
-
-                    }
-
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -111,11 +106,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("id", userid);
         startActivity(intent);
     }
-    public void MapsActivity(View view){
-        Intent intent = new Intent(this, MapsActivity.class);
-//        intent.putExtra("user", user);
-        startActivity(intent);
-    }
+
     /** public void launchexperiment(View view){
      * Intent intent = new Intent(this, com.test.experiment.class);
      *         startActivity(intent);

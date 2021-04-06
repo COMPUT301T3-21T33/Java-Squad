@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.java_squad.Geo.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -151,11 +152,19 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddBinomialTrialFragment().show(getSupportFragmentManager(), "add trial");
+                Bundle bundle = new Bundle();
+                bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
+                // set Fragmentclass Arguments
+                AddBinomialTrialFragment fragobj = new AddBinomialTrialFragment();
+                fragobj.setArguments(bundle);
+                fragobj.show(getSupportFragmentManager(), "add trial");
+
+//                new AddBinomialTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
         });
+
         //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
         trialList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
@@ -181,7 +190,11 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
     }
 
-
+    public void MapsActivity(View view){
+        Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
+//        intent.putExtra("user", user);
+        startActivity(intent);
+    }
     @Override
     public void onOkPressed(Binomial newTrail) {
         newTrail.setEnableGeo(experiment.getEnableGeo());

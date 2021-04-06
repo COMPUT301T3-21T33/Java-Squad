@@ -144,7 +144,14 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
+                Bundle bundle = new Bundle();
+                bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
+                // set Fragmentclass Arguments
+                AddMeasurementTrialFragment fragobj = new AddMeasurementTrialFragment();
+                fragobj.setArguments(bundle);
+                fragobj.show(getSupportFragmentManager(), "add trial");
+
+                //new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
@@ -171,9 +178,12 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 return true;
             }
         });
-
     }
-
+    public void MapsActivity(View view){
+        Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
+//        intent.putExtra("user", user);
+        startActivity(intent);
+    }
 
     @Override
     public void onOkPressed(Measurement newTrail) {

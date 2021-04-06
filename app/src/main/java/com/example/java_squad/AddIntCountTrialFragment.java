@@ -27,6 +27,7 @@ public class AddIntCountTrialFragment extends DialogFragment {
     private TextView count;
     private EditText experimenter;
     private EditText date;
+    private Button addMarker;
     private OnFragmentInteractionListener listener;
 
 
@@ -59,6 +60,15 @@ public class AddIntCountTrialFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.int_count_trial_fragment,null);
+
+        String geo = getArguments().getString("enable geo");
+        Log.d("fragment get geo","get received = "+geo);
+
+        if (geo.equals("1")){
+            addMarker = view.findViewById(R.id.location);
+            addMarker.setEnabled(true);
+        }
+
         count= view.findViewById(R.id.count);
         experimenter= view.findViewById(R.id.author);
         date= view.findViewById(R.id.date);
