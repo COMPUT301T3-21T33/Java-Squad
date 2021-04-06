@@ -20,6 +20,7 @@ public class Experimental implements Serializable {
 
 
     private String rules = "";
+    private int enableGeo;
 
     //private Location location
     //dont know how to implement this yet
@@ -42,7 +43,6 @@ public class Experimental implements Serializable {
     public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
-
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
      * Experiment starts as active but not published. Can be changed after.
@@ -55,18 +55,25 @@ public class Experimental implements Serializable {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
-        this.name = name;
+    public Experimental(User owner, String name, String description, String rules, int type, int minTrials, int enableGeo) {
         this.owner = owner;
+        this.name = name;
         this.description = description;
         this.rules = rules;
+        this.enableGeo = enableGeo;
         this.type = type;
         this.minTrials = minTrials;
     }
-
-
     public Experimental() {
+        }
 
+    public int getEnableGeo() {
+        return enableGeo;
+    }
+
+
+    public void setEnableGeo(int enableGeo) {
+        this.enableGeo = enableGeo;
     }
 
     public String getOwnerName() { return owner.getUsername(); };
@@ -225,3 +232,5 @@ public class Experimental implements Serializable {
     }
 
 }
+
+

@@ -30,6 +30,7 @@ public class ExperimentConstructor extends AppCompatActivity {
     EditText expDesc;
     EditText expRules;
     RadioGroup trialType;
+    RadioGroup enableGeo;
     EditText minTrials;
     Button submit;
     FirebaseDatabase db;
@@ -48,6 +49,8 @@ public class ExperimentConstructor extends AppCompatActivity {
         expRules = findViewById(R.id.editText_rules);
         minTrials = findViewById(R.id.editText_minTrials);
         trialType = findViewById(R.id.RadioGroup);
+        enableGeo = findViewById(R.id.geoRadioGroup);
+
         submit = findViewById(R.id.button_submit);
 
 
@@ -71,8 +74,11 @@ public class ExperimentConstructor extends AppCompatActivity {
                 String Erule = expRules.getText().toString();
                 String Edescription = expDesc.getText().toString();
 
+                int geoRadioButtonID = enableGeo.getCheckedRadioButtonId();
+                View geoRadioButton = enableGeo.findViewById(geoRadioButtonID);
+                int geoidx = enableGeo.indexOfChild(geoRadioButton);
 
-                Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin);
+                Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin,geoidx);
                 df.child(Ename).setValue(newE).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -96,7 +102,7 @@ public class ExperimentConstructor extends AppCompatActivity {
                         owner.setUserID(ID);
                         owner.setContact(userEmail);
                         owner.setUsername(userName);
-                        Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin);
+                        Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin,geoidx);
                         saveToExperiment.child(Ename).setValue(addToExp);
                     }
 
@@ -105,10 +111,6 @@ public class ExperimentConstructor extends AppCompatActivity {
 
                     }
                 });
-
-
-
-
             }
         });
     }
@@ -121,5 +123,4 @@ public class ExperimentConstructor extends AppCompatActivity {
     public void cancelButton(View view){
         finish();
     }
-
 }

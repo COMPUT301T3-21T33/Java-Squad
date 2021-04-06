@@ -126,7 +126,40 @@
                 android:ems="10"
                 android:inputType="number"
                 android:text="0" />
+            <TextView
+                android:id="@+id/enable_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable Geo-location:"
+                android:textSize="18sp" />
+            <RadioGroup
+                android:id="@+id/geoRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/geoRadioButton_disable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="False"
+                        android:layout_weight="1"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:id="@+id/geoRadioButton_enable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="True"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </RadioGroup>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/button_layout"
                 android:layout_width="match_parent"

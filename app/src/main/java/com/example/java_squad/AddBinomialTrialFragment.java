@@ -85,7 +85,7 @@ public class AddBinomialTrialFragment extends DialogFragment {
                         try {
                             Date dateDate = dateConverter.stringToDate(dateString);
                             Log.d("add experiment fragment","listener on ok pressed");
-                            listener.onOkPressed(new Binomial(set_experimenter,dateDate,set_result));
+                            listener.onOkPressed(new Binomial(set_experimenter,dateDate,0,set_result));
                         } catch (ParseException e) {
                             String msg = "Pleas enter a date in yyyy-mm-dd format";
                             Toast.makeText(getActivity().getBaseContext(), msg, Toast.LENGTH_LONG).show();

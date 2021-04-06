@@ -86,7 +86,7 @@ public class ViewFollowActivity extends AppCompatActivity {
                                 Log.i("email12", description);
                                 int t = Integer.parseInt(type);
                                 int m = Integer.parseInt(minTrials);
-                                Experimental exp = new Experimental(user,nameofE, description, rules, t, m) ;
+                                Experimental exp = new Experimental(user,nameofE, description, rules, t, m,0) ;
                                 myRef.child(current.getUid()).child("followed").child(eName).setValue(exp).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

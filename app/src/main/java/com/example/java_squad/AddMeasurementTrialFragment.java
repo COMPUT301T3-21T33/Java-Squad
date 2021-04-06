@@ -79,7 +79,7 @@ public class AddMeasurementTrialFragment extends DialogFragment {
                         try {
                             Date dateDate = dateConverter.stringToDate(dateString);
                             Log.d("add experiment fragment","listener on ok pressed");
-                            listener.onOkPressed(new Measurement(set_experimenter,dateDate,set_unit,amountDouble));
+                            listener.onOkPressed(new Measurement(set_experimenter,dateDate,0,set_unit,amountDouble));
                         } catch (ParseException e) {
                             String msg = "Pleas enter a date in yyyy-mm-dd format";
                             Toast.makeText(getActivity().getBaseContext(), msg, Toast.LENGTH_LONG).show();

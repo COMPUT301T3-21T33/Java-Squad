@@ -15,10 +15,11 @@ public class IntCount extends Trial{
      * @param count
      * The result of the trial
      */
-    public IntCount(String experimenter, Date experiment_date, Integer count) {
-        super(experimenter, experiment_date);
+    public IntCount(String experimenter, Date experiment_date, Integer enableGeo, Integer count) {
+        super(experimenter, experiment_date, enableGeo);
         this.count = count;
     }
+
     /**
      * get experiment count
      */
