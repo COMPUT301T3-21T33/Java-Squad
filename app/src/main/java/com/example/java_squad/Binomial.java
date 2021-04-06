@@ -6,6 +6,8 @@ import java.util.Date;
  */
 public class Binomial extends Trial{
     private String result;
+
+
     /**
      * Constructor for Binomial class.
      * @param experimenter
@@ -15,10 +17,11 @@ public class Binomial extends Trial{
      * @param result
      * The result of the trial, pass or fail
      */
-    public Binomial(String experimenter, Date experiment_date, String result) {
-        super(experimenter, experiment_date);
+    public Binomial(String experimenter, Date experiment_date, Integer enableGeo, String result) {
+        super(experimenter, experiment_date, enableGeo);
         this.result = result;
     }
+
     /**
      * get experiment result
      */

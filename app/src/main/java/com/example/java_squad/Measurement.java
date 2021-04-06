@@ -18,11 +18,12 @@ public class Measurement extends Trial{
      * @param amount
      * The value of the trial
      */
-    public Measurement(String experimenter, Date experiment_date, String unit, double amount) {
-        super(experimenter, experiment_date);
+    public Measurement(String experimenter, Date experiment_date, Integer enableGeo, String unit, double amount) {
+        super(experimenter, experiment_date, enableGeo);
         this.unit = unit;
         this.amount = amount;
     }
+
     /**
      * get experiment unit
      */

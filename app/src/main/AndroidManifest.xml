@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature android:name="android.hardware.camera.any" />
 
@@ -24,6 +27,12 @@
         android:theme="@style/Theme.JavaSquad">
         <activity android:name=".BarcodeSetupActivity"></activity>
         <activity android:name=".BarcodeActivity" />
+
+        <activity android:name=".ViewReplyActivity"></activity>
+        <activity
+            android:name=".ViewQuestionActivity"
+            android:parentActivityName=".ShowAllFollowedExperiments" />
+
         <activity
             android:name=".ViewFollowActivity"
             android:parentActivityName=".SearchActivity" />
@@ -32,21 +41,20 @@
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ExperimentView" />
         <activity android:name=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordMeasurementTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordCountTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordBinomialTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".RecordIntCountTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
-        <activity
-            android:name=".ExperimentConstructor"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".RecordMeasurementTrial"
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordCountTrial" 
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordBinomialTrial" 
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+        <activity android:name=".RecordIntCountTrial" 
+            android:parentActivityName=".ShowAllFollowedExperiments"/>
+
+        <activity android:name=".ExperimentConstructor"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".Geo.MapsActivity"/>
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,6 +63,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".SearchActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="" />
     </application>
 
 </manifest>
