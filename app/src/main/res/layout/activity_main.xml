@@ -59,7 +59,7 @@
             android:weightSum="2">
             <TextView
                 android:id="@+id/your_experiment"
-                android:layout_width="283dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="10sp"
@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="Show All"
                 android:textSize="10dp"
+                android:layout_marginLeft="10dp"
                 android:id="@+id/show_all_owned"
                 />
 

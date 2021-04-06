@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         showAllOwnedList = findViewById(R.id.trail_list);
         allExpDataList = new ArrayList<>();
+        followExp = findViewById(R.id.follow_exp);
+        followExpDataList = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User").child(userid);
             databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -94,9 +96,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                     allExpAdapter.notifyDataSetChanged();
                 }
+                else if (snapshot.hasChild("follow")){
+                    followExpDataList.clear();
+                    for (DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        Experimental experiment = datasnapshot.getValue(Experimental.class);
+                        followExpDataList.add(experiment);
+                    }
+                    followExpAdapter.notifyDataSetChanged();
+
+                }
                 else{
                     allExpDataList.clear();
+                    allExpDataList.clear();
                 }
+
             }
 
             @Override
@@ -106,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
         });
         allExpAdapter = new ExperimentCustomList(this, allExpDataList);
         showAllOwnedList.setAdapter(allExpAdapter);
+        followExpAdapter = new ExperimentCustomList(this, followExpDataList);
+        followExp.setAdapter(followExpAdapter);
+
+        df = FirebaseDatabase
 
 
         editProfile = findViewById(R.id.editProfile);
