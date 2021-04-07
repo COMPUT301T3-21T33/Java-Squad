@@ -196,21 +196,17 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         newTrail.setEnableGeo(experiment.getEnableGeo());
         trialAdapter.add(newTrail);
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
+        df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
 
-//        df.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists())
-//                    maxid = snapshot.getChildrenCount();
-//                    Log.d("add trial show max id", "id = "+ String.valueOf(maxid));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
+                    Log.d("add trial", "successful with id ");
+                } else {
+                    Log.d("add trial", "not successful");
+                }
+            }
+        });
 
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
@@ -260,17 +256,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         });
 
 
-        df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
 
-                    Log.d("add trial", "successful with id ");
-                } else {
-                    Log.d("add trial", "not successful");
-                }
-            }
-        });
 
     }
 }

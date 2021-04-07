@@ -247,6 +247,54 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 }
             }
         });
+
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
+
+
+        String userid = intent.getStringExtra("id");
+        viewQuestion.setClickable(false);
+        follow = findViewById(R.id.follow_button);
+        DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        df.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            follow.setText("following");
+                            viewQuestion.setClickable(true);
+                        }
+                    }
+                }
+                else{
+                    follow.setText("follow");
+                    viewQuestion.setClickable(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getText().toString().equals("follow")) {
+                    viewQuestion.setClickable(true);
+                    df.child("follow").child(ExperimentName).setValue(experiment);
+                }
+            }
+        });
     }
 
 

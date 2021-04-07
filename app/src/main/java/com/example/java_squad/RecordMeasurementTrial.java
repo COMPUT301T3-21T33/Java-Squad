@@ -183,7 +183,17 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         newTrail.setEnableGeo(experiment.getEnableGeo());
         trialAdapter.add(newTrail);
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
+        df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
 
+                    Log.d("add trial", "successful with id ");
+                } else {
+                    Log.d("add trial", "not successful");
+                }
+            }
+        });
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,16 +240,6 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 }
             }
         });
-        df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
 
-                    Log.d("add trial", "successful with id ");
-                } else {
-                    Log.d("add trial", "not successful");
-                }
-            }
-        });
     }
 }
