@@ -30,8 +30,6 @@ public class ViewQuestionActivity<FirebaseRecycleOption> extends AppCompatActivi
     RecyclerView recyclerView;
     Intent intent;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
