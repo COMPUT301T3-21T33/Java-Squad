@@ -18,13 +18,17 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -42,20 +46,25 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     ArrayAdapter<Binomial> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Binomial> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+
     FirebaseDatabase db;
     DatabaseReference df;
     String userid;
     String expName;
     FirebaseFirestore fs;
-    Button viewQuestion;
+    Button viewQuestion, follow;
+    Intent intent;
+    String ExperimentName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
-        Intent intent = getIntent();
+        intent = getIntent();
 
         experiment = (Experimental) intent.getSerializableExtra("experiment");
+        ExperimentName = experiment.getName();
 
         TextView experimentName = findViewById(R.id.experiment_name);
         TextView owner = findViewById(R.id.owner);
@@ -211,6 +220,42 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                 intent.putExtra("experimentName", experiment.getName());
                 startActivity(intent);
 
+            }
+        });
+
+        String userid = intent.getStringExtra("id");
+        viewQuestion.setClickable(false);
+        follow = findViewById(R.id.follow_button);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            follow.setText("following");
+                            viewQuestion.setClickable(true);
+                        }
+                    }
+                }
+                else{
+                    follow.setText("following");
+                    viewQuestion.setClickable(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getText().toString().equals("follow")) {
+                    viewQuestion.setClickable(true);
+                    databaseReference.child("follow").child(ExperimentName).setValue(experiment);
+                }
             }
         });
 

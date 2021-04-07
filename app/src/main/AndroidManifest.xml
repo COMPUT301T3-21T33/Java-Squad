@@ -29,6 +29,8 @@
         <activity android:name=".BarcodeActivity" />
 
         <activity android:name=".ViewReplyActivity"></activity>
+        <activity android:name=".ShowAllOwnedActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".ViewQuestionActivity"
             android:parentActivityName=".ShowAllFollowedExperiments" />
@@ -53,7 +55,6 @@
         <activity android:name=".ExperimentConstructor"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".Geo.MapsActivity"/>
-
 
         <activity android:name=".MainActivity">
             <intent-filter>

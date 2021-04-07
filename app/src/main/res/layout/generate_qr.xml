@@ -16,12 +16,13 @@
             android:id="@+id/ReplaceImageQrCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_generate_qr"
+            android:src="@drawable/ic_baseline_qr_code_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:hint="# value"
                 android:inputType="numberSigned"
-                android:textAlignment="center"
+                android:textAlignment="center"/>
 
 
 
@@ -93,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:text="add location to QR"
                 android:clickable="true"
-                android:checked="true"
+                android:checked="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:background="@color/white"
+                android:background="@color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
