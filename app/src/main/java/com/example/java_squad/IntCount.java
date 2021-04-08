@@ -10,16 +10,14 @@ public class IntCount extends Trial{
      * Constructor for Binomial class.
      * @param experimenter
      * Person who add the new trial to the experiment.
-     * @param experiment_date
-     * Date to create the new trial
+
      * @param count
      * The result of the trial
      */
-    public IntCount(String experimenter, Date experiment_date, Integer enableGeo, Double longitude, Double latitude, Integer count) {
-        super(experimenter, experiment_date, enableGeo, longitude, latitude);
+    public IntCount(String experimenter, String trailID,Integer enableGeo, Double longitude, Double latitude, Integer count) {
+        super(experimenter, trailID,enableGeo, longitude, latitude);
         this.count = count;
     }
-
     /**
      * get experiment count
      */

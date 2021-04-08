@@ -11,15 +11,14 @@ public class Measurement extends Trial{
      * Constructor for Binomial class.
      * @param experimenter
      * Person who add the new trial to the experiment.
-     * @param experiment_date
-     * Date to create the new trial
      * @param unit
      * The measurement experiment unit
      * @param amount
      * The value of the trial
      */
-    public Measurement(String experimenter, Date experiment_date, Integer enableGeo, Double longitude, Double latitude, String unit, double amount) {
-        super(experimenter, experiment_date, enableGeo, longitude, latitude);
+    public Measurement(String experimenter, String trailID, Integer enableGeo, Double longitude, Double latitude, String unit, double amount) {
+        super(experimenter,trailID, enableGeo, longitude, latitude);
+
         this.unit = unit;
         this.amount = amount;
     }

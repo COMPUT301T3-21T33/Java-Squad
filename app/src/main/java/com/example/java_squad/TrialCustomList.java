@@ -42,7 +42,7 @@ public class TrialCustomList extends ArrayAdapter<Trial> {
         TextView date = view.findViewById(R.id.trial_list_date);
 
         experimenter.setText(trial.getExperimenter());
-        date.setText(trial.getExperiment_date().toString());
+
 
         return view;
     }

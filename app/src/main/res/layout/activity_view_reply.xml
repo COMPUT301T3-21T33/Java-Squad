@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ViewReplyActivity"
     android:orientation="vertical">
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_name"
+        android:id="@+id/back_to_question"
+        style="?android:attr/borderlessButtonStyle"
+        android:backgroundTint="@android:color/white"></Button>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/question_text_view"
         android:text="this is question context"
+        android:textStyle="italic"
         android:textSize="25dp"
         android:textColor="@color/black"
         android:layout_margin="5dp"

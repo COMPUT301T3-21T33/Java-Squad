@@ -35,7 +35,7 @@ public class AddBinomialTrialFragment extends DialogFragment {
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private EditText experimenter;
-    private EditText date;
+
     private OnFragmentInteractionListener listener;
     private TextView warning;
 
@@ -79,11 +79,10 @@ public class AddBinomialTrialFragment extends DialogFragment {
 
         result= view.findViewById(R.id.result);
         experimenter= view.findViewById(R.id.author);
-        date= view.findViewById(R.id.date);
-        radioGroup = view.findViewById(R.id.radioGroup);
 
-//        final Bundle arg = getArguments();
-        DateConverter dateConverter = new DateConverter();
+        radioGroup = view.findViewById(R.id.radioGroup);
+//       final Bundle arg = getArguments();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         return builder
@@ -94,19 +93,10 @@ public class AddBinomialTrialFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String set_experimenter = experimenter.getText().toString();
-                        String dateString = date.getText().toString();
                         int radioId = radioGroup.getCheckedRadioButtonId();
                         radioButton = view.findViewById(radioId);
                         String set_result = radioButton.getText().toString();
-
-                        try {
-                            Date dateDate = dateConverter.stringToDate(dateString);
-                            Log.d("add experiment fragment","listener on ok pressed");
-                            listener.onOkPressed(new Binomial(set_experimenter,dateDate,0,1000.0,1000.0,set_result));
-                        } catch (ParseException e) {
-                            String msg = "Pleas enter a date in yyyy-mm-dd format";
-                            Toast.makeText(getActivity().getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                        }
+                        listener.onOkPressed(new Binomial(set_experimenter,"",0,1000.0,1000.0,set_result));
 
                     }
                 }).create();

@@ -114,16 +114,9 @@ public class AddIntCountTrialFragment extends DialogFragment {
 
                         String set_count = count.getText().toString();
                         String set_experimenter = experimenter.getText().toString();
-                        String dateString = date.getText().toString();
                         Integer amountInt = Integer.parseInt(set_count);
-                        try {
-                            Date dateDate = dateConverter.stringToDate(dateString);
-                            Log.d("add experiment fragment","listener on ok pressed");
-                            listener.onOkPressed(new IntCount(set_experimenter,dateDate,0,1000.0,1000.0,amountInt));
-                        } catch (ParseException e) {
-                            String msg = "Pleas enter a date in yyyy-mm-dd format";
-                            Toast.makeText(getActivity().getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                        }
+                        listener.onOkPressed(new IntCount(set_experimenter,"",0,1000.0,1000.0,amountInt));
+
 
                     }
                 }).create();

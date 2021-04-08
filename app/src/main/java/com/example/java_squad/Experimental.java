@@ -18,7 +18,6 @@ public class Experimental implements Serializable {
     private String description = "";
 
     private String rules = "";
-    private String expID;
     private int enableGeo;
 
     //private Location location
@@ -27,7 +26,7 @@ public class Experimental implements Serializable {
     //whether the experiment can still be contributed to.
     private boolean active = true;
     //visibility to other users.
-    private boolean published = false;
+    private boolean published = true;
 
     //users who have subscribed to the project
     private List<User> subscibers = new ArrayList<>();
@@ -42,7 +41,6 @@ public class Experimental implements Serializable {
     public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
-    private List<BarcodeTrial> barcodeTrials = new ArrayList<>();
 
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
@@ -57,23 +55,22 @@ public class Experimental implements Serializable {
      * Minimum number of trials for the results/stats to be calculated.
      */
 
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials, int enableGeo, String expID){
+    Experimental(User owner,String name, String description, String rules, int type, int minTrials, int enableGeo){
         this.owner = owner;
         this.name = name;
         this.description = description;
         this.rules = rules;
-        this.enableGeo = enableGeo;
         this.type = type;
         this.minTrials = minTrials;
-        this.expID = expID;
+        this.enableGeo = enableGeo;
     }
     public Experimental() {
-        }
+
+    }
 
     public int getEnableGeo() {
         return enableGeo;
     }
-
 
     public void setEnableGeo(int enableGeo) {
         this.enableGeo = enableGeo;
@@ -185,12 +182,14 @@ public class Experimental implements Serializable {
         return published;
     }
 
+
     /**
      * Ends the experiment, meaning no more results can be contributed.
      */
-    public void endExperiment(){
-        active = false;
+    public void setActive(boolean active) {
+        this.active = active;
     }
+
 
     public Boolean getActive() { return active; }
 
@@ -242,17 +241,4 @@ public class Experimental implements Serializable {
             contributors.remove((User) user);
     }
 
-    public String getExpID() {
-        return expID;
-    }
-
-    public List<BarcodeTrial> getBarcodeTrials() {
-        return barcodeTrials;
-    }
-
-    public void addBarcodeTrial(BarcodeTrial barcodeTrial) {
-        barcodeTrials.add(barcodeTrial);
-    }
 }
-
-

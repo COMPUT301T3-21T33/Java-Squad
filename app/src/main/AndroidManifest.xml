@@ -13,35 +13,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
-        <activity android:name=".ViewReplyActivity"></activity>
+        <activity android:name=".ShowAllOwnedActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Your Experiment"></activity>
+        <activity android:name=".ViewReplyActivity"
+           />
         <activity
             android:name=".ViewQuestionActivity"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
+            android:label="Question"
+             />
         <activity
             android:name=".ViewFollowActivity"
+            android:label="Followed Experiment"
             android:parentActivityName=".SearchActivity" />
         <activity
             android:name=".EditProfileActivity"
+            android:label="Edit Profile"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ExperimentView" />
-        <activity android:name=".ShowAllFollowedExperiments"
-            android:parentActivityName=".MainActivity"/>
+
         <activity android:name=".Geo.MapsActivity"/>
         <activity android:name=".Geo.SelectLocationActivity"/>
         <activity
+            android:name=".ShowAllFollowedExperiments"
+            android:label="Experiment List"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
             android:name=".RecordMeasurementTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
+            android:label="Experiment"/>
         <activity
             android:name=".RecordCountTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
+            android:label="Experiment"/>
         <activity
             android:name=".RecordBinomialTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
+            android:label="Experiment"/>
         <activity
             android:name=".RecordIntCountTrial"
-            android:parentActivityName=".ShowAllFollowedExperiments" />
+            android:label="Experiment"/>
         <activity
             android:name=".ExperimentConstructor"
+            android:label="Add Experiment"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -50,7 +62,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".SearchActivity"
+            android:label="Search"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

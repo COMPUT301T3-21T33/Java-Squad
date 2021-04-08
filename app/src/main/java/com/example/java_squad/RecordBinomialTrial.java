@@ -1,14 +1,12 @@
 package com.example.java_squad;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,22 +30,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+
+import static com.example.java_squad.R.drawable.ic_action_like;
 
 public class RecordBinomialTrial extends AppCompatActivity implements AddBinomialTrialFragment.OnFragmentInteractionListener {
 
@@ -55,17 +47,16 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     ArrayAdapter<Binomial> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Binomial> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-
-    FirebaseDatabase db;
     DatabaseReference df;
     String userid;
     String expName;
-    FirebaseFirestore fs;
     Double longitude;
     Double latitude;
     Button viewQuestion, follow;
     Intent intent;
     String ExperimentName;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,17 +72,17 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         TextView type = findViewById(R.id.type);
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
-        TextView geo = findViewById(R.id.geo);
+//        TextView geo = findViewById(R.id.geo);
 
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
         expName = experiment.getName();
-        if (experiment.getEnableGeo() == 1){
-            geo.setText("Enabled");
-        } else{
-            geo.setText("Disabled");
-        }
+//        if (experiment.getEnableGeo() == 1){
+//            geo.setText("Enabled");
+//        } else{
+//            geo.setText("Disabled");
+//        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -104,6 +95,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         }
         else{
             status.setText("End");
+
         }
 
         int exp_type = experiment.getType();
@@ -124,12 +116,10 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
         }
         type.setText(typeInStr);
+
         trialList = findViewById(R.id.trail_list);
-
-        // Get a top level reference to the collection
-        userid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-
         trialDataList = new ArrayList<>();
+
         trialAdapter = new BinomialCustomList(this, trialDataList);
         //
         trialList.setAdapter(trialAdapter);
@@ -172,13 +162,23 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                     Integer geo = Integer.parseInt(enableGeo);
                     try {
                         Date dateDate = dateConverter.stringToDate(dateString);
-                        trialDataList.add(new Binomial(experimenter, dateDate,geo,lon,lat,result)); // Adding the cities and provinces from FireStore
+                        trialDataList.add(new Binomial(experimenter,"",geo,lon,lat,result)); // Adding the cities and provinces from FireStore
 
                     } catch (ParseException e) {
                         e.printStackTrace();
+
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.hasChild(ExperimentName)){
+//                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
+//                        Binomial binomial = datasnapshot.getValue(Binomial.class);
+//                        trialDataList.add(binomial);
+
                     }
+                    trialAdapter.notifyDataSetChanged();
                 }
-                trialAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -186,7 +186,8 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
-
+        trialAdapter = new BinomialCustomList(this, trialDataList);
+        trialList.setAdapter(trialAdapter);
 
         Button addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
@@ -211,20 +212,6 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
-    }
-
-    public void MapsActivity(View view){
-        Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
-//        intent.putExtra("user", user);
-        startActivity(intent);
-    }
-    @Override
-    public void onOkPressed(Binomial newTrail) {
-        newTrail.setEnableGeo(experiment.getEnableGeo());
-        trialAdapter.add(newTrail);
-        df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
-
-
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,19 +223,6 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
-//        df.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists())
-//                    maxid = snapshot.getChildrenCount();
-//                    Log.d("add trial show max id", "id = "+ String.valueOf(maxid));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
@@ -268,15 +242,14 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild("follow")){
-                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
-                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                if (snapshot.hasChild("follow")) {
+                    for (DataSnapshot datasnapshot : snapshot.child("follow").getChildren()) {
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)) {
                             follow.setText("following");
                             viewQuestion.setClickable(true);
                         }
                     }
-                }
-                else{
+                } else {
                     follow.setText("following");
                     viewQuestion.setClickable(true);
                 }
@@ -290,14 +263,30 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(follow.getText().toString().equals("follow")) {
+                if (follow.getText().toString().equals("follow")) {
                     viewQuestion.setClickable(true);
                     databaseReference.child("follow").child(ExperimentName).setValue(experiment);
                 }
             }
         });
 
-        df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
+    }
+
+    public void MapsActivity(View view){
+        Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
+//        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onOkPressed(Binomial newTrail) {
+        newTrail.setEnableGeo(experiment.getEnableGeo());
+        trialAdapter.add(newTrail);
+        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
+
+        String key = df.push().getKey();
+        newTrail.setTrialID(key);
+        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -309,7 +298,10 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
+        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+        dataref.child(ExperimentName).child(key).setValue(newTrail);
     }
+
     @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

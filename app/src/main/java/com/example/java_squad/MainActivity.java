@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.java_squad.Geo.MapsActivity;
 import com.example.java_squad.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,12 +28,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MainActivity extends AppCompatActivity {
-    TextView tvUIDS;
-    Button editProfile;
+public class
+MainActivity extends AppCompatActivity {
+    TextView tvUIDS, username,useremail;
+    Button editProfile,showAllOwened;
     User user;
-    FirebaseDatabase db;
-    DatabaseReference df;
     String userid;
     ListView showAllOwnedList, followExp;
     ArrayAdapter<Experimental> allExpAdapter; // Bridge between dataList and cityList.
@@ -49,19 +47,28 @@ public class MainActivity extends AppCompatActivity {
 
         tvUIDS = (TextView) findViewById(R.id.tv_uids);
         StringBuilder sb = new StringBuilder();
-        
-                user = new User("","",userid);
+
+        TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
+
+        userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        tvUIDS.setText(sb.toString());
+
+        username = findViewById(R.id.tv_uname);
+        useremail = findViewById(R.id.tv_uemail);
+
+        user = new User("","",userid);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
-        myRef.addValueEventListener(new ValueEventListener() {
+        Query query = myRef.equalTo(userid);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot childSnapshot: snapshot.getChildren()) {
-                    if (snapshot.hasChild(userid)){
-
-                    }
-                    else{
+                    String parent = childSnapshot.getKey();
+                    if (parent != userid){
                         myRef.child(userid).setValue(user);
-
+                        username.setText("No name has been update");
+                        useremail.setText("No email has been update");
                     }
                     }
 
@@ -73,12 +80,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
-
-        userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        tvUIDS.setText(sb.toString());
-
         showAllOwnedList = findViewById(R.id.trail_list);
         allExpDataList = new ArrayList<>();
         followExp = findViewById(R.id.follow_exp);
@@ -87,33 +88,19 @@ public class MainActivity extends AppCompatActivity {
             databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name;
-                String email;
-                if(snapshot.child("username").getValue()==null){
-                    name = "";
-                }
-                else{
-                    name = snapshot.child("username").getValue().toString();
-                }
-                if(snapshot.child("contact").getValue()==null){
-                    email = "";
-                }
-                else{
-                    email = snapshot.child("contact").getValue().toString();
-                }
+                String name = snapshot.child("username").getValue().toString();
+                String email = snapshot.child("contact").getValue().toString();
 
+                if (name.equals(null)){username.setText("No name has been update"); }
+                else{username.setText(name);}
 
-               // if (name.equals("")){username.setText("No name has been update"); }
-                //else{username.setText(name);}
-
-                //if(email.equals("")){useremail.setText("No email has been update");}
-                //else{useremail.setText(email);}
+                if(email.equals(null)){useremail.setText("No email has been update");}
+                else{useremail.setText(email);}
 
 
                 if (snapshot.hasChild("Experiment")){
                     allExpDataList.clear();
                     for (DataSnapshot datasnapshot: snapshot.child("Experiment").getChildren()){
-                        //Map<Experimental, Object> map = (Map<Experimental, Object>) datasnapshot.getValue();
                         Experimental exp = datasnapshot.getValue(Experimental.class);
                         allExpDataList.add(exp);
                     }
@@ -172,7 +159,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        showAllOwened = findViewById(R.id.show_all_owned);
+        showAllOwened.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ShowAllOwnedActivity.class);
+                intent.putExtra("id", userid);
+                startActivity(intent);
+            }
+        });
     }
 
 

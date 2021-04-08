@@ -81,32 +81,6 @@
             android:paddingLeft="10dp"
             android:singleLine="true"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="Date:"/>
-        <!--   date picker tutorial https://www.youtube.com/watch?v=hwe1abDO2Ag-->
-        <EditText
-            android:id="@+id/date"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1.4"
-            android:hint="yyyy-mm-dd"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"/>
-    </LinearLayout>
-
     <TextView
         android:id="@+id/warning"
         android:layout_width="wrap_content"
@@ -118,4 +92,5 @@
         android:paddingLeft="5dp"
         android:padding="5dp"
         android:text=""/>
+
 </LinearLayout>

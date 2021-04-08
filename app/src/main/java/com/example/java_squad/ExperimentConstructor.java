@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -34,6 +35,10 @@ public class ExperimentConstructor extends AppCompatActivity {
     EditText minTrials;
     Button submit;
     FirebaseDatabase db;
+    String userName;
+    String userEmail;
+    String ID;
+    User owner;
     DatabaseReference df, saveToExperiment;
 
     @Override
@@ -50,14 +55,10 @@ public class ExperimentConstructor extends AppCompatActivity {
         minTrials = findViewById(R.id.editText_minTrials);
         trialType = findViewById(R.id.RadioGroup);
         enableGeo = findViewById(R.id.geoRadioGroup);
-
         submit = findViewById(R.id.button_submit);
-
 
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
         saveToExperiment = FirebaseDatabase.getInstance().getReference("Experiment");
-
-
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,31 +80,50 @@ public class ExperimentConstructor extends AppCompatActivity {
                 int geoidx = enableGeo.indexOfChild(geoRadioButton);
 
                 Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin,geoidx);
-                df.child(Ename).setValue(newE).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-
-                            Log.d("frieda","successful" );
-                        }
-                        else{
-                            Log.d("frieda1", "not successful");
-                        }
-                    }
-                });
 
                 FirebaseDatabase.getInstance().getReference("User").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String userName = snapshot.child(userid).child("username").getValue().toString();
-                        String userEmail = snapshot.child(userid).child("contact").getValue().toString();
-                        String ID = snapshot.child(userid).child("userID").getValue().toString();
-                        User owner = new User();
+                        userName = snapshot.child(userid).child("username").getValue().toString();
+                        userEmail = snapshot.child(userid).child("contact").getValue().toString();
+                        ID = snapshot.child(userid).child("userID").getValue().toString();
+                        owner = new User();
                         owner.setUserID(ID);
                         owner.setContact(userEmail);
                         owner.setUsername(userName);
-                        Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin,geoidx);
-                        saveToExperiment.child(Ename).setValue(addToExp);
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+
+                Query query = saveToExperiment.orderByChild("name").equalTo(Ename);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Boolean isEname = false;
+
+                        for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+
+                            if (dataSnapshot.child("name").getValue().toString().equals(Ename))
+                            {
+                                isEname = true;
+                            }
+                        }
+
+                        if(Ename.equals("") ) {
+                            expName.setError("Name cannot be empty");
+                        }
+                        else if (isEname){
+                            expName.setError("This name have been used");
+                        }
+                        else{
+                            df.child(Ename).setValue(newE);
+                            Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin,geoidx);
+                            saveToExperiment.child(Ename).setValue(addToExp);
+
+                        }
                     }
 
                     @Override
@@ -123,4 +143,5 @@ public class ExperimentConstructor extends AppCompatActivity {
     public void cancelButton(View view){
         finish();
     }
+
 }

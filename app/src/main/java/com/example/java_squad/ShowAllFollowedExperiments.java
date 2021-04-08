@@ -33,6 +33,7 @@ public class ShowAllFollowedExperiments extends AppCompatActivity{
         setContentView(R.layout.show_all_experiments);
         Intent intent = getIntent();
         String userid = intent.getStringExtra("id");
+
         followedExpList = findViewById(R.id.experiment_list);
         followedExpDataList = new ArrayList<>();
         df = FirebaseDatabase.getInstance().getReference("User").child(userid);
@@ -51,14 +52,15 @@ public class ShowAllFollowedExperiments extends AppCompatActivity{
                     followedExpDataList.clear();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
         followedExpAdapter = new ExperimentCustomList(this, followedExpDataList);
-
         followedExpList.setAdapter(followedExpAdapter);
+
 
         followedExpList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
