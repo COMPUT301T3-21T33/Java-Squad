@@ -41,27 +41,20 @@ public class MainActivity extends AppCompatActivity {
 
         tvUIDS = (TextView) findViewById(R.id.tv_uids);
         StringBuilder sb = new StringBuilder();
-
-        TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
-
-        userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        tvUIDS.setText(sb.toString());
-
-
-
-        user = new User("","",userid);
+        
+                user = new User("","",userid);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
-        Query query = myRef.equalTo(userid);
-        query.addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot childSnapshot: snapshot.getChildren()) {
-                    String parent = childSnapshot.getKey();
-                    if (parent != userid){
-                        myRef.child(userid).setValue(user);
-                    }
+                    if (snapshot.hasChild(userid)){
 
+                    }
+                    else{
+                        myRef.child(userid).setValue(user);
+
+                    }
                     }
 
             }
@@ -71,8 +64,83 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        //DatabaseReference r =FirebaseDatabase.getInstance().getReference("Question");
-        //r.child("experiment2").removeValue();
+
+        TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
+
+        userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        tvUIDS.setText(sb.toString());
+
+
+        showAllOwnedList = findViewById(R.id.trail_list);
+        allExpDataList = new ArrayList<>();
+        followExp = findViewById(R.id.follow_exp);
+        followExpDataList = new ArrayList<>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User").child(userid);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String name;
+                String email;
+                if(snapshot.child("username").getValue()==null){
+                    name = "";
+                }
+                else{
+                    name = snapshot.child("username").getValue().toString();
+                }
+                if(snapshot.child("contact").getValue()==null){
+                    email = "";
+                }
+                else{
+                    email = snapshot.child("contact").getValue().toString();
+                }
+
+
+                if (name.equals("")){username.setText("No name has been update"); }
+                else{username.setText(name);}
+
+                if(email.equals("")){useremail.setText("No email has been update");}
+                else{useremail.setText(email);}
+
+
+                if (snapshot.hasChild("Experiment")){
+                    allExpDataList.clear();
+                    for (DataSnapshot datasnapshot: snapshot.child("Experiment").getChildren()){
+                        //Map<Experimental, Object> map = (Map<Experimental, Object>) datasnapshot.getValue();
+                        Experimental exp = datasnapshot.getValue(Experimental.class);
+                        allExpDataList.add(exp);
+                    }
+                    allExpAdapter.notifyDataSetChanged();
+                }
+
+                else{
+                    allExpDataList.clear();
+
+                }
+
+                if (snapshot.hasChild("follow")){
+                    followExpDataList.clear();
+                    for (DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        Experimental experiment = datasnapshot.getValue(Experimental.class);
+                        followExpDataList.add(experiment);
+                    }
+                    followExpAdapter.notifyDataSetChanged();
+                }
+                else{
+                    followExpDataList.clear();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        allExpAdapter = new ExperimentCustomList(this, allExpDataList);
+        showAllOwnedList.setAdapter(allExpAdapter);
+        followExpAdapter = new ExperimentCustomList(this, followExpDataList);
+        followExp.setAdapter(followExpAdapter);
 
 
         editProfile = findViewById(R.id.editProfile);
