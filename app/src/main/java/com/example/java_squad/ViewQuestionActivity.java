@@ -60,13 +60,13 @@ public class ViewQuestionActivity<FirebaseRecycleOption> extends AppCompatActivi
         });
 
 
-        backbtn = findViewById(R.id.back_bt);
+        /*backbtn = findViewById(R.id.back_bt);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
 
     }
 
