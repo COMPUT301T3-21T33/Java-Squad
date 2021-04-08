@@ -51,7 +51,6 @@ public class ShowAllFollowedExperiments extends AppCompatActivity{
                     followedExpDataList.clear();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
