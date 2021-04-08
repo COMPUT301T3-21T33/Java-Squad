@@ -19,14 +19,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
 public class EditProfileActivity extends AppCompatActivity {
-    //FirebaseAuth mAuth;
-    //FirebaseUser current;
     EditText name, email;
     Button update;
     FirebaseDatabase db;
@@ -40,13 +42,11 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         Intent intent = getIntent();
-        //mAuth = FirebaseAuth.getInstance();
-        //current = mAuth.getCurrentUser();
         name = findViewById(R.id.username);
         email = findViewById(R.id.useremail);
         update = findViewById(R.id.updateprofile);
-
-        df = FirebaseDatabase.getInstance().getReference("User").child(intent.getStringExtra("id"));
+        String userid = intent.getStringExtra("id");
+        df = FirebaseDatabase.getInstance().getReference("User");
 
 
         update.setOnClickListener(new View.OnClickListener() {
@@ -54,22 +54,45 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = name.getText().toString();
                 String useremail = email.getText().toString();
-                //current.updateEmail(useremail);
 
-                    /*user = new User();
-                    user.setEmail(useremail);
-                    user.setUsername(username);*/
 
                 HashMap data = new HashMap();
                 data.put("username", username);
                 data.put("contact", useremail);
-                df.updateChildren(data);
 
-                name.setText("");
-                email.setText("");
+                Query query = df.orderByChild("username").equalTo(username);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Boolean isUsername = false;
 
+                        for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+
+                            if (dataSnapshot.child("username").getValue().toString().equals(username))
+                            {
+                                isUsername = true;
+                            }
+                        }
+
+                        if(username.equals("") || useremail.equals("")) {
+                            if (username.equals("")){name.setError("Name cannot be empty");}
+                            else{email.setError("Email cannot be empty");}
+                        }
+                        else if (isUsername){
+                            name.setError("This name have been used");
+                        }
+                        else{
+                            df.child(userid).updateChildren(data);
+                            name.setText("");
+                            email.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
             }
-
         });
 
 
