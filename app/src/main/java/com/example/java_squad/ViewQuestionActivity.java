@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ViewQuestionActivity<FirebaseRecycleOption> extends AppCompatActivity {
 
-    Button addQuestionBtn;
+    Button addQuestionBtn,backbtn;
     TextView question;
     DatabaseReference df;
     RecyclerView recyclerView;
@@ -56,6 +56,15 @@ public class ViewQuestionActivity<FirebaseRecycleOption> extends AppCompatActivi
                 df.push().setValue(newQuestion);
                 question.setText("");
 
+            }
+        });
+
+
+        backbtn = findViewById(R.id.back_bt);
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -175,3 +184,4 @@ public class ViewQuestionActivity<FirebaseRecycleOption> extends AppCompatActivi
         recyclerView.setAdapter(adapter1);
     }
 }
+
