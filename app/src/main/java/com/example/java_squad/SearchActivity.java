@@ -93,6 +93,7 @@ public class SearchActivity extends AppCompatActivity implements ExperimentalAda
                                 ||experimental.getDescription().toLowerCase().contains(name.toLowerCase())
                                 ||experimental.getRules().toLowerCase().contains(name.toLowerCase())
                                 ||experimental.getTypeString().toLowerCase().contains(name.toLowerCase())
+                                ||(experimental.getOwner().getUsername()+"").contains(name.toLowerCase())
                                 ||(experimental.getPublished()+"").contains(name.toLowerCase())
                                 ||(experimental.getType()+"").contains(name.toLowerCase())
                                 ||(experimental.getMinTrials()+"").contains(name.toLowerCase())
