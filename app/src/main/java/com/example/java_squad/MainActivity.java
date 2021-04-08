@@ -9,7 +9,9 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.java_squad.Geo.MapsActivity;
@@ -23,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -33,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference df;
     String userid;
+    ListView showAllOwnedList, followExp;
+    ArrayAdapter<Experimental> allExpAdapter; // Bridge between dataList and cityList.
+    ArrayList<Experimental> allExpDataList; // Holds the data that will go into the listview
+    ArrayAdapter<Experimental> followExpAdapter; // Bridge between dataList and cityList.
+    ArrayList<Experimental> followExpDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                if (name.equals("")){username.setText("No name has been update"); }
-                else{username.setText(name);}
+               // if (name.equals("")){username.setText("No name has been update"); }
+                //else{username.setText(name);}
 
-                if(email.equals("")){useremail.setText("No email has been update");}
-                else{useremail.setText(email);}
+                //if(email.equals("")){useremail.setText("No email has been update");}
+                //else{useremail.setText(email);}
 
 
                 if (snapshot.hasChild("Experiment")){
