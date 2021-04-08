@@ -33,9 +33,9 @@ public class ExperimentalAdapter extends RecyclerView.Adapter<ExperimentalAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvName.setText(datas.get(position).getName());
         if (datas.get(position).getActive())
-            holder.tvStatus.setText("In Progress");
+            holder.tvActive.setText("True");
         else
-            holder.tvStatus.setText("Ended");
+            holder.tvActive.setText("False");
         holder.tvOwner.setText(datas.get(position).getOwner().getUsername());
         holder.tvDesc.setText(datas.get(position).getDescription());
 
@@ -50,7 +50,7 @@ public class ExperimentalAdapter extends RecyclerView.Adapter<ExperimentalAdapte
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView tvName;
         private TextView tvDesc;
-        private TextView tvStatus;
+        private TextView tvActive;
         private TextView tvOwner;
         OnNoteListener onNoteListener;
 
@@ -58,7 +58,7 @@ public class ExperimentalAdapter extends RecyclerView.Adapter<ExperimentalAdapte
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvDesc = itemView.findViewById(R.id.tvDesc);
-            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvActive = itemView.findViewById(R.id.tvActive);
             tvOwner = itemView.findViewById(R.id.tvOwner);
             this.onNoteListener = onNoteListener;
             itemView.setOnClickListener(this);
