@@ -14,9 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,8 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
     String expName;
     FirebaseFirestore fs;
     Button viewQuestion;
+    Double longitude;
+    Double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         Intent intent = getIntent();
 
         experiment = (Experimental) intent.getSerializableExtra("experiment");
+        Places.initialize(getApplicationContext(),"@string/API_key");
 
         TextView experimentName = findViewById(R.id.experiment_name);
         TextView owner = findViewById(R.id.owner);
@@ -113,6 +118,8 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
                 if (experiment.getEnableGeo() == 1){
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,4);
                     startActivity(intent);
                 }
             }
@@ -133,9 +140,14 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                     String amount = ss.child("amount").getValue().toString();
                     Double a = Double.parseDouble(amount);
                     Integer geo = Integer.parseInt(enableGeo);
+                    String lonS = ss.child("longitude").getValue().toString();
+                    String latS = ss.child("latitude").getValue().toString();
+                    Double lon = Double.parseDouble(lonS);
+                    Double lat = Double.parseDouble(latS);
+
                     try {
                         Date dateDate = dateConverter.stringToDate(dateString);
-                        trialDataList.add(new Measurement(experimenter, dateDate,geo,unit,a)); // Adding the cities and provinces from FireStore
+                        trialDataList.add(new Measurement(experimenter, dateDate,geo,lon,lat,unit,a)); // Adding the cities and provinces from FireStore
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -165,28 +177,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
-        //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
-//        trialList.setOnTouchListener(new ListView.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = event.getAction();
-//                switch (action) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Disallow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(true);
-//                        break;
-//
-//                    case MotionEvent.ACTION_UP:
-//                        // Allow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(false);
-//                        break;
-//                }
-//
-//                // Handle ListView touch events.
-//                v.onTouchEvent(event);
-//                return true;
-//            }
-//        });
+
     }
     public void MapsActivity(View view){
         Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
@@ -222,5 +213,33 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 4 && resultCode == RESULT_OK){
+            longitude = data.getDoubleExtra("longitude",0);
+            latitude = data.getDoubleExtra("latitude",0);
+            int position = data.getIntExtra("position",0);
+
+            Measurement trial = trialAdapter.getItem(position);
+            trial.setLongitude(longitude);
+            trial.setLatitude(latitude);
+            trial.setEnableGeo(0);
+            Log.d("get measurement",String.valueOf(trial.getLatitude()));
+            Toast.makeText(RecordMeasurementTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+
+            replaceTrial(position,trial);
+
+        } else {
+            Log.d("record measurement","cannot receive coordinate");
+        }
+    }
+    private void replaceTrial(int index, Measurement updatedTrial){
+//        int currentExperimentIndex = trialDataList.indexOf(trial);
+        trialDataList.set(index,updatedTrial);
+        trialAdapter = new MeasurementCustomList(this, trialDataList);
+        trialList.setAdapter(trialAdapter);
+        trialAdapter.notifyDataSetChanged();
     }
 }

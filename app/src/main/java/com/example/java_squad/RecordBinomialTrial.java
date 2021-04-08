@@ -21,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.java_squad.Geo.MapsActivity;
+import com.example.java_squad.Geo.SelectLocationActivity;
 import com.example.java_squad.Geo.SelectLocationFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,11 +56,14 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     String expName;
     FirebaseFirestore fs;
     Button viewQuestion;
+    Double longitude;
+    Double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
+        Places.initialize(getApplicationContext(),"@string/API_key");
         Intent intent = getIntent();
 
         experiment = (Experimental) intent.getSerializableExtra("experiment");
@@ -126,13 +131,22 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
                 if (experiment.getEnableGeo() == 1){
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
-                    startActivity(intent);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,1);
                 }
             }
         });
+//        trialList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Binomial trial = trialDataList.get(i);
+//                Toast.makeText(RecordBinomialTrial.this,"latitude = "+String.valueOf(trial.getLongitude()) + " longitude = "+String.valueOf(trial.getLatitude()), Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+//        });
 
         DateConverter dateConverter = new DateConverter();
-
+        //get data from database
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
         df.addValueEventListener(new ValueEventListener() {
             @Override
@@ -144,10 +158,14 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                     String dateString = "2020-02-02";
                     String experimenter = ss.child("experimenter").getValue().toString();
                     String result = ss.child("result").getValue().toString();
+                    String lonS = ss.child("longitude").getValue().toString();
+                    String latS = ss.child("latitude").getValue().toString();
+                    Double lon = Double.parseDouble(lonS);
+                    Double lat = Double.parseDouble(latS);
                     Integer geo = Integer.parseInt(enableGeo);
                     try {
                         Date dateDate = dateConverter.stringToDate(dateString);
-                        trialDataList.add(new Binomial(experimenter, dateDate,geo,result)); // Adding the cities and provinces from FireStore
+                        trialDataList.add(new Binomial(experimenter, dateDate,geo,lon,lat,result)); // Adding the cities and provinces from FireStore
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -186,29 +204,6 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
-        //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
-//        trialList.setOnTouchListener(new ListView.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = event.getAction();
-//                switch (action) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Disallow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(true);
-//                        break;
-//
-//                    case MotionEvent.ACTION_UP:
-//                        // Allow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(false);
-//                        break;
-//                }
-//
-//                // Handle ListView touch events.
-//                v.onTouchEvent(event);
-//                return false;
-//            }
-//        });
-
     }
 
     public void MapsActivity(View view){
@@ -234,6 +229,19 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
+//        df.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists())
+//                    maxid = snapshot.getChildrenCount();
+//                    Log.d("add trial show max id", "id = "+ String.valueOf(maxid));
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -247,5 +255,35 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK){
+            longitude = data.getDoubleExtra("longitude",0);
+            latitude = data.getDoubleExtra("latitude",0);
+            int position = data.getIntExtra("position",0);
+
+            Binomial trial = trialAdapter.getItem(position);
+            trial.setLongitude(longitude);
+            trial.setLatitude(latitude);
+            trial.setEnableGeo(0);
+            Log.d("get latitude",String.valueOf(trial.getLatitude()));
+
+            replaceTrial(position,trial);
+
+            Toast.makeText(RecordBinomialTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+            Log.d("record binomial","receives coordinate");
+
+        } else {
+            Log.d("record binomial","cannot receive coordinate");
+        }
+    }
+    private void replaceTrial(int index, Binomial updatedTrial){
+//        int currentExperimentIndex = trialDataList.indexOf(trial);
+        trialDataList.set(index,updatedTrial);
+        trialAdapter = new BinomialCustomList(this, trialDataList);
+        trialList.setAdapter(trialAdapter);
+        trialAdapter.notifyDataSetChanged();
     }
 }

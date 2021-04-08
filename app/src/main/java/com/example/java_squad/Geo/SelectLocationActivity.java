@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.java_squad.AddBinomialTrialFragment;
-import com.example.java_squad.Binomial;
 import com.example.java_squad.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -26,6 +24,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
@@ -39,8 +39,9 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
 
     private GoogleMap mMap;
     boolean isPermissionGranter;
-    double longitude;
-    double latitude;
+    Double longitude;
+    Double latitude;
+    int experimentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,9 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
         setContentView(R.layout.activity_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
+
+        Intent intent = getIntent();
+        experimentPosition = intent.getIntExtra("position",0);
 
         checkPermission();
 
@@ -69,17 +73,14 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                onBackPressed();
-
                 Log.d("ok pressed","ok clicked should be back to previous fragment");
-
-                Bundle bundle = new Bundle();
-                bundle.putString("Longitude", String.valueOf(longitude));
-                bundle.putString("Latitude", String.valueOf(latitude));
-                Log.d("ok pressed","test 0000000000");
-                Toast.makeText(SelectLocationActivity.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-
-                finish();    //finish current activity and go back to previous Activity
+                Log.d("sending long and lat : ",String.valueOf(latitude)+" "+ String.valueOf(longitude));
+                Intent i = new Intent();
+                i.putExtra("longitude",longitude);
+                i.putExtra("latitude",latitude);
+                i.putExtra("position",experimentPosition);
+                setResult(RESULT_OK,i);
+                finish();
             }
         });
 
@@ -144,17 +145,9 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
                 //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLoc,17));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
                 mMap.addMarker(markerOptions);
-                Log.d("long and lat : ",String.valueOf(latLng.latitude)+" "+ String.valueOf(latLng.longitude));
-                longitude = latLng.latitude;
-                latitude = latLng.longitude;
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
             }
         });
-//
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions()
-//                .position(sydney)
-//                .title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

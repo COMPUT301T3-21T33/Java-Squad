@@ -15,8 +15,8 @@ public class IntCount extends Trial{
      * @param count
      * The result of the trial
      */
-    public IntCount(String experimenter, Date experiment_date, Integer enableGeo, Integer count) {
-        super(experimenter, experiment_date, enableGeo);
+    public IntCount(String experimenter, Date experiment_date, Integer enableGeo, Double longitude, Double latitude, Integer count) {
+        super(experimenter, experiment_date, enableGeo, longitude, latitude);
         this.count = count;
     }
 

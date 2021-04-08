@@ -17,8 +17,8 @@ public class Binomial extends Trial{
      * @param result
      * The result of the trial, pass or fail
      */
-    public Binomial(String experimenter, Date experiment_date, Integer enableGeo, String result) {
-        super(experimenter, experiment_date, enableGeo);
+    public Binomial(String experimenter, Date experiment_date, Integer enableGeo, Double longitude, Double latitude, String result) {
+        super(experimenter, experiment_date, enableGeo, longitude, latitude);
         this.result = result;
     }
 

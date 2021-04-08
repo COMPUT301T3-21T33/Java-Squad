@@ -21,8 +21,8 @@ public class Count extends Trial{
      * @param count
      * The experiment result
      */
-    public Count(String experimenter, Date experiment_date, Integer enableGeo, String object, Integer count) {
-        super(experimenter, experiment_date, enableGeo);
+    public Count(String experimenter, Date experiment_date, Integer enableGeo, Double longitude, Double latitude, String object, Integer count) {
+        super(experimenter, experiment_date, enableGeo, longitude, latitude);
         this.object = object;
         this.count = count;
     }

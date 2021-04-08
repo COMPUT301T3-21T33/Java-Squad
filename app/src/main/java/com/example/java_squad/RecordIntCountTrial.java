@@ -14,9 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,14 +42,16 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     String expName;
     FirebaseFirestore fs;
     Button viewQuestion;
+    Double longitude;
+    Double latitude;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
         Intent intent = getIntent();
-
         experiment = (Experimental) intent.getSerializableExtra("experiment");
+        Places.initialize(getApplicationContext(),"@string/API_key");
 
         TextView experimentName = findViewById(R.id.experiment_name);
         TextView owner = findViewById(R.id.owner);
@@ -112,6 +116,8 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
                 if (experiment.getEnableGeo() == 1){
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,3);
                     startActivity(intent);
                 }
             }
@@ -134,9 +140,14 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                         String count = ss.child("count").getValue().toString();
                         Integer c = Integer.parseInt(count);
                         Integer geo = Integer.parseInt(enableGeo);
+                        String lonS = ss.child("longitude").getValue().toString();
+                        String latS = ss.child("latitude").getValue().toString();
+                        Double lon = Double.parseDouble(lonS);
+                        Double lat = Double.parseDouble(latS);
+
                         try {
                             Date dateDate = dateConverter.stringToDate(dateString);
-                            trialDataList.add(new IntCount(experimenter, dateDate,geo,c)); // Adding the cities and provinces from FireStore
+                            trialDataList.add(new IntCount(experimenter, dateDate,geo,lon,lat,c)); // Adding the cities and provinces from FireStore
 
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -209,7 +220,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
                 intent.putExtra("experimentName", experiment.getName());
                 startActivity(intent);
-
             }
         });
 
@@ -225,6 +235,33 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 3 && resultCode == RESULT_OK){
+            longitude = data.getDoubleExtra("longitude",0);
+            latitude = data.getDoubleExtra("latitude",0);
+            int position = data.getIntExtra("position",0);
 
+            IntCount trial = trialAdapter.getItem(position);
+            trial.setLongitude(longitude);
+            trial.setLatitude(latitude);
+            trial.setEnableGeo(0);
+            Log.d("get intcount",String.valueOf(trial.getLatitude()));
+            Toast.makeText(RecordIntCountTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+
+            replaceTrial(position,trial);
+
+        } else {
+            Log.d("record intcount","cannot receive coordinate");
+        }
+    }
+    private void replaceTrial(int index, IntCount updatedTrial){
+//        int currentExperimentIndex = trialDataList.indexOf(trial);
+        trialDataList.set(index,updatedTrial);
+        trialAdapter = new IntCountCustomList(this, trialDataList);
+        trialList.setAdapter(trialAdapter);
+        trialAdapter.notifyDataSetChanged();
     }
 }

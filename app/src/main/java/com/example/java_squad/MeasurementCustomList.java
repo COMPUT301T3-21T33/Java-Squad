@@ -39,6 +39,9 @@ public class MeasurementCustomList extends ArrayAdapter<Measurement> {
         if (measurement.getEnableGeo() == 1){
             addmap.setImageResource(R.drawable.ic_baseline_map_red);
         }
+        if(measurement.getEnableGeo() == 0){
+            addmap.setImageResource(R.drawable.ic_baseline_map_white);
+        }
         double getAmount = measurement.getAmount();
         String amountInString = Double.toString(getAmount);
         String experimenterName = measurement.getExperimenter();

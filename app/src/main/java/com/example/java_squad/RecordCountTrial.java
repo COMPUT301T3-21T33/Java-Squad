@@ -11,12 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +43,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     String expName;
     FirebaseFirestore fs;
     Button viewQuestion;
-
+    Double longitude;
+    Double latitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         Intent intent = getIntent();
 
         experiment = (Experimental) intent.getSerializableExtra("experiment");
+        Places.initialize(getApplicationContext(),"@string/API_key");
 
         TextView experimentName = findViewById(R.id.experiment_name);
         TextView owner = findViewById(R.id.owner);
@@ -115,6 +119,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
                 if (experiment.getEnableGeo() == 1){
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,2);
                     startActivity(intent);
                 }
             }
@@ -136,10 +142,13 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                     String count = ss.child("count").getValue().toString();
                     Integer geo = Integer.parseInt(enableGeo);
                     Integer c = Integer.parseInt(count);
-
+                    String lonS = ss.child("longitude").getValue().toString();
+                    String latS = ss.child("latitude").getValue().toString();
+                    Double lon = Double.parseDouble(lonS);
+                    Double lat = Double.parseDouble(latS);
                     try {
                         Date dateDate = dateConverter.stringToDate(dateString);
-                        trialDataList.add((new Count(experimenter, dateDate,geo,object,c)));
+                        trialDataList.add((new Count(experimenter, dateDate,geo,lon,lat,object,c)));
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -228,6 +237,34 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 2 && resultCode == RESULT_OK){
+            longitude = data.getDoubleExtra("longitude",0);
+            latitude = data.getDoubleExtra("latitude",0);
+            int position = data.getIntExtra("position",0);
+
+            Count trial = trialAdapter.getItem(position);
+            trial.setLongitude(longitude);
+            trial.setLatitude(latitude);
+            trial.setEnableGeo(0);
+            Log.d("get count",String.valueOf(trial.getLatitude()));
+            Toast.makeText(RecordCountTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+
+            replaceTrial(position,trial);
+
+        } else {
+            Log.d("record count","cannot receive coordinate");
+        }
+    }
+    private void replaceTrial(int index, Count updatedTrial){
+//        int currentExperimentIndex = trialDataList.indexOf(trial);
+        trialDataList.set(index,updatedTrial);
+        trialAdapter = new CountCustomList(this, trialDataList);
+        trialList.setAdapter(trialAdapter);
+        trialAdapter.notifyDataSetChanged();
+    }
 
 }

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class BinomialCustomList extends ArrayAdapter<Binomial> {
     private ArrayList<Binomial> trials;
     private Context context;
+    private ImageView addmap;
 
     public BinomialCustomList(Context context, ArrayList<Binomial> trials){
         super(context,0, trials);
@@ -39,9 +40,12 @@ public class BinomialCustomList extends ArrayAdapter<Binomial> {
         Binomial binomial = trials.get(position);
         TextView resultView = view.findViewById(R.id.result);
         TextView nameView = view.findViewById(R.id.experimenter);
-        ImageView addmap = view.findViewById(R.id.map);
+        addmap = view.findViewById(R.id.map);
         if (binomial.getEnableGeo() == 1){
             addmap.setImageResource(R.drawable.ic_baseline_map_red);
+        }
+        if(binomial.getEnableGeo() == 0){
+            addmap.setImageResource(R.drawable.ic_baseline_map_white);
         }
 
         String result = binomial.getResult();

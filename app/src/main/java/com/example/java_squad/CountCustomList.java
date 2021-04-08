@@ -38,6 +38,9 @@ public class CountCustomList extends ArrayAdapter<Count> {
         if (count.getEnableGeo() == 1){
             addmap.setImageResource(R.drawable.ic_baseline_map_red);
         }
+        if(count.getEnableGeo() == 0){
+            addmap.setImageResource(R.drawable.ic_baseline_map_white);
+        }
         Integer getAmount = count.getCount();
         String amountInString = Integer.toString(getAmount);
         String experimenterName = count.getExperimenter();
