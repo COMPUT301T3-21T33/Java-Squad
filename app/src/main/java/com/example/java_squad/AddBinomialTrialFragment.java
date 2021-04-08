@@ -1,5 +1,6 @@
 package com.example.java_squad;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -19,6 +20,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.java_squad.Geo.SelectLocationActivity;
+import com.example.java_squad.Geo.SelectLocationFragment;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -71,14 +77,14 @@ public class AddBinomialTrialFragment extends DialogFragment {
             addMarker.setEnabled(true);
         }
 
-        String longitude = getArguments().getString("Longitude");
-        String latitude = getArguments().getString("Latitude");
-
-        if(longitude != null && !longitude.trim().isEmpty()){
-            Log.d("longitude : ",longitude);
-            Log.d("latitude and lat : ",latitude);
-
-        }
+//        String longitude = getArguments().getString("Longitude");
+//        String latitude = getArguments().getString("Latitude");
+//
+//        if(longitude != null && !longitude.trim().isEmpty()){
+//            Log.d("longitude : ",longitude);
+//            Log.d("latitude and lat : ",latitude);
+//
+//        }
 
         addMarker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +93,19 @@ public class AddBinomialTrialFragment extends DialogFragment {
 //                Intent intent = new Intent(view.getContext(), com.example.java_squad.Geo.SelectLocationActivity.class);
 ////        intent.putExtra("user", user);
 //                startActivity(intent);
+//                SelectLocationFragment nextFrag= new SelectLocationFragment();
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.fab, nextFrag)
+//                        .addToBackStack(null)
+//                        .commit();
+//                dismiss();
+//                getTargetFragment().onActivityResult(position, Activity.RESULT_OK, getActivity().getIntent());
+                SelectLocationFragment someFragment = new SelectLocationFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.mainMap, someFragment ); // give your fragment container id in first parameter
+                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                transaction.commit();
+
             }
         });
 
@@ -106,7 +125,6 @@ public class AddBinomialTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                         String set_experimenter = experimenter.getText().toString();
                         String dateString = date.getText().toString();
                         int radioId = radioGroup.getCheckedRadioButtonId();

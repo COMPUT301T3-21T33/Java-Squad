@@ -3,7 +3,9 @@ package com.example.java_squad;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.java_squad.Geo.MapsActivity;
+import com.example.java_squad.Geo.SelectLocationFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -159,6 +162,12 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                 fragobj.setArguments(bundle);
                 fragobj.show(getSupportFragmentManager(), "add trial");
 
+//                AddBinomialTrialFragment fragobj = new AddBinomialTrialFragment();
+//                fragobj.setArguments(bundle);
+//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//                transaction.replace(R.id.mainMap, fragobj ); // give your fragment container id in first parameter
+//                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+//                transaction.commit();
 //                new AddBinomialTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
