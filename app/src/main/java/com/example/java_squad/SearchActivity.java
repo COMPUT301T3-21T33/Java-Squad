@@ -93,9 +93,9 @@ public class SearchActivity extends AppCompatActivity implements ExperimentalAda
                                 ||experimental.getDescription().toLowerCase().contains(name.toLowerCase())
                                 ||experimental.getRules().toLowerCase().contains(name.toLowerCase())
                                 ||experimental.getTypeString().toLowerCase().contains(name.toLowerCase())
-                                ||(experimental.getOwner().getUsername()+"").contains(name.toLowerCase())
                                 ||(experimental.getPublished()+"").contains(name.toLowerCase())
                                 ||(experimental.getType()+"").contains(name.toLowerCase())
+                                ||(experimental.getOwner().getUsername()+"").contains(name.toLowerCase())
                                 ||(experimental.getMinTrials()+"").contains(name.toLowerCase())
                                 ||(experimental.getActive()+"").toLowerCase().contains(name.toLowerCase())){
                             experimentals.add(experimental);
@@ -120,43 +120,50 @@ public class SearchActivity extends AppCompatActivity implements ExperimentalAda
     public void onNoteClick(int position){
         Experimental experiment = experimentals.get(position);
         Integer exp_type = experimentals.get(position).getType();
-        if (exp_type == 0){
-            Intent intent = new Intent(this, RecordIntCountTrial.class);
+        String thisUserID = experiment.getOwner().getUserID();
 
-            //Log.d("main activity","on item click to start record trails");
 
-            intent.putExtra("experiment", experiment);
-            intent.putExtra("id", userid);
-            startActivity(intent);
+            if (exp_type == 0){
+                Intent intent = new Intent(this, RecordIntCountTrial.class);
 
-        }
-        else if (exp_type == 1) {
-            Intent intent = new Intent(this, RecordBinomialTrial.class);
+                //Log.d("main activity","on item click to start record trails");
 
-            //Log.d("main activity","on item click to start record trails");
+                intent.putExtra("experiment", experiment);
+                intent.putExtra("id", userid);
+                startActivity(intent);
 
-            intent.putExtra("experiment", experiment);
-            intent.putExtra("id", userid);
-            startActivity(intent);
-        }
-        else if (exp_type == 2) {
-            Intent intent = new Intent(this, RecordCountTrial.class);
+            }
+            else if (exp_type == 1) {
+                Intent intent = new Intent(this, RecordBinomialTrial.class);
 
-            //Log.d("main activity","on item click to start record trails");
+                //Log.d("main activity","on item click to start record trails");
 
-            intent.putExtra("experiment", experiment);
-            intent.putExtra("id", userid);
-            startActivity(intent);
-        }
-        else if (exp_type == 3) {
-            Intent intent = new Intent(this, RecordMeasurementTrial.class);
+                intent.putExtra("experiment", experiment);
+                intent.putExtra("id", userid);
+                startActivity(intent);
+            }
+            else if (exp_type == 2) {
+                Intent intent = new Intent(this, RecordCountTrial.class);
 
-            //Log.d("main activity","on item click to start record trails");
+                //Log.d("main activity","on item click to start record trails");
 
-            intent.putExtra("experiment", experiment);
-            intent.putExtra("id", userid);
-            startActivity(intent);
-        }
+                intent.putExtra("experiment", experiment);
+                intent.putExtra("id", userid);
+                startActivity(intent);
+            }
+            else if (exp_type == 3) {
+                Intent intent = new Intent(this, RecordMeasurementTrial.class);
+
+                //Log.d("main activity","on item click to start record trails");
+
+                intent.putExtra("experiment", experiment);
+                intent.putExtra("id", userid);
+                startActivity(intent);
+            }
+
+
+
+
     }
 }
 

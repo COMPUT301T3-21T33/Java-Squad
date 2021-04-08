@@ -118,13 +118,13 @@ public class ViewReplyActivity extends AppCompatActivity {
                 }).create().show();
             }
         });
-        /*back= findViewById(R.id.back_to_question);
+        back= findViewById(R.id.back_to_question);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });*/
+        });
 
 
     }

@@ -7,24 +7,22 @@ import java.util.Date;
 public class Count extends Trial{
     private String object;
     private Integer count;
-
     /**
      * Constructor for Count class.
      * @param experimenter
      * Person who add the new trial to the experiment.
-     * @param experiment_date
-     * Date to create the new trial
-     * @param enableGeo
-     * Indicator to check if the geo-location is enabled for this experiment.
      * @param object
      * The object for experiment
      * @param count
      * The experiment result
      */
-    public Count(String experimenter, Date experiment_date, Integer enableGeo, String object, Integer count) {
-        super(experimenter, experiment_date, enableGeo);
+    public Count(String experimenter,String trailID, String object, Integer count) {
+        super(experimenter,trailID);
         this.object = object;
         this.count = count;
+    }
+
+    public Count() {
     }
 
     /**

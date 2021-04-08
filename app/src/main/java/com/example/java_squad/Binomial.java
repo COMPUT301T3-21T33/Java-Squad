@@ -7,21 +7,25 @@ import java.util.Date;
 public class Binomial extends Trial{
     private String result;
 
+    public Binomial(String experimenter,String trailID) {
+        super(experimenter,trailID);
+    }
+
+    public Binomial() {
+    }
 
     /**
      * Constructor for Binomial class.
      * @param experimenter
      * Person who add the new trial to the experiment.
-     * @param experiment_date
-     * Date to create the new trial
+
      * @param result
      * The result of the trial, pass or fail
      */
-    public Binomial(String experimenter, Date experiment_date, Integer enableGeo, String result) {
-        super(experimenter, experiment_date, enableGeo);
+    public Binomial(String experimenter,String trailID,String result) {
+        super(experimenter, trailID);
         this.result = result;
     }
-
     /**
      * get experiment result
      */

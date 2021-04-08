@@ -7,36 +7,26 @@ import java.util.Date;
  */
 public class Trial implements  Serializable{
     private String experimenter;
-    private Date experiment_date;
-    private Integer enableGeo;
+    private String trailID;
 
     /**
      * Constructor for Binomial class.
      * @param experimenter
      * Person who add the new trial to the experiment.
-     * @param experiment_date
-     * Date to create the new trial
      */
 
-    public Trial(String experimenter, Date experiment_date, String trialID, Integer enableGeo) {
-        this.experimenter = experimenter;
-        this.experiment_date = experiment_date;
-        this.enableGeo = enableGeo;
-
+    public Trial(String experimenter, String trailID) {
     }
 
-    public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1, String toString) {
+    public Trial() {
     }
 
-    public Trial(boolean parseBoolean, String value, float parseFloat, String value1, String toString) {
+    public String getTrailID() {
+        return trailID;
     }
 
-    public Integer getEnableGeo() {
-        return enableGeo;
-    }
-
-    public void setEnableGeo(Integer enableGeo) {
-        this.enableGeo = enableGeo;
+    public void setTrailID(String trailID) {
+        this.trailID = trailID;
     }
 
     /**
@@ -50,18 +40,6 @@ public class Trial implements  Serializable{
      */
     public void setExperimenter(String experimenter) {
         this.experimenter = experimenter;
-    }
-    /**
-     * experiment_date getter
-     */
-    public Date getExperiment_date() {
-        return experiment_date;
-    }
-    /**
-     * experiment_date setter
-     */
-    public void setExperiment_date(Date experiment_date) {
-        this.experiment_date = experiment_date;
     }
 
 

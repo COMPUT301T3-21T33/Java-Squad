@@ -17,17 +17,25 @@ public class Experimental implements Serializable {
     private String name = "";
     private String description = "";
 
+
+
     private String rules = "";
-    private String expID;
-    private int enableGeo;
+
+    /*public boolean isEnable_location() {
+        return enable_location;
+    }
+
+    public void setEnable_location(boolean enable_location) {
+        this.enable_location = enable_location;
+    }*/
 
     //private Location location
     //dont know how to implement this yet
-
+    //private boolean enable_location = false;
     //whether the experiment can still be contributed to.
     private boolean active = true;
     //visibility to other users.
-    private boolean published = false;
+    private boolean published = true;
 
     //users who have subscribed to the project
     private List<User> subscibers = new ArrayList<>();
@@ -42,7 +50,6 @@ public class Experimental implements Serializable {
     public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
-    private List<BarcodeTrial> barcodeTrials = new ArrayList<>();
 
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
@@ -56,27 +63,18 @@ public class Experimental implements Serializable {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials, int enableGeo, String expID){
-        this.owner = owner;
+    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
         this.name = name;
+        this.owner = owner;
         this.description = description;
         this.rules = rules;
-        this.enableGeo = enableGeo;
         this.type = type;
         this.minTrials = minTrials;
-        this.expID = expID;
     }
+
+
     public Experimental() {
-        }
 
-    public int getEnableGeo() {
-        return enableGeo;
-    }
-
-
-    public void setEnableGeo(int enableGeo) {
-        this.enableGeo = enableGeo;
     }
 
     public String getOwnerName() { return owner.getUsername(); };
@@ -185,12 +183,14 @@ public class Experimental implements Serializable {
         return published;
     }
 
+
     /**
      * Ends the experiment, meaning no more results can be contributed.
      */
-    public void endExperiment(){
-        active = false;
+    public void setActive(boolean active) {
+        this.active = active;
     }
+
 
     public Boolean getActive() { return active; }
 
@@ -242,17 +242,4 @@ public class Experimental implements Serializable {
             contributors.remove((User) user);
     }
 
-    public String getExpID() {
-        return expID;
-    }
-
-    public List<BarcodeTrial> getBarcodeTrials() {
-        return barcodeTrials;
-    }
-
-    public void addBarcodeTrial(BarcodeTrial barcodeTrial) {
-        barcodeTrials.add(barcodeTrial);
-    }
 }
-
-
