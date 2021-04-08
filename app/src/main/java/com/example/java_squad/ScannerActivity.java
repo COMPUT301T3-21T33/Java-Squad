@@ -41,6 +41,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class ScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView scannerView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    RecordBinomialTrial data = RecordBinomialTrial.getDataBase();
     DateConverter stringDate = new DateConverter();
 
 
@@ -140,7 +141,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     private void QRCodeScanned(String rawResult) {
         String[] values = rawResult.split(",");
         db      .collection("Experiment")
-                .document(experiment.getExpID())
+                .document(experiment.getTypeString())
                 .collection("Trails")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -165,10 +166,10 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                                             Trial trial = new Trial(Boolean.parseBoolean(values[4]),
                                                     values[3],
                                                     Boolean.parseBoolean(values[5]),
-                                                    values[1],
-                                            db.collection("Experiments")
+                                                    values[1]);
+                                            data.trialDataList(db.collection("Experiments")
                                                     .document(values[0])
-                                                    .collection("Trials")
+                                                    .collection("Trial")
                                                     .document(trial.getTrialID()), trial);
                                         }
                                     }
@@ -176,15 +177,14 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                                     Trial trial = new Trial(Boolean.parseBoolean(values[4]),
                                             values[3],
                                             Float.parseFloat(values[2]),
-                                            values[1],
-                                            UUID.randomUUID().toString(),
-                                    db.collection("Experiments")
+                                            values[1]);
+                                    data.trialDataList(db.collection("Experiments")
                                             .document(values[0])
                                             .collection("Trials")
-                                            .document(Trial.getTrialID()), trial);
+                                            .document(trial.getTrialID()), trial);
                                 }
                             }
                         }
                     }
                 });
-    }
+    }}
