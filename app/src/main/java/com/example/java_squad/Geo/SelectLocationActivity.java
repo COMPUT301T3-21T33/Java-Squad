@@ -35,7 +35,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-public class SelectLocationActivity extends AppCompatActivity implements OnMapReadyCallback, AddBinomialTrialFragment.OnFragmentInteractionListener{
+public class SelectLocationActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     boolean isPermissionGranter;
@@ -76,20 +76,9 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
                 Bundle bundle = new Bundle();
                 bundle.putString("Longitude", String.valueOf(longitude));
                 bundle.putString("Latitude", String.valueOf(latitude));
-                AddBinomialTrialFragment fragobj = new AddBinomialTrialFragment();
-                fragobj.setArguments(bundle);
                 Log.d("ok pressed","test 0000000000");
+                Toast.makeText(SelectLocationActivity.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
 
-                getSupportFragmentManager().beginTransaction().add(R.id.container, fragobj).commit();
-//                AddBinomialTrialFragment fragment = new AddBinomialTrialFragment();
-//                fragment.setArguments(bundle);
-//                FragmentManager frgManager = getFragmentManager();
-//                android.app.FragmentTransaction ft = frgManager.beginTransaction();
-//                ft.addToBackStack(null);
-//                ft.add(R.id.fab, fragment);
-//                ft.commit();
-
-                Log.d("ok pressed","test 1111111111");
                 finish();    //finish current activity and go back to previous Activity
             }
         });
@@ -167,10 +156,5 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
 //                .position(sydney)
 //                .title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    @Override
-    public void onOkPressed(Binomial newTrail) {
-
     }
 }

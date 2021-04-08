@@ -29,7 +29,7 @@ public class AddIntCountTrialFragment extends DialogFragment {
     private EditText date;
     private Button addMarker;
     private OnFragmentInteractionListener listener;
-
+    private TextView warning;
 
     static AddIntCountTrialFragment newInstance(IntCount intCount){
         Bundle args = new Bundle();
@@ -65,8 +65,8 @@ public class AddIntCountTrialFragment extends DialogFragment {
         Log.d("fragment get geo","get received = "+geo);
 
         if (geo.equals("1")){
-            addMarker = view.findViewById(R.id.location);
-            addMarker.setEnabled(true);
+            warning = (TextView) view.findViewById(R.id.warning);
+            warning.setText("Geo-location is required");
         }
 
         count= view.findViewById(R.id.count);

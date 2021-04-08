@@ -108,6 +108,15 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         trialAdapter = new MeasurementCustomList(this, trialDataList);
         //
         trialList.setAdapter(trialAdapter);
+        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
+                if (experiment.getEnableGeo() == 1){
+                    Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
         DateConverter dateConverter = new DateConverter();
 
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
@@ -157,27 +166,27 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             }
         });
         //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
-        trialList.setOnTouchListener(new ListView.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                // Handle ListView touch events.
-                v.onTouchEvent(event);
-                return true;
-            }
-        });
+//        trialList.setOnTouchListener(new ListView.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = event.getAction();
+//                switch (action) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        // Disallow ScrollView to intercept touch events.
+//                        v.getParent().requestDisallowInterceptTouchEvent(true);
+//                        break;
+//
+//                    case MotionEvent.ACTION_UP:
+//                        // Allow ScrollView to intercept touch events.
+//                        v.getParent().requestDisallowInterceptTouchEvent(false);
+//                        break;
+//                }
+//
+//                // Handle ListView touch events.
+//                v.onTouchEvent(event);
+//                return true;
+//            }
+//        });
     }
     public void MapsActivity(View view){
         Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);

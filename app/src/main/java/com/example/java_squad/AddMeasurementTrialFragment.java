@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +27,7 @@ public class AddMeasurementTrialFragment extends DialogFragment {
     private EditText date;
     private Button addMarker;
     private OnFragmentInteractionListener listener;
-
+    private TextView warning;
 
     static AddMeasurementTrialFragment newInstance(Measurement measurement){
         Bundle args = new Bundle();
@@ -62,8 +63,8 @@ public class AddMeasurementTrialFragment extends DialogFragment {
         Log.d("fragment get geo","get received = "+geo);
 
         if (geo.equals("1")){
-            addMarker = view.findViewById(R.id.location);
-            addMarker.setEnabled(true);
+            warning = (TextView) view.findViewById(R.id.warning);
+            warning.setText("Geo-location is required");
         }
         amount= view.findViewById(R.id.amount);
         unit = view.findViewById(R.id.unit);

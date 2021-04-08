@@ -1,6 +1,7 @@
 package com.example.java_squad.Geo;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,7 +40,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 public class SelectLocationFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     boolean isPermissionGranter;
-    Context ctx;
+    private MapView mapView;
 
     @Nullable
     @Override
@@ -46,8 +48,8 @@ public class SelectLocationFragment extends Fragment implements OnMapReadyCallba
         //super.onCreateView(inflater, container, savedInstanceState)
         View view = inflater.inflate(R.layout.main_map,container,false);
         Log.d("Select location","in fragment select location");
-        SupportMapFragment supportMapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView));
-//        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView);
+        mapView = (MapView) view.findViewById(R.id.mapView);
+        //SupportMapFragment supportMapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView));
         Log.d("Select location","find id");
 
         checkPermission();
@@ -58,8 +60,10 @@ public class SelectLocationFragment extends Fragment implements OnMapReadyCallba
 //                mapView.getMapAsync(this);
 //                mapView.onCreate(savedInstanceState);
                 Log.d("Select location","try on map ready callback");
-
-                supportMapFragment.getMapAsync((OnMapReadyCallback) this);
+                mapView.onCreate(savedInstanceState);
+                mapView.onResume();
+                mapView.getMapAsync(this);
+                //supportMapFragment.getMapAsync((OnMapReadyCallback) this);
 
             }
 //            else {
@@ -114,7 +118,7 @@ public class SelectLocationFragment extends Fragment implements OnMapReadyCallba
     private void checkPermission () {
         Log.d("Select location","checking permission");
 
-        Dexter.withContext(ctx).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
+        Dexter.withContext(getContext()).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                 isPermissionGranter = true;
@@ -146,6 +150,8 @@ public class SelectLocationFragment extends Fragment implements OnMapReadyCallba
         mMap = googleMap;
         if (googleMap != null) {
             // your additional codes goes here
+            Log.d("Select location","googleMap not null");
+
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
@@ -169,10 +175,4 @@ public class SelectLocationFragment extends Fragment implements OnMapReadyCallba
             Log.d("Select Location","google map is null");
         }
     }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        ctx=context;
-    }
-
 }

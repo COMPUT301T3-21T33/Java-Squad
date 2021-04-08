@@ -36,8 +36,8 @@ public class AddBinomialTrialFragment extends DialogFragment {
     private RadioButton radioButton;
     private EditText experimenter;
     private EditText date;
-    private Button addMarker;
     private OnFragmentInteractionListener listener;
+    private TextView warning;
 
 
     static AddBinomialTrialFragment newInstance(Binomial binomial){
@@ -73,41 +73,9 @@ public class AddBinomialTrialFragment extends DialogFragment {
         Log.d("fragment get geo","get received = "+geo);
 
         if (geo.equals("1")){
-            addMarker = view.findViewById(R.id.location);
-            addMarker.setEnabled(true);
+            warning = (TextView) view.findViewById(R.id.warning);
+            warning.setText("Geo-location is required");
         }
-
-//        String longitude = getArguments().getString("Longitude");
-//        String latitude = getArguments().getString("Latitude");
-//
-//        if(longitude != null && !longitude.trim().isEmpty()){
-//            Log.d("longitude : ",longitude);
-//            Log.d("latitude and lat : ",latitude);
-//
-//        }
-
-        addMarker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Log.d("show all exp activity","show all experiments button clicked");
-//                Intent intent = new Intent(view.getContext(), com.example.java_squad.Geo.SelectLocationActivity.class);
-////        intent.putExtra("user", user);
-//                startActivity(intent);
-//                SelectLocationFragment nextFrag= new SelectLocationFragment();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.fab, nextFrag)
-//                        .addToBackStack(null)
-//                        .commit();
-//                dismiss();
-//                getTargetFragment().onActivityResult(position, Activity.RESULT_OK, getActivity().getIntent());
-                SelectLocationFragment someFragment = new SelectLocationFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.mainMap, someFragment ); // give your fragment container id in first parameter
-                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-                transaction.commit();
-
-            }
-        });
 
         result= view.findViewById(R.id.result);
         experimenter= view.findViewById(R.id.author);

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,10 @@ public class CountCustomList extends ArrayAdapter<Count> {
         Count count = trials.get(position);
         TextView amount = view.findViewById(R.id.count);
         TextView name = view.findViewById(R.id.experimenter);
-
+        ImageView addmap = view.findViewById(R.id.map);
+        if (count.getEnableGeo() == 1){
+            addmap.setImageResource(R.drawable.ic_baseline_map_red);
+        }
         Integer getAmount = count.getCount();
         String amountInString = Integer.toString(getAmount);
         String experimenterName = count.getExperimenter();
