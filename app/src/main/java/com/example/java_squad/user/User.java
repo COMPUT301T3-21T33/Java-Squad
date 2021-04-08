@@ -7,9 +7,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
+    private static User user;
     private String username;
     private String contact;
     private String userID;
+
+    public static User getUser(){
+        if (user == null){
+            user = new User();
+        }
+        return user;
+    }
 
     ArrayList<Experimental> ownedExperimentList;
     ArrayList<Experimental> followedExperimentList;

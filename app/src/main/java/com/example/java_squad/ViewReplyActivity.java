@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class ViewReplyActivity extends AppCompatActivity {
     Intent intent;
     List<String> replyList;
     ReplyAdapter adapter;
+    Button back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,10 +116,15 @@ public class ViewReplyActivity extends AppCompatActivity {
 
                     }
                 }).create().show();
-
-
             }
         });
+        /*back= findViewById(R.id.back_to_question);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });*/
 
 
     }

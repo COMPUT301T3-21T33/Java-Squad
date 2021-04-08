@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,23 +37,28 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+
     int enable;
     FirebaseDatabase db;
     DatabaseReference df;
     String userid;
     String expName;
     FirebaseFirestore fs;
-    Button viewQuestion;
     Double longitude;
     Double latitude;
+    Button viewQuestion,follow;
+    String ExperimentName;
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
-        Intent intent = getIntent();
-
+        intent = getIntent();
         experiment = (Experimental) intent.getSerializableExtra("experiment");
         Places.initialize(getApplicationContext(),"@string/API_key");
+
+        ExperimentName = experiment.getName();
 
         TextView experimentName = findViewById(R.id.experiment_name);
         TextView owner = findViewById(R.id.owner);
@@ -209,6 +215,42 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 intent.putExtra("experimentName", experiment.getName());
                 startActivity(intent);
 
+            }
+        });
+
+        String userid = intent.getStringExtra("id");
+        viewQuestion.setClickable(false);
+        follow = findViewById(R.id.follow_button);
+        DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        df.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            follow.setText("following");
+                            viewQuestion.setClickable(true);
+                        }
+                    }
+                }
+                else{
+                    follow.setText("following");
+                    viewQuestion.setClickable(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getText().toString().equals("follow")) {
+                    viewQuestion.setClickable(true);
+                    df.child("follow").child(ExperimentName).setValue(experiment);
+                }
             }
         });
     }

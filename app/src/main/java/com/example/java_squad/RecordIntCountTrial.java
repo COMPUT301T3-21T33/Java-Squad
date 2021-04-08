@@ -25,8 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -41,17 +41,21 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     String userid;
     String expName;
     FirebaseFirestore fs;
-    Button viewQuestion;
     Double longitude;
     Double latitude;
+    Button viewQuestion,follow;
+    String ExperimentName;
+    Intent intent;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
-        Intent intent = getIntent();
+
+        intent = getIntent();
         experiment = (Experimental) intent.getSerializableExtra("experiment");
         Places.initialize(getApplicationContext(),"@string/API_key");
+        ExperimentName = experiment.getName();
 
         TextView experimentName = findViewById(R.id.experiment_name);
         TextView owner = findViewById(R.id.owner);
@@ -223,6 +227,42 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
 
+
+        String userid = intent.getStringExtra("id");
+        viewQuestion.setClickable(false);
+        follow = findViewById(R.id.follow_button);
+        DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        df.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            follow.setText("following");
+                            viewQuestion.setClickable(true);
+                        }
+                    }
+                }
+                else{
+                    follow.setText("follow");
+                    viewQuestion.setClickable(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getText().toString().equals("follow")) {
+                    viewQuestion.setClickable(true);
+                    df.child("follow").child(ExperimentName).setValue(experiment);
+                }
+            }
+        });
 
         df.push().setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

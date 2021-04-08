@@ -2,6 +2,7 @@ package com.example.java_squad;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -65,5 +66,11 @@ public class ExperimentView extends AppCompatActivity {
 
     public void endExperiment(View view) {
         currentExperiment.endExperiment();
+    }
+
+    public void launchBarcodeSetup(View view) {
+        Intent intent = new Intent(this, BarcodeSetupActivity.class);
+        intent.putExtra("Experiment", currentExperiment);
+        startActivity(intent);
     }
 }
