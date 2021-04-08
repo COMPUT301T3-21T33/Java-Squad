@@ -5,10 +5,10 @@ import java.util.Date;
 /**
  * Trial class. The parent class for all other trial classes
  */
-public class Trial implements  Serializable{
+public class Trial{
+    private static String trialID;
     private String experimenter;
     private Date experiment_date;
-    private String trialID;
     private Integer enableGeo;
 
     /**
@@ -66,7 +66,7 @@ public class Trial implements  Serializable{
         this.experiment_date = experiment_date;
     }
 
-    public String getTrialID(){
+    public static String getTrialID(){
         return trialID;
     }
 

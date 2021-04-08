@@ -16,11 +16,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -35,9 +40,9 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView scannerView;
-    FirebaseDatabase database;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DatabaseReference df;
+    DateConverter stringDate = new DateConverter();
+
 
     Intent intent = getIntent();
     Experimental experiment = (Experimental) intent.getSerializableExtra("experiment");
@@ -134,32 +139,52 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
     private void QRCodeScanned(String rawResult) {
         String[] values = rawResult.split(",");
-            if (values[3].equals("Binomial")) {
-
-                for (int i = 1; i <= Integer.parseInt(values[2]); i++) {
-                    Trial trial = new Trial(Boolean.parseBoolean(values[4]),
-                            values[3],
-                            Boolean.parseBoolean(values[5]),
-                            values[1],
-                            UUID.randomUUID().toString());
-                    database.(.collection("FollowedExperiment")
-                            .document(values[0])
-                            .collection("Trials")
-                            .document(trial.getTrialID()), trial);
-                }
-
-            } else {
-                Trial trial = new Trial(Boolean.parseBoolean(values[4]),
-                        values[3],
-                        Float.parseFloat(values[2]),
-                        values[1],
-                        UUID.randomUUID().toString());
-                database.(db.collection("Experiments")
-                        .document(values[0])
-                        .collection("Trials")
-                        .document(trial.getTrialID ()),trial);
-            }
-            onBackPressed();
-        }
+        db      .collection("Experiment")
+                .document(experiment.getExpID())
+                .collection("Trails")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            int count = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                count+=1;
+                            }
+                            if (count >= experiment.getMinTrials()){
+                                onBackPressed();
+//
+                            } else{
+                                if (values[3].equals("Binomial")) {
+                                    //Need to add in given number of binomial trials
+                                    if (count+Integer.parseInt(String.valueOf((values[2])))> experiment.getMinTrials()){
+                                        onBackPressed();
+                                    }
+                                    else{
+                                        for (int i = 1; i <= Integer.parseInt(values[2]); i++) {
+                                            Trial trial = new Trial(Boolean.parseBoolean(values[4]),
+                                                    values[3],
+                                                    Boolean.parseBoolean(values[5]),
+                                                    values[1],
+                                            db.collection("Experiments")
+                                                    .document(values[0])
+                                                    .collection("Trials")
+                                                    .document(trial.getTrialID()), trial);
+                                        }
+                                    }
+                                } else {
+                                    Trial trial = new Trial(Boolean.parseBoolean(values[4]),
+                                            values[3],
+                                            Float.parseFloat(values[2]),
+                                            values[1],
+                                            UUID.randomUUID().toString(),
+                                    db.collection("Experiments")
+                                            .document(values[0])
+                                            .collection("Trials")
+                                            .document(Trial.getTrialID()), trial);
+                                }
+                            }
+                        }
+                    }
+                });
     }
-}
