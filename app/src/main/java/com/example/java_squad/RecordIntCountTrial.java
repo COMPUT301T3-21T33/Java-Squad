@@ -45,6 +45,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
+    String userid;
     Boolean  isfollow = false;
 
     Button viewQuestion,back_btn,viewMap,addTrialButton ;
@@ -201,7 +202,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
-
+        userid =intent.getStringExtra("id");
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
