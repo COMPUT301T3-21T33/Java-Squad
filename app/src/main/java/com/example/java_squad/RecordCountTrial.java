@@ -200,9 +200,19 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-        //get user id from previous activity
-        String userid = intent.getStringExtra("id");
-       
+        //view question
+        viewQuestion = findViewById(R.id.view_question_button);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                startActivity(intent);
+
+            }
+        });
+
+        //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
         df.addValueEventListener(new ValueEventListener() {
@@ -211,9 +221,10 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 if(snapshot.hasChild("follow")){
                     for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
                         if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            //if user followed this experiment, set the hearbutton to be full
                             follow.setImageResource(R.drawable.ic_action_liking);
-                            follow.setTag(R.drawable.ic_action_liking);
-                            isfollow = true;
+                            follow.setTag(R.drawable.ic_action_liking);//set tag
+                            isfollow = true; //set is follow to true
                         }
                     }
                 }
@@ -225,7 +236,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-
+        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
+        //else non clicked
         if (isfollow){
             viewQuestion.setClickable(true);
             addTrialButton.setClickable(true);
@@ -237,19 +249,28 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
         }
+        //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if user did not follow this experiment
                 if(follow.getTag()==null) {
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
+                    //update database 
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
+                //if user follow this experiment 
                 else{
+                    //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
+                    //update database 
                     df.child("follow").child(ExperimentName).removeValue();
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
@@ -257,6 +278,15 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
+        //back button
+        back_btn = findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
