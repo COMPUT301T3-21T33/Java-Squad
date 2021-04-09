@@ -10,7 +10,6 @@ public class Trial implements Serializable{
     private Integer enableGeo;
     private Double longitude;
     private Double latitude;
-    private Object value;
 
     private String trialID;
     /**
@@ -26,13 +25,12 @@ public class Trial implements Serializable{
      * @param latitude
      * latitude of geo location
      */
-    public Trial(String experimenter, String trialID, Integer enableGeo,Double longitude, Double latitude, Object value) {
+    public Trial(String experimenter, String trialID, Integer enableGeo,Double longitude, Double latitude) {
         this.experimenter = experimenter;
         this.trialID = trialID;
         this.enableGeo = enableGeo;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.value = value;
     }
 
     public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1) {
@@ -132,16 +130,4 @@ public class Trial implements Serializable{
      * Setters for value
      * @param value
      */
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    /**
-     * Getters for value
-     * @return value: object class that consists of the trial's value
-     * Returns value
-     */
-    public Object getValue() {
-        return value;
-    }
 }
