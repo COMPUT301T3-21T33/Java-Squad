@@ -116,14 +116,20 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            int counter = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(ExperimentName)){
                     for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
                         IntCount intCount = datasnapshot.getValue(IntCount.class);
                         trialDataList.add(intCount);
+                        counter++;
                     }
                     trialAdapter.notifyDataSetChanged();
+                    if (counter < experiment.getMinTrials()){
+                        String min = String.valueOf(experiment.getMinTrials());
+                        Toast.makeText(RecordIntCountTrial.this,"This experiment needs at least "+min+" trials", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
