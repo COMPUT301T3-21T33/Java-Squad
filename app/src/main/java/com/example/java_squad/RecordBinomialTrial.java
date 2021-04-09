@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +65,8 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     String expName;
     Double longitude;
     Double latitude;
-    Button viewQuestion, follow;
+    Button viewQuestion,back_btn;
+    ImageButton follow;
     Intent intent;
     String ExperimentName;
     private FirebaseFirestore db;
@@ -243,52 +245,51 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
-      viewQuestion = findViewById(R.id.view_question_button);
-      viewQuestion.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
-              intent.putExtra("experimentName", experiment.getName());
-              startActivity(intent);
 
-          }
-      });
+        String userid = intent.getStringExtra("id");
+        viewQuestion.setClickable(false);
 
-      String userid = intent.getStringExtra("id");
-      viewQuestion.setClickable(false);
-      follow = findViewById(R.id.follow_button);
-      DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("User").child(userid);
-      databaseReference.addValueEventListener(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot snapshot) {
-              if(snapshot.hasChild("follow")){
-                  for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
-                      if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
-                          follow.setText("following");
-                          viewQuestion.setClickable(true);
-                      }
-                  }
-              } else {
-                  follow.setText("following");
-                  viewQuestion.setClickable(true);
-              }
-          }
+        follow = findViewById(R.id.follow_button);
+        DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        df.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            follow.setImageResource(R.drawable.ic_action_liking);
+                            follow.setTag(R.drawable.ic_action_liking);
+                            viewQuestion.setClickable(true);
+                        }
+                    }
+                }
 
-          @Override
-          public void onCancelled(@NonNull DatabaseError error) {
+            }
 
-          }
-      });
-      follow.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              if (follow.getText().toString().equals("follow")) {
-                  viewQuestion.setClickable(true);
-                  databaseReference.child("follow").child(ExperimentName).setValue(experiment);
-              }
-          }
-      });
-  }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getTag()==null) {
+                    viewQuestion.setClickable(true);
+                    df.child("follow").child(ExperimentName).setValue(experiment);
+                }
+
+            }
+        });
+
+        back_btn = findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
     public void MapsActivity(View view){
         Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
 //        intent.putExtra("user", user);
@@ -318,8 +319,8 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         dataref.child(ExperimentName).child(key).setValue(newTrail);
 
-    public void trialDataList(DocumentReference document, Trial trial) {
-
+//    public void trialDataList(DocumentReference document, Trial trial) {
+//
     }
 
     @Override

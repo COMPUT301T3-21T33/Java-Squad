@@ -48,12 +48,6 @@ public class Trial{
         this.latitude = latitude;
     }
 
-    public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1) {
-    }
-
-    public Trial(boolean parseBoolean, String value, float parseFloat, String value1) {
-    }
-
 
     public Integer getEnableGeo() {
         return enableGeo;
@@ -78,20 +72,10 @@ public class Trial{
     /**
      * experiment_date getter
      */
-    public Date getExperiment_date() {
-        return experiment_date;
-    }
-    /**
-     * experiment_date setter
-     */
-    public void setExperiment_date(Date experiment_date) {
-        this.experiment_date = experiment_date;
-    }
 
     public void setTrialID(String trialID) {
         this.trialID = trialID;
-
-
+    }
     public String getTrialID(){
         return trialID;
     }
