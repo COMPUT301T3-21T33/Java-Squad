@@ -39,12 +39,14 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-    String userid;
+    FirebaseDatabase db;
+    FirebaseFirestore fs;
     Double longitude;
     Double latitude;
+    String userid;
     Boolean isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap,addTrialButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton;
     ImageButton follow;
 
     String ExperimentName;
@@ -66,15 +68,21 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         TextView type = findViewById(R.id.type);
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
+        barcodeButton = findViewById(R.id.experiment_barcode);
 
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
         viewMap = findViewById(R.id.view_map);
-
-        if (experiment.getEnableGeo() == 1){
-            viewMap.setEnabled(true);
-        }
+        addTrialButton = findViewById(R.id.add_trial_button);
+        viewQuestion = findViewById(R.id.view_question_button);
+//
+//        viewQuestion.setClickable(false);
+//        addTrialButton.setClickable(false);
+//        viewMap.setClickable(false);
+//        if (experiment.getEnableGeo() == 1){
+//            viewMap.setEnabled(true);
+//        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -141,7 +149,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         });
 
         //Add Statistic view button for count trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+        stat_btn =findViewById(R.id.view_stat_button);
+        stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //pass this datalist to statistic_RecordCountTrial
@@ -164,28 +173,17 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             }
         });
 
-        addTrialButton = findViewById(R.id.add_trial_button);
-        addTrialButton.setClickable(true);
+
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(experiment.getActive() && experiment.getPublished()){
-                    Bundle bundle = new Bundle();
-                    bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
-                    // set Fragmentclass Arguments
-                    AddCountTrialFragment fragobj = new AddCountTrialFragment();
-                    fragobj.setArguments(bundle);
-                    fragobj.show(getSupportFragmentManager(), "add trial");
-                    Log.d("record msg activity","add experiment trial button pressed");
-                }
-                else{addTrialButton.setClickable(false);}
-                /*Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
                 // set Fragmentclass Arguments
                 AddCountTrialFragment fragobj = new AddCountTrialFragment();
                 fragobj.setArguments(bundle);
                 fragobj.show(getSupportFragmentManager(), "add trial");
-                Log.d("record msg activity","add experiment trial button pressed");*/
+                Log.d("record msg activity","add experiment trial button pressed");
 
             }
         });
@@ -200,7 +198,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         });
         
         //view question
-        viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,7 +207,18 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-       
+
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), BarcodeActivity.class);
+                intent.putExtra("Experiment",experiment);
+                intent.putExtra("scanning", true);
+                startActivity(intent);
+
+            }
+        });
+
         userid =intent.getStringExtra("id");
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
@@ -225,6 +233,12 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
+                            viewQuestion.setClickable(true);
+                            addTrialButton.setEnabled(true);
+                            if (experiment.getEnableGeo() == 1){
+                                viewMap.setEnabled(true);
+                            }
+                            stat_btn.setClickable(true);
                         }
                     }
                 }
@@ -236,19 +250,13 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-        //else non clicked
-        if (isfollow){
-            viewQuestion.setClickable(true);
-            addTrialButton.setClickable(true);
-            viewMap.setClickable(true);
-
-        }
-        else{
+        if (!isfollow){
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
+            stat_btn.setClickable(false);
         }
+
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,21 +267,23 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    stat_btn.setClickable(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
-                //if user follow this experiment 
+                //if user follow this experiment
                 else{
                     //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
+                    stat_btn.setClickable(false);
                 }
 
             }

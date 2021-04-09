@@ -188,6 +188,14 @@
                 android:layout_marginLeft="20dp"
                 android:backgroundTint="@android:color/white"
                 android:drawableLeft="@android:drawable/ic_menu_add" />
+
+            <Button
+                android:id="@+id/experiment_barcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Scan Code"
+                android:translationX="100dp" />
         </LinearLayout>
         <ListView
             android:id="@+id/trail_list"
@@ -254,7 +262,7 @@
             android:textSize="10sp" />
 
         <Button
-            android:id="@+id/scanner"
+            android:id="@+id/generateCodeBTN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

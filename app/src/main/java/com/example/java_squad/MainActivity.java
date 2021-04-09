@@ -50,13 +50,14 @@ MainActivity extends AppCompatActivity {
 
         TelephonyManager telMan = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         sb.append("Account ID:" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID) +"\n");
-
+        //generate user id 
         userid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         tvUIDS.setText(sb.toString());
 
         username = findViewById(R.id.tv_uname);
         useremail = findViewById(R.id.tv_uemail);
-
+        //if user is first time use this account update database with she/his id
+        //else pass
         user = new User("","",userid);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
         Query query = myRef.equalTo(userid);
@@ -79,7 +80,7 @@ MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //show all the information the user had on the screen
         showAllOwnedList = findViewById(R.id.trail_list);
         allExpDataList = new ArrayList<>();
         followExp = findViewById(R.id.follow_exp);
@@ -134,7 +135,7 @@ MainActivity extends AppCompatActivity {
         followExpAdapter = new ExperimentCustomList(this, followExpDataList);
         followExp.setAdapter(followExpAdapter);
 
-
+        //press this button, go to the edit profile activity
         editProfile = findViewById(R.id.editProfile);
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +146,7 @@ MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //when press this button show all the experiment this user followed
         Button addTrialButton = findViewById(R.id.show_all_followed_exp);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +159,7 @@ MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //when press this button show all the experiment this user had
         showAllOwened = findViewById(R.id.show_all_owned);
         showAllOwened.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,13 +171,21 @@ MainActivity extends AppCompatActivity {
         });
     }
 
-
+/**
+     * Called when the search button is pressed. go to search activity.
+     * @param view
+     * Button being pressed.
+     */
     public void launchSearch(View view){
         Intent intent = new Intent(this, SearchActivity.class);
         intent.putExtra("id", userid);
         startActivity(intent);
     }
-
+    /**
+     * Called when the creat experiment button is pressed. go to create experiment activity.
+     * @param view
+     * Button being pressed.
+     */
     public void createExperiment(View view){
         Intent intent = new Intent(view.getContext(), ExperimentConstructor.class);
         intent.putExtra("id", userid);
