@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Trial class. The parent class for all other trial classes
  */
-public class Trial{
+public class Trial implements Serializable{
     private String experimenter;
     private Integer enableGeo;
     private Double longitude;
