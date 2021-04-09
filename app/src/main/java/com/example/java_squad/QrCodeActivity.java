@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.auth.User;
 
-public class QRCodeActivity extends AppCompatActivity {
+public class QrCodeActivity extends AppCompatActivity {
     QRCode QRcode = new QRCode();
     private static final int passID = 1;
     private static final int failID = 0;
@@ -32,6 +32,7 @@ public class QRCodeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Experimental experiment = (Experimental) intent.getSerializableExtra("experiment");
+        Trial trial = (Trial) intent.getSerializableExtra("trial");
 
         EditText value = findViewById(R.id.passesEditTextQR);
 
@@ -55,21 +56,6 @@ public class QRCodeActivity extends AppCompatActivity {
         }
         value.setInputType(inputType);
 
-        //merge with location when moved to test branch
-
-        CheckBox location = findViewById(R.id.);
-
-        //  if(experiment.getRegionOn()){
-        //       location.setChecked(true);
-        //    }
-
-        //    location.setOnClickListener(new View.OnClickListener() {
-        //      @Override
-        //       public void onClick(View v) {
-        //             Toast.makeText(getBaseContext(), "Location was turned "+experiment.()+" for this experiment.", Toast.LENGTH_SHORT).show();
-        //         }
-        //     });
-
         MaterialButton generate = findViewById(R.id.generateCodeBTN);
 
         generate.setOnClickListener(new View.OnClickListener() {
@@ -81,11 +67,11 @@ public class QRCodeActivity extends AppCompatActivity {
 
                 if (experiment.getTypeString().equals("Binomial")){
 
-                    QRCodeMessage = experiment.getExpID()+","+ value.getText().toString() +","+experiment.getTypeString()+",";//experiment.getRegionOn() + "," + findBinoType(binoChoice.getCheckedRadioButtonId());
+                    QRCodeMessage = value.getText().toString() +","+experiment.getTypeString()+"," + trial.getLatitude() + "," + trial.getLatitude() + "," +findBinoType(binoChoice.getCheckedRadioButtonId());
 
                 } else {
 
-                    QRCodeMessage = experiment.getExpID()+"," + value.getText().toString() + "," + experiment.getTypeString() + ","; //experiment.getRegionOn();
+                    QRCodeMessage =value.getText().toString() + "," + experiment.getTypeString() + ","+ trial.getLatitude() + "," + trial.getLatitude();
 
                 }
 
