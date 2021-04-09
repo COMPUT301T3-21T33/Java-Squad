@@ -16,13 +16,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.java_squad.Binomial;
 import com.example.java_squad.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -37,6 +41,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -52,11 +62,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     boolean isPermissionGranter;
+    String experimentName;
+    Double latitude;
+    Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        Intent intent = getIntent();
+        experimentName = intent.getStringExtra("experimentName");
+        Log.d("map activity","get experiment");
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
 
@@ -75,17 +92,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         }
-
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera. In this case,
-         * we just add a marker near Sydney, Australia.
-         *
-         * If Google Play services is not installed on the device, the user will be prompted to install
-         * it inside the SupportMapFragment. This method will only be triggered once the user has
-         * installed Google Play services and returned to the app.
-         */
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
     private boolean checkGooglePlayServices(){
@@ -135,28 +148,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title(latLng.latitude + ":" +latLng.longitude);
-                mMap.clear();
-                //LatLng currentPosition = new LatLng(location.latitude, location.longitude);
-//                Location loc = mMap.getMyLocation();
-//                LatLng currentLoc = new LatLng(loc.getLatitude(), loc.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,17));
-//                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-                mMap.addMarker(markerOptions);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("map activity","get data base");
+                if (snapshot.hasChild(experimentName)){
+                    for (DataSnapshot datasnapshot: snapshot.child(experimentName).getChildren()){
+//                        String userKey = datasnapshot.getKey();
+//                        Log.d("add marker get key",userKey);
+                        String latitudeStr = datasnapshot.child("latitude").getValue().toString();
+                        String longitudeStr = datasnapshot.child("longitude").getValue().toString();
+                        latitude = Double.parseDouble(latitudeStr);
+                        longitude = Double.parseDouble(longitudeStr);
+                        LatLng coord = new LatLng(latitude, longitude);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(coord));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(coord));
+                        Log.d("map activity",latitudeStr + " "+longitudeStr);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-//
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions()
-//                .position(sydney)
-//                .title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 }

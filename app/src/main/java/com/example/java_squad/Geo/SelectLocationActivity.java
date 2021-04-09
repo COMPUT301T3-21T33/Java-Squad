@@ -47,6 +47,7 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
 
@@ -57,16 +58,12 @@ public class SelectLocationActivity extends AppCompatActivity implements OnMapRe
 
         if (isPermissionGranter) {
             if (checkGooglePlayServices()) {
-//                Toast.makeText(ShowMap.this,"Google Play Services available", Toast.LENGTH_SHORT).show();
-//                mapView.getMapAsync(this);
-//                mapView.onCreate(savedInstanceState);
                 mapFragment.getMapAsync(this);
 
             } else {
                 Toast.makeText(SelectLocationActivity.this, "Google Play Services not available", Toast.LENGTH_SHORT).show();
 
             }
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         }
 
         FloatingActionButton fab = findViewById(R.id.fab);
