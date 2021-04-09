@@ -194,8 +194,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             }
         });
 
-        viewQuestion.setClickable(false);
-        addTrialButton.setClickable(false);
+        //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
         df.addValueEventListener(new ValueEventListener() {
@@ -204,10 +203,10 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 if(snapshot.hasChild("follow")){
                     for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
                         if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            //if user followed this experiment, set the hearbutton to be full
                             follow.setImageResource(R.drawable.ic_action_liking);
-                            follow.setTag(R.drawable.ic_action_liking);
-                            viewQuestion.setClickable(true);
-                            addTrialButton.setClickable(true);
+                            follow.setTag(R.drawable.ic_action_liking);//set tag
+                            isfollow = true; //set is follow to true
                         }
                     }
                 }
@@ -219,22 +218,26 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
+        //if isfollow is true set the viewquestion, addtril, viewmap button to be clicked
+        //else non clicked
         if (isfollow){
             viewQuestion.setClickable(true);
             addTrialButton.setClickable(true);
+            viewMap.setClickable(true);
 
         }
         else{
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
+            viewMap.setClickable(false);
         }
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int res = (int) follow.getTag();
-                if(res!=R.drawable.ic_action_liking) {
+                if(follow.getTag()==null) {
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
+                    viewMap.setClickable(true);
                     follow.setImageResource(R.drawable.ic_action_liking);
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
@@ -242,6 +245,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                     follow.setImageResource(R.drawable.ic_action_like);
                     df.child("follow").child(ExperimentName).removeValue();
                     viewQuestion.setClickable(false);
+                    viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
                 }
 
