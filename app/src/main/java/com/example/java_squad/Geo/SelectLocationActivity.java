@@ -34,7 +34,9 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-
+/**
+ * SelectLocationActivity class allows the user to select a location in the map
+ */
 public class SelectLocationActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;

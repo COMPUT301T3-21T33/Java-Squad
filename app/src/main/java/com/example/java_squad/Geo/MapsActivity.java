@@ -57,7 +57,9 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * MapsActivity class shows all the trials' Geo locations
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
