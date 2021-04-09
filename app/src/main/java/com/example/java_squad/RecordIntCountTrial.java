@@ -43,8 +43,9 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
+    Boolean  isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap ;
+    Button viewQuestion,back_btn,viewMap,addTrialButton ;
     ImageButton follow;
 
     String ExperimentName;
@@ -150,7 +151,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 }
             }
         });
-        Button addTrialButton = findViewById(R.id.add_trial_button);
+        addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,13 +210,31 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
+        if (isfollow){
+            viewQuestion.setClickable(true);
+            addTrialButton.setClickable(true);
+
+        }
+        else{
+            viewQuestion.setClickable(false);
+            addTrialButton.setClickable(false);
+        }
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(follow.getTag()==null) {
                     viewQuestion.setClickable(true);
+                    addTrialButton.setClickable(true);
+                    follow.setImageResource(R.drawable.ic_action_liking);
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
+                else{
+                    follow.setImageResource(R.drawable.ic_action_like);
+                    df.child("follow").child(ExperimentName).removeValue();
+                    viewQuestion.setClickable(false);
+                    addTrialButton.setClickable(false);
+                }
+
             }
         });
 
