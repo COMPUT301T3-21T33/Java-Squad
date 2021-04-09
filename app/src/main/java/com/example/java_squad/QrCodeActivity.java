@@ -2,23 +2,23 @@ package com.example.java_squad;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.firestore.auth.User;
+/**
+ * generate QR code activity
+ * @author Kyle
+ */
 
 public class QrCodeActivity extends AppCompatActivity {
     QRCode QRcode = new QRCode();
@@ -27,6 +27,7 @@ public class QrCodeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.experiment_for_experimenter);
         Button scan = findViewById(R.id.scanner);
         scan.setOnClickListener(new View.OnClickListener() {
             @Override

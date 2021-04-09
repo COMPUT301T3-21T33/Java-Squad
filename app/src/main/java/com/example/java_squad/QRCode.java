@@ -8,6 +8,15 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+/**
+ * Builds a bit matrix with message
+ * returns the bitmap to image
+ * Refrences: https://stackoverflow.com/questions/8800919/how-to-generate-a-qr-code-for-an-android-application,
+ * https://developers.google.com/ml-kit/vision/barcode-scanning/android#java
+ *
+ * @author Kyle
+ */
+
 public class QRCode {
     QRCodeWriter writer = new QRCodeWriter();
 
