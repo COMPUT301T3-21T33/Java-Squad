@@ -183,6 +183,8 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 startActivity(intent);
             }
         });
+        
+        //view question
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +220,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
-        //if isfollow is true set the viewquestion, addtril, viewmap button to be clicked
+        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
         //else non clicked
         if (isfollow){
             viewQuestion.setClickable(true);
@@ -231,19 +233,28 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
         }
+        //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if user did not follow this experiment
                 if(follow.getTag()==null) {
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
+                    //update database 
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
+                //if user follow this experiment 
                 else{
+                    //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
+                    //update database 
                     df.child("follow").child(ExperimentName).removeValue();
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
@@ -251,6 +262,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
+        //back button
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
