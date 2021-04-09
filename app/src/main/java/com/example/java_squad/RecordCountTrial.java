@@ -174,6 +174,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 startActivity(intent);
             }
         });
+        
+        //view question
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,9 +186,9 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-
+        //get user id from previous activity
         String userid = intent.getStringExtra("id");
-        viewQuestion.setClickable(false);
+       
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
         df.addValueEventListener(new ValueEventListener() {
@@ -197,7 +199,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                         if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);
-                            viewQuestion.setClickable(true);
+                            isfollow = true;
                         }
                     }
                 }
