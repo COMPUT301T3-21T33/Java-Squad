@@ -19,7 +19,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.util.Date;
-
+/**
+ * AddCountTrialFragment class providing a dialog for user to add a trial for Count type experiment
+ */
 public class AddCountTrialFragment extends DialogFragment {
     private EditText object;
     private EditText count;

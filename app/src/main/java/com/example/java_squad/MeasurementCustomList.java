@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-
+/**
+ * MeasurementCustomList class is used for array adapter to show a Measurement trial in the ListView.
+ */
 public class MeasurementCustomList extends ArrayAdapter<Measurement> {
     private ArrayList<Measurement> trials;
     private Context context;

@@ -28,7 +28,9 @@ import com.example.java_squad.Geo.SelectLocationFragment;
 
 import java.text.ParseException;
 import java.util.Date;
-
+/**
+ * AddBinomialTrialFragment class providing a dialog for user to add a trial for binomial type experiment
+ */
 public class AddBinomialTrialFragment extends DialogFragment {
     //https://www.youtube.com/watch?v=fwSJ1OkK304
     private TextView result;

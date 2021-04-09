@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-
+/**
+ * IntCountCustomList class is used for array adapter to show a int count trial in the ListView.
+ */
 public class IntCountCustomList extends ArrayAdapter<IntCount> {
     private ArrayList<IntCount> trials;
     private Context context;

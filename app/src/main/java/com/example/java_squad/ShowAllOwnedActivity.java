@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+/**
+ * ShowAllOwnedActivity class showing all the experiments owned by the user
+ */
 public class ShowAllOwnedActivity extends AppCompatActivity {
     ListView showAllOwnedList;
     ArrayAdapter<Experimental> allExpAdapter; // Bridge between dataList and cityList.

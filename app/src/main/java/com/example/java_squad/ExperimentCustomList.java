@@ -33,7 +33,7 @@ public class ExperimentCustomList extends ArrayAdapter<Experimental> {
         }
 
         Experimental experiment = experiments.get(position);
-        /**
+        /*
          * This section will need to be changed to show the results of different kinds of trials
          */
         TextView experiment_name = view.findViewById(R.id.experiment);

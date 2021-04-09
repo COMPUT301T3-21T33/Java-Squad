@@ -20,7 +20,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.util.Date;
-
+/**
+ * AddIntCountTrialFragment class providing a dialog for user to add a trial for IntCount type experiment
+ */
 public class AddIntCountTrialFragment extends DialogFragment {
     private Button increase;
     private Button decrease;

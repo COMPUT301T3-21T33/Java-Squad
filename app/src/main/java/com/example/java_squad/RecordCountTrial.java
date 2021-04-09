@@ -31,7 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
+/**
+ * RecordCountTrial class showing all the information of a Count type experiment for experimenters
+ */
 public class RecordCountTrial extends AppCompatActivity implements AddCountTrialFragment.OnFragmentInteractionListener{
     ListView trialList; // Reference to listview inside activity_main.xml
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.

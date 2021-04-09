@@ -31,7 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
+/**
+ * RecordMeasurementTrial class showing all the information of a Measurement type experiment for experimenters
+ */
 public class RecordMeasurementTrial extends AppCompatActivity implements AddMeasurementTrialFragment.OnFragmentInteractionListener {
 
     ListView trialList; // Reference to listview inside activity_main.xml

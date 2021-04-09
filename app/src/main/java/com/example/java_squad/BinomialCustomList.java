@@ -17,7 +17,9 @@ import androidx.annotation.Nullable;
 import com.example.java_squad.Geo.SelectLocationActivity;
 
 import java.util.ArrayList;
-
+/**
+ * BinomialCustomList class is used for array adapter to show a binomial trial in the ListView.
+ */
 public class BinomialCustomList extends ArrayAdapter<Binomial> {
     private ArrayList<Binomial> trials;
     private Context context;

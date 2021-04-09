@@ -53,7 +53,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
+/**
+ * RecordBinomialTrial class showing all the information of a Binomial type experiment for experimenters
+ */
 public class RecordBinomialTrial extends AppCompatActivity implements AddBinomialTrialFragment.OnFragmentInteractionListener {
 
     ListView trialList; // Reference to listview inside activity_main.xml

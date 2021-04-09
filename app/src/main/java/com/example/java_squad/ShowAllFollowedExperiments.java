@@ -20,7 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * ShowAllOwnedActivity class showing all the followed experiments
+ */
 public class ShowAllFollowedExperiments extends AppCompatActivity{
     ListView followedExpList; // Reference to listview inside activity_main.xml
     ArrayAdapter<Experimental> followedExpAdapter; // Bridge between dataList and cityList.

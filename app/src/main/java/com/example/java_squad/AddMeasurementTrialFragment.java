@@ -19,7 +19,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.util.Date;
-
+/**
+ * AddMeasurementTrialFragment class providing a dialog for user to add a trial for measurement type experiment
+ */
 public class AddMeasurementTrialFragment extends DialogFragment {
     private EditText amount;
     private EditText unit;
