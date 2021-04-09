@@ -70,30 +70,52 @@ public class ShowAllOwnedActivity extends AppCompatActivity {
                 Experimental experiment = (Experimental) adapterView.getAdapter().getItem(i);//experiments[i];
 
 
-                //get enable location attribute
-                /*boolean exp_geo_isenable = experiment.isEnable_location();
-                if (exp_geo_isenable == false ){
-                    Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentView.class);
+
+                /*Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentView.class);
+
+                intent.putExtra("experiment", experiment);
+                intent.putExtra("id", userid);
+                startActivity(intent);*/
+
+                Integer exp_type = experiment.getType();
+                if (exp_type == 0){
+                    Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentViewIntCount.class);
+
+                    //Log.d("main activity","on item click to start record trails");
 
                     intent.putExtra("experiment", experiment);
                     intent.putExtra("id", userid);
                     startActivity(intent);
 
-                }*/
-                Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentView.class);
+                }
+                else if (exp_type == 1) {
+                    Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentViewBinomial.class);
 
-                intent.putExtra("experiment", experiment);
-                intent.putExtra("id", userid);
-                startActivity(intent);
-                //else  {
-                //Intent intent = new Intent(ShowAllFollowedExperiments.this, RecordBinomialTrial.class);
+                    //Log.d("main activity","on item click to start record trails");
 
-                //Log.d("main activity","on item click to start record trails");
+                    intent.putExtra("experiment", experiment);
+                    intent.putExtra("id", userid);
+                    startActivity(intent);
+                }
+                else if (exp_type == 2) {
+                    Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentViewCount.class);
 
-                //intent.putExtra("experiment", experiment);
-                //intent.putExtra("id", userid);
-                //startActivity(intent);
-                //}
+                    //Log.d("main activity","on item click to start record trails");
+
+                    intent.putExtra("experiment", experiment);
+                    intent.putExtra("id", userid);
+                    startActivity(intent);
+                }
+                else if (exp_type == 3) {
+                    Intent intent = new Intent(ShowAllOwnedActivity.this, ExperimentViewMeasurement.class);
+
+                    //Log.d("main activity","on item click to start record trails");
+
+                    intent.putExtra("experiment", experiment);
+                    intent.putExtra("id", userid);
+                    startActivity(intent);
+                }
+
 
 
             }

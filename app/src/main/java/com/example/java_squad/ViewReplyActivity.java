@@ -44,10 +44,10 @@ public class ViewReplyActivity extends AppCompatActivity {
         questionView = findViewById(R.id.question_text_view);
         replyListView = findViewById(R.id.reply_list);
         replyList = new ArrayList<>();
-        //get questionid from presvious activity
+
         intent = getIntent();
         String questionID = intent.getStringExtra("questionID");
-        //get this question from database and set questionview to it
+
         df = FirebaseDatabase.getInstance().getReference("Question")
                 .child(intent.getStringExtra("experimentName")).child(questionID);
         df.addValueEventListener(new ValueEventListener() {
@@ -55,7 +55,7 @@ public class ViewReplyActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String text = snapshot.child("text").getValue().toString();
                 questionView.setText(text);
-      
+                //Log.d("frieda4", snapshot.child("reply").getValue().toString());
             }
 
             @Override
@@ -63,19 +63,17 @@ public class ViewReplyActivity extends AppCompatActivity {
 
             }
         });
-      
-        //create a database reference
+        Log.d("frieda", questionID);
+
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Question")
                 .child(intent.getStringExtra("experimentName")).child(questionID);
 
         dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-               //check if this question has reply or not
+                Log.d("frieda1", String.valueOf(datasnapshot.hasChild("reply")));
                 if (datasnapshot.hasChild("reply")) {
                     replyList.clear();
-                    //if there are some reply
-                    //add to the replylist and print on screen
                     for (DataSnapshot snapshot : datasnapshot.child("reply").getChildren()) {
                         String index = snapshot.getValue(String.class);
                         replyList.add(index);
@@ -84,7 +82,6 @@ public class ViewReplyActivity extends AppCompatActivity {
                             new ReplyAdapter(ViewReplyActivity.this, replyList);
                     replyListView.setAdapter(adapter);
                 }
-                //if not jut print a empty list on screen
                 else{
                     replyList.clear();
                     adapter =
@@ -98,14 +95,6 @@ public class ViewReplyActivity extends AppCompatActivity {
 
             }
         });
-        /**
-        * create click on the question text
-        * a dialog shows up to ask user add reply
-        * if click confirm, add reply and update database 
-        * if click cancel, no chenge, return to the raply list
-        *
-        * @author frieda
-        */
 
 
         questionView.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +118,6 @@ public class ViewReplyActivity extends AppCompatActivity {
                 }).create().show();
             }
         });
-        //creat a back button, when user click it, finish this acticity
         back= findViewById(R.id.back_to_question);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
