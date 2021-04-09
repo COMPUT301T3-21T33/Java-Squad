@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,8 +25,9 @@ public class AddCountTrialFragment extends DialogFragment {
     private EditText count;
     private EditText experimenter;
     private EditText date;
+    private Button addMarker;
     private AddCountTrialFragment.OnFragmentInteractionListener listener;
-
+    private TextView warning;
 
     static AddCountTrialFragment newInstance(Count count){
         Bundle args = new Bundle();
@@ -54,6 +57,15 @@ public class AddCountTrialFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.count_trial_fragment,null);
+
+        String geo = getArguments().getString("enable geo");
+        Log.d("fragment get geo","get received = "+geo);
+
+        if (geo.equals("1")){
+            warning = (TextView) view.findViewById(R.id.warning);
+            warning.setText("Geo-location is required");
+        }
+
         object= view.findViewById(R.id.object);
         count = view.findViewById(R.id.count);
         experimenter= view.findViewById(R.id.author);
@@ -73,12 +85,8 @@ public class AddCountTrialFragment extends DialogFragment {
                         String set_object = object.getText().toString();
                         String set_amount = count.getText().toString();
                         String set_experimenter = experimenter.getText().toString();
-                        Integer amountDouble = Integer.parseInt(set_amount);
-                        Count count = new Count();
-                        count.setObject(set_object);
-                        count.setExperimenter(set_experimenter);
-                        count.setCount(amountDouble);
-                        listener.onOkPressed(count);
+                        Integer amount = Integer.parseInt(set_amount);
+                        listener.onOkPressed(new Count(set_experimenter,"",0,1000.0,1000.0,set_object,amount));
 
                     }
                 }).create();

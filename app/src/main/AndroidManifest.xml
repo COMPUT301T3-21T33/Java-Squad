@@ -31,10 +31,14 @@
             android:label="Edit Profile"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ExperimentView" />
+
+        <activity android:name=".Geo.MapsActivity"/>
+        <activity android:name=".Geo.SelectLocationActivity"/>
         <activity
             android:name=".ShowAllFollowedExperiments"
             android:label="Experiment List"
             android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".RecordMeasurementTrial"
             android:label="Experiment"/>

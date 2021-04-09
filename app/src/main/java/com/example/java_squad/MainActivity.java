@@ -123,9 +123,7 @@ MainActivity extends AppCompatActivity {
                 else{
                     followExpDataList.clear();
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

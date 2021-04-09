@@ -27,8 +27,9 @@ public class AddIntCountTrialFragment extends DialogFragment {
     private TextView count;
     private EditText experimenter;
     private EditText date;
+    private Button addMarker;
     private OnFragmentInteractionListener listener;
-
+    private TextView warning;
 
     static AddIntCountTrialFragment newInstance(IntCount intCount){
         Bundle args = new Bundle();
@@ -59,6 +60,15 @@ public class AddIntCountTrialFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.int_count_trial_fragment,null);
+
+        String geo = getArguments().getString("enable geo");
+        Log.d("fragment get geo","get received = "+geo);
+
+        if (geo.equals("1")){
+            warning = (TextView) view.findViewById(R.id.warning);
+            warning.setText("Geo-location is required");
+        }
+
         count= view.findViewById(R.id.count);
         experimenter= view.findViewById(R.id.author);
         date= view.findViewById(R.id.date);
@@ -105,10 +115,8 @@ public class AddIntCountTrialFragment extends DialogFragment {
                         String set_count = count.getText().toString();
                         String set_experimenter = experimenter.getText().toString();
                         Integer amountInt = Integer.parseInt(set_count);
-                        IntCount intCount = new IntCount();
-                        intCount.setCount(amountInt);
-                        intCount.setExperimenter(set_experimenter);
-                        listener.onOkPressed(intCount);
+                        listener.onOkPressed(new IntCount(set_experimenter,"",0,1000.0,1000.0,amountInt));
+
 
                     }
                 }).create();

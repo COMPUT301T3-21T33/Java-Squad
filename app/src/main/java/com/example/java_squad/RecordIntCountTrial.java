@@ -14,13 +14,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,8 +37,16 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     ArrayAdapter<IntCount> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<IntCount> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    DatabaseReference df;
+    String userid;
+    String expName;
+    FirebaseFirestore fs;
+    Double longitude;
+    Double latitude;
+
     Button viewQuestion,back_btn ;
     ImageButton follow;
+
     String ExperimentName;
     Intent intent;
 
@@ -40,9 +54,10 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
-        intent = getIntent();
 
+        intent = getIntent();
         experiment = (Experimental) intent.getSerializableExtra("experiment");
+        Places.initialize(getApplicationContext(),"@string/API_key");
         ExperimentName = experiment.getName();
 
         TextView experimentName = findViewById(R.id.experiment_name);
@@ -90,14 +105,58 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
         trialList = findViewById(R.id.trail_list);
         trialDataList = new ArrayList<>();
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
-        myRef.addValueEventListener(new ValueEventListener() {
+
+        trialAdapter = new IntCountCustomList(this, trialDataList);
+        //
+        trialList.setAdapter(trialAdapter);
+        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
+                if (experiment.getEnableGeo() == 1){
+                    Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,3);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        DateConverter dateConverter = new DateConverter();
+
+        df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName);
+        df.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(ExperimentName)){
-                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
-                        IntCount intCount = datasnapshot.getValue(IntCount.class);
-                        trialDataList.add(intCount);
+                if (snapshot.hasChild("trials")) {
+                    // run some code
+                    trialDataList.clear();
+                    for(DataSnapshot ss: snapshot.child("trials").getChildren())
+                    {
+                        String enableGeo = ss.child("enableGeo").getValue().toString();
+                        String dateString = "2020-02-02";
+                        String experimenter = ss.child("experimenter").getValue().toString();
+                        String count = ss.child("count").getValue().toString();
+                        Integer c = Integer.parseInt(count);
+                        Integer geo = Integer.parseInt(enableGeo);
+                        String lonS = ss.child("longitude").getValue().toString();
+                        String latS = ss.child("latitude").getValue().toString();
+                        Double lon = Double.parseDouble(lonS);
+                        Double lat = Double.parseDouble(latS);
+
+
+                        trialDataList.add(new IntCount(experimenter, "",geo,lon,lat,c)); // Adding the cities and provinces from FireStore
+
+
+
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.hasChild(ExperimentName)){
+//                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
+//                        IntCount intCount = datasnapshot.getValue(IntCount.class);
+//                        trialDataList.add(intCount);
+//
                     }
                     trialAdapter.notifyDataSetChanged();
                 }
@@ -116,46 +175,18 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddIntCountTrialFragment().show(getSupportFragmentManager(), "add trial");
+                Bundle bundle = new Bundle();
+                bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
+                // set Fragmentclass Arguments
+                AddIntCountTrialFragment fragobj = new AddIntCountTrialFragment();
+                fragobj.setArguments(bundle);
+                fragobj.show(getSupportFragmentManager(), "add trial");
+
+                //new AddIntCountTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
         });
-        trialList.setOnTouchListener(new ListView.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                // Handle ListView touch events.
-                v.onTouchEvent(event);
-                return true;
-            }
-        });
-
-//        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-////                Intent pass = new Intent(view.getContext(), AddCityFragment.class);
-//                Measurement trial = trialDataList.get(i);
-//
-////                AddMeasurementTrailFragment frag = new AddMeasurementTrailFragment().newInstance(city);
-////                frag.show(getSupportFragmentManager(), "add trial");
-//
-//            }
-//        });
-
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +194,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
                 intent.putExtra("experimentName", experiment.getName());
                 startActivity(intent);
-
             }
         });
 
@@ -209,14 +239,73 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
     }
-
+    public void MapsActivity(View view){
+        Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
+//        intent.putExtra("user", user);
+        startActivity(intent);
+    }
 
     @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 3 && resultCode == RESULT_OK){
+            longitude = data.getDoubleExtra("longitude",0);
+            latitude = data.getDoubleExtra("latitude",0);
+            int position = data.getIntExtra("position",0);
+
+            IntCount trial = trialAdapter.getItem(position);
+            trial.setLongitude(longitude);
+            trial.setLatitude(latitude);
+            trial.setEnableGeo(0);
+            Log.d("get intcount",String.valueOf(trial.getLatitude()));
+            Toast.makeText(RecordIntCountTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+
+            replaceTrial(position,trial);
+
+        } else {
+            Log.d("record intcount","cannot receive coordinate");
+        }
+    }
+    private void replaceTrial(int index, IntCount updatedTrial) {
+//        int currentExperimentIndex = trialDataList.indexOf(trial);
+        trialDataList.set(index, updatedTrial);
+        trialAdapter = new IntCountCustomList(this, trialDataList);
+        trialList.setAdapter(trialAdapter);
+        trialAdapter.notifyDataSetChanged();
+
+    }
+    @Override
+
     public void onOkPressed(IntCount newTrail) {
+        newTrail.setEnableGeo(experiment.getEnableGeo());
         trialAdapter.add(newTrail);
+        df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
+
+
+        String key = df.push().getKey();
+        newTrail.setTrialID(key);
+        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                    Log.d("add trial", "successful with id ");
+                } else {
+                    Log.d("add trial", "not successful");
+                }
+            }
+        });
+
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
-        String key = dataref.push().getKey();
-        newTrail.setTrailID(key);
         dataref.child(ExperimentName).child(key).setValue(newTrail);
     }
+//    @Override
+//    public void onOkPressed(IntCount newTrail) {
+//        trialAdapter.add(newTrail);
+//        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+//        String key = dataref.push().getKey();
+//        newTrail.setTrailID(key);
+//        dataref.child(ExperimentName).child(key).setValue(newTrail);
+//
+//    }
 }

@@ -55,7 +55,6 @@ public class ShowAllFollowedExperiments extends AppCompatActivity{
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 

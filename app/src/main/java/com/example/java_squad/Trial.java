@@ -7,8 +7,10 @@ import java.util.Date;
  */
 public class Trial{
     private String experimenter;
-    private Date experiment_date;
     private Integer enableGeo;
+    private Double longitude;
+    private Double latitude;
+
     private String trialID;
     /**
      * Constructor for Binomial class.
@@ -17,13 +19,33 @@ public class Trial{
      * @param experiment_date
      * Date to create the new trial
      */
-
-    public Trial(String experimenter, Date experiment_date, String trialID, Integer enableGeo) {
+    public Trial(String experimenter, String trialID, Integer enableGeo,Double longitude, Double latitude) {
         this.experimenter = experimenter;
-        this.experiment_date = experiment_date;
         this.trialID = trialID;
         this.enableGeo = enableGeo;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+    public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1) {
+    }
 
+    public Trial(boolean parseBoolean, String value, float parseFloat, String value1) {
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public Trial(boolean parseBoolean, String value, boolean parseBoolean1, String value1) {
@@ -31,6 +53,7 @@ public class Trial{
 
     public Trial(boolean parseBoolean, String value, float parseFloat, String value1) {
     }
+
 
     public Integer getEnableGeo() {
         return enableGeo;
@@ -65,8 +88,11 @@ public class Trial{
         this.experiment_date = experiment_date;
     }
 
+    public void setTrialID(String trialID) {
+        this.trialID = trialID;
+
+
     public String getTrialID(){
         return trialID;
     }
-
 }

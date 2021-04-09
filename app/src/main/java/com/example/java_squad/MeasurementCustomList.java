@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,13 @@ public class MeasurementCustomList extends ArrayAdapter<Measurement> {
         TextView unit = view.findViewById(R.id.unit);
         TextView amount = view.findViewById(R.id.amount);
         TextView name = view.findViewById(R.id.experimenter);
-
+        ImageView addmap = view.findViewById(R.id.map);
+        if (measurement.getEnableGeo() == 1){
+            addmap.setImageResource(R.drawable.ic_baseline_map_red);
+        }
+        if(measurement.getEnableGeo() == 0){
+            addmap.setImageResource(R.drawable.ic_baseline_map_white);
+        }
         double getAmount = measurement.getAmount();
         String amountInString = Double.toString(getAmount);
         String experimenterName = measurement.getExperimenter();

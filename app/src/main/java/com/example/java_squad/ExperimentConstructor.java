@@ -31,6 +31,7 @@ public class ExperimentConstructor extends AppCompatActivity {
     EditText expDesc;
     EditText expRules;
     RadioGroup trialType;
+    RadioGroup enableGeo;
     EditText minTrials;
     Button submit;
     FirebaseDatabase db;
@@ -53,6 +54,7 @@ public class ExperimentConstructor extends AppCompatActivity {
         expRules = findViewById(R.id.editText_rules);
         minTrials = findViewById(R.id.editText_minTrials);
         trialType = findViewById(R.id.RadioGroup);
+        enableGeo = findViewById(R.id.geoRadioGroup);
         submit = findViewById(R.id.button_submit);
 
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
@@ -72,7 +74,12 @@ public class ExperimentConstructor extends AppCompatActivity {
                 int Etype = trialType.indexOfChild(radioButton);
                 String Erule = expRules.getText().toString();
                 String Edescription = expDesc.getText().toString();
-                Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin);
+
+                int geoRadioButtonID = enableGeo.getCheckedRadioButtonId();
+                View geoRadioButton = enableGeo.findViewById(geoRadioButtonID);
+                int geoidx = enableGeo.indexOfChild(geoRadioButton);
+
+                Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin,geoidx);
 
                 FirebaseDatabase.getInstance().getReference("User").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -113,7 +120,7 @@ public class ExperimentConstructor extends AppCompatActivity {
                         }
                         else{
                             df.child(Ename).setValue(newE);
-                            Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin);
+                            Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin,geoidx);
                             saveToExperiment.child(Ename).setValue(addToExp);
 
                         }

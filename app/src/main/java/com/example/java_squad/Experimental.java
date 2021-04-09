@@ -17,21 +17,12 @@ public class Experimental implements Serializable {
     private String name = "";
     private String description = "";
 
-
-
     private String rules = "";
-
-    /*public boolean isEnable_location() {
-        return enable_location;
-    }
-
-    public void setEnable_location(boolean enable_location) {
-        this.enable_location = enable_location;
-    }*/
+    private int enableGeo;
 
     //private Location location
     //dont know how to implement this yet
-    //private boolean enable_location = false;
+
     //whether the experiment can still be contributed to.
     private boolean active = true;
     //visibility to other users.
@@ -63,18 +54,26 @@ public class Experimental implements Serializable {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
-        this.name = name;
+
+    Experimental(User owner,String name, String description, String rules, int type, int minTrials, int enableGeo){
         this.owner = owner;
+        this.name = name;
         this.description = description;
         this.rules = rules;
         this.type = type;
         this.minTrials = minTrials;
+        this.enableGeo = enableGeo;
     }
-
-
     public Experimental() {
 
+    }
+
+    public int getEnableGeo() {
+        return enableGeo;
+    }
+
+    public void setEnableGeo(int enableGeo) {
+        this.enableGeo = enableGeo;
     }
 
     public String getOwnerName() { return owner.getUsername(); };

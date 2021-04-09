@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,8 +25,9 @@ public class AddMeasurementTrialFragment extends DialogFragment {
     private EditText unit;
     private EditText experimenter;
     private EditText date;
+    private Button addMarker;
     private OnFragmentInteractionListener listener;
-
+    private TextView warning;
 
     static AddMeasurementTrialFragment newInstance(Measurement measurement){
         Bundle args = new Bundle();
@@ -55,6 +58,14 @@ public class AddMeasurementTrialFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.measurement_trial_fragment,null);
+
+        String geo = getArguments().getString("enable geo");
+        Log.d("fragment get geo","get received = "+geo);
+
+        if (geo.equals("1")){
+            warning = (TextView) view.findViewById(R.id.warning);
+            warning.setText("Geo-location is required");
+        }
         amount= view.findViewById(R.id.amount);
         unit = view.findViewById(R.id.unit);
         experimenter= view.findViewById(R.id.author);
@@ -76,11 +87,9 @@ public class AddMeasurementTrialFragment extends DialogFragment {
                         String set_experimenter = experimenter.getText().toString();
                         double amountDouble = Double.parseDouble(set_amount);
 
-                        Measurement measurement = new Measurement();
-                        measurement.setAmount(amountDouble);
-                        measurement.setExperimenter(set_experimenter);
-                        measurement.setUnit(set_unit);
-                        listener.onOkPressed(measurement);
+                        Log.d("add experiment fragment","listener on ok pressed");
+                        listener.onOkPressed(new Measurement(set_experimenter,"",0,1000.0,1000.0,set_unit,amountDouble));
+
 
                     }
                 }).create();

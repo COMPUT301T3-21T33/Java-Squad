@@ -200,9 +200,6 @@
                 android:textSize="10dp"
                 android:onClick="launchSearch"
                 />
-
         </LinearLayout>
-
-
     </LinearLayout>
 </ScrollView>

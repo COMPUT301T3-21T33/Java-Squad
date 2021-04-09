@@ -33,7 +33,7 @@
                 android:id="@+id/follow_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-               android:scaleType="fitCenter"
+                android:scaleType="fitCenter"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="bottom"
                 android:scaleX="2"

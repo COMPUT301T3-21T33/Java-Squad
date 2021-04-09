@@ -7,6 +7,17 @@ import java.util.Date;
 public class Count extends Trial{
     private String object;
     private Integer count;
+
+    public Count(String experimenter, String trialID, Integer enableGeo, Double longitude, Double latitude, String object, Integer count) {
+        super(experimenter, trialID, enableGeo, longitude, latitude);
+        this.object = object;
+        this.count = count;
+    }
+
+//    public Count(String s, Object o, String s1, Integer integer) {
+//        super();
+//    }
+
     /**
      * Constructor for Count class.
      * @param experimenter
@@ -16,14 +27,6 @@ public class Count extends Trial{
      * @param count
      * The experiment result
      */
-    public Count(String experimenter,String trailID, String object, Integer count) {
-        super(experimenter,trailID);
-        this.object = object;
-        this.count = count;
-    }
-
-    public Count() {
-    }
 
     /**
      * get experiment object

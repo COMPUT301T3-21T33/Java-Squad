@@ -1,161 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ExperimentConstructor">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/prompt_top_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Enter Experiment Details"
+            android:textSize="30sp" />
+        <TextView
+            android:id="@+id/prompt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Experiment Name:"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/prompt_top_text"
+        <EditText
+            android:id="@+id/editText_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/prompt_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Description"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/prompt_rules"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rules:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_rules"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Rules"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/prompt_trial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trial Type:"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/RadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButton_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter Experiment Details"
-                android:textSize="30sp" />
-            <TextView
-                android:id="@+id/prompt_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Experiment Name:"
+                android:text="Count"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/editText_name"
+            <RadioButton
+                android:id="@+id/radioButton_binomial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Name"
-                android:inputType="textPersonName" />
-
-            <TextView
-                android:id="@+id/prompt_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description:"
+                android:text="Binomial (Pass / Fail)"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/editText_description"
+            <RadioButton
+                android:id="@+id/radioButton_integer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="Description"
-                android:inputType="textMultiLine" />
-
-            <TextView
-                android:id="@+id/prompt_rules"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Rules:"
+                android:text="Non-Neg. Integer Count"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/editText_rules"
+            <RadioButton
+                android:id="@+id/radioButton_measurement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="Rules"
-                android:inputType="textMultiLine" />
-
-            <TextView
-                android:id="@+id/prompt_trial"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Trial Type:"
+                android:text="Measurement"
                 android:textSize="18sp" />
 
-            <RadioGroup
-                android:id="@+id/RadioGroup"
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/prompt_minTrials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Minimum Trials:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_minTrials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/enable_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Geo-location:"
+            android:textSize="18sp" />
+        <RadioGroup
+            android:id="@+id/geoRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="74dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <RadioButton
-                    android:id="@+id/radioButton_count"
+                    android:id="@+id/geoRadioButton_disable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Count"
+                    android:text="False"
+                    android:layout_weight="1"
                     android:textSize="18sp" />
 
                 <RadioButton
-                    android:id="@+id/radioButton_binomial"
+                    android:id="@+id/geoRadioButton_enable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Binomial (Pass / Fail)"
+                    android:layout_weight="1"
+                    android:text="True"
                     android:textSize="18sp" />
+            </LinearLayout>
+        </RadioGroup>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <RadioButton
-                    android:id="@+id/radioButton_integer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Non-Neg. Integer Count"
-                    android:textSize="18sp" />
-
-                <RadioButton
-                    android:id="@+id/radioButton_measurement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Measurement"
-                    android:textSize="18sp" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/prompt_minTrials"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Minimum Trials:"
-                android:textSize="18sp" />
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:onClick="cancelButton"
+                android:text="CANCEL"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/editText_minTrials"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:text="0" />
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/button_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:text="SUBMIT"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/button_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:onClick="cancelButton"
-                    android:text="CANCEL"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
-                    android:id="@+id/button_submit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-
-                    android:text="SUBMIT"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

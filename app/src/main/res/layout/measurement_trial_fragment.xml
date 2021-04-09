@@ -7,15 +7,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-
         android:orientation="horizontal"
         android:weightSum="2">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="0.6"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="Experimenter:"/>
@@ -39,10 +37,9 @@
         android:weightSum="2">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="0.6"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="Amount:"/>
@@ -52,12 +49,20 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1.4"
-            android:hint="Select a date"
+            android:hint="yyyy-mm-dd"
             android:imeOptions="actionNext"
             android:paddingLeft="10dp"
             android:singleLine="true"/>
     </LinearLayout>
-  
-
-
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="@color/red"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:padding="5dp"
+        android:text=""/>
 </LinearLayout>
