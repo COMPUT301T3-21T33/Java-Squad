@@ -32,6 +32,8 @@ public class Trial implements Serializable{
     public Trial(boolean parseBoolean, String value, float parseFloat, String value1) {
     }
 
+    public Trial(){}
+
     public Double getLongitude() {
         return longitude;
     }

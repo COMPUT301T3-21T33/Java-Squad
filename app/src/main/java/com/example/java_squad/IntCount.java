@@ -18,6 +18,7 @@ public class IntCount extends Trial{
         super(experimenter, trailID,enableGeo, longitude, latitude);
         this.count = count;
     }
+    public IntCount(){}
     /**
      * get experiment count
      */

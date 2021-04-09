@@ -133,7 +133,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             trialDataListCount = new ArrayList<>();
             for (int i = 0; i < experimenter.length; i++) {
-                trialDataListCount.add((new Count(experimenter[i],null, object[i],amount[i])));
+                trialDataListCount.add((new Count(experimenter[i],"",0,0.0,0.0, object[i],amount[i])));
             }
             trialAdapterCount = new CountCustomList(this, trialDataListCount);
 
@@ -158,7 +158,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     trialDataListCount.remove(trial_count);
-                                    String id = trial_count.getTrailID();
+                                    String id = trial_count.getTrialID();
                                     DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Trail")
                                             .child(currentExperiment.getName())
                                             .child(id);
@@ -182,7 +182,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             trialDataListBinomial = new ArrayList<>();
             for (int i = 0; i < experimenter.length; i++) {
-                trialDataListBinomial.add((new Binomial(experimenter[i], binomial[i])));
+                trialDataListBinomial.add((new Binomial(experimenter[i], "",0,0.0,0.0,binomial[i])));
             }
             trialAdapterBinomial = new BinomialCustomList(this, trialDataListBinomial);
 
@@ -204,7 +204,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             trialDataListIntCount = new ArrayList<>();
             for (int i = 0; i < experimenter.length; i++) {
-                trialDataListIntCount.add((new IntCount(experimenter[i],null, count[i])));
+                trialDataListIntCount.add((new IntCount(experimenter[i],null,0,0.0,0.0,count[i])));
             }
             trialAdapterIntCount = new IntCountCustomList(this, trialDataListIntCount);
 
@@ -227,7 +227,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             trialDataListMeasurement = new ArrayList<>();
             for (int i = 0; i < experimenter.length; i++) {
-                trialDataListMeasurement.add((new Measurement(experimenter[i],null,unit[i],amount[i])));
+                trialDataListMeasurement.add((new Measurement(experimenter[i],null,0,0.0,0.0,unit[i],amount[i])));
             }
             trialAdapterMeasurement = new MeasurementCustomList(this, trialDataListMeasurement);
 
@@ -297,7 +297,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterCount.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrailID(key);
+        newTrail1.setTrialID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
@@ -306,7 +306,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterBinomial.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrailID(key);
+        newTrail1.setTrialID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
@@ -316,7 +316,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterIntCount.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrailID(key);
+        newTrail1.setTrialID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
@@ -326,7 +326,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterMeasurement.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrailID(key);
+        newTrail1.setTrialID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 

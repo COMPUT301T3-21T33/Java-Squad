@@ -172,37 +172,36 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         //
         trialList.setAdapter(trialAdapter);
 
-        df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
-        df.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                trialDataList.clear();
-                for(DataSnapshot ss: snapshot.getChildren())
-                {
-                    String enableGeo = ss.child("enableGeo").getValue().toString();
-                    String dateString = "2020-02-02";
-                    String experimenter = ss.child("experimenter").getValue().toString();
-                    String result = ss.child("result").getValue().toString();
-                    String lonS = ss.child("longitude").getValue().toString();
-                    String latS = ss.child("latitude").getValue().toString();
-                    Double lon = Double.parseDouble(lonS);
-                    Double lat = Double.parseDouble(latS);
-                    Integer geo = Integer.parseInt(enableGeo);
-                    trialDataList.add(new Binomial(experimenter,"",geo,lon,lat,result)); // Adding the cities and provinces from FireStore
-
-
-//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
-//        myRef.addValueEventListener(new ValueEventListener() {
+//        df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
+//        df.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.hasChild(ExperimentName)){
-//                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
-//                        Binomial binomial = datasnapshot.getValue(Binomial.class);
-//                        trialDataList.add(binomial);
+//                trialDataList.clear();
+//                for(DataSnapshot ss: snapshot.getChildren())
+//                {
+//                    String enableGeo = ss.child("enableGeo").getValue().toString();
+//                    String dateString = "2020-02-02";
+//                    String experimenter = ss.child("experimenter").getValue().toString();
+//                    String result = ss.child("result").getValue().toString();
+//                    String lonS = ss.child("longitude").getValue().toString();
+//                    String latS = ss.child("latitude").getValue().toString();
+//                    Double lon = Double.parseDouble(lonS);
+//                    Double lat = Double.parseDouble(latS);
+//                    Integer geo = Integer.parseInt(enableGeo);
+//                    trialDataList.add(new Binomial(experimenter,"",geo,lon,lat,result)); // Adding the cities and provinces from FireStore
 
 
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(ExperimentName)){
+                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
+                        Binomial binomial = datasnapshot.getValue(Binomial.class);
+                        trialDataList.add(binomial);
+                    }
+                    trialAdapter.notifyDataSetChanged();
                 }
-                trialAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -296,33 +295,39 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         startActivity(intent);
     }
 
+//    @Override
+//    public void onOkPressed(Binomial newTrail) {
+//        newTrail.setEnableGeo(experiment.getEnableGeo());
+//        trialAdapter.add(newTrail);
+//        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("follow").child(expName).child("trials");
+//
+//        String key = df.push().getKey();
+//        newTrail.setTrialID(key);
+//        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//
+//                    Log.d("add trial", "successful with id ");
+//                } else {
+//                    Log.d("add trial", "not successful");
+//                }
+//            }
+//        });
+//
+//        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+//        dataref.child(ExperimentName).child(key).setValue(newTrail);
+//
+//    }
     @Override
     public void onOkPressed(Binomial newTrail) {
         newTrail.setEnableGeo(experiment.getEnableGeo());
         trialAdapter.add(newTrail);
-        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
-
-        String key = df.push().getKey();
-        newTrail.setTrialID(key);
-        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-
-                    Log.d("add trial", "successful with id ");
-                } else {
-                    Log.d("add trial", "not successful");
-                }
-            }
-        });
-
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+        String key = dataref.push().getKey();
+        newTrail.setTrialID(key);
         dataref.child(ExperimentName).child(key).setValue(newTrail);
-
-//    public void trialDataList(DocumentReference document, Trial trial) {
-//
     }
-
     @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

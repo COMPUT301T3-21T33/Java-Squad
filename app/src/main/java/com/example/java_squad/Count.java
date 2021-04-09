@@ -14,6 +14,7 @@ public class Count extends Trial{
         this.count = count;
     }
 
+    public Count(){}
 //    public Count(String s, Object o, String s1, Integer integer) {
 //        super();
 //    }

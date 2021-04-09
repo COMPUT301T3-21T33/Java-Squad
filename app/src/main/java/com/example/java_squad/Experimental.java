@@ -70,6 +70,9 @@ public class Experimental implements Serializable {
 
     }
 
+    public Experimental(User user, String nameofE, String description, String rules, int t, int m) {
+    }
+
     public int getEnableGeo() {
         return enableGeo;
     }

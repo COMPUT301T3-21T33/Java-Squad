@@ -40,9 +40,9 @@ public class ShowAllFollowedExperiments extends AppCompatActivity{
         df.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                followedExpDataList.clear();
                 if (snapshot.hasChild("follow")){
                     for (DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
-                        followedExpDataList.clear();
                         Experimental exp = datasnapshot.getValue(Experimental.class);
                         followedExpDataList.add(exp);
                     }

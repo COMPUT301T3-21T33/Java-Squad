@@ -22,7 +22,7 @@ public class Binomial extends Trial{
         super(experimenter,trialID, enableGeo, longitude, latitude);
         this.result = result;
     }
-
+    public Binomial(){}
     /**
      * get experiment result
      */

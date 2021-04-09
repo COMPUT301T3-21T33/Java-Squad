@@ -124,37 +124,49 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             }
         });
 
-        DateConverter dateConverter = new DateConverter();
-
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                trialDataList.clear();
+//                for(DataSnapshot ss: snapshot.getChildren())
+//                {
+//                    String enableGeo = ss.child("enableGeo").getValue().toString();
+//                    String dateString = "2020-02-02";
+//                    String experimenter = ss.child("experimenter").getValue().toString();
+//                    String object = ss.child("object").getValue().toString();
+//                    String count = ss.child("count").getValue().toString();
+//                    Integer geo = Integer.parseInt(enableGeo);
+//                    Integer c = Integer.parseInt(count);
+//                    String lonS = ss.child("longitude").getValue().toString();
+//                    String latS = ss.child("latitude").getValue().toString();
+//                    Double lon = Double.parseDouble(lonS);
+//                    Double lat = Double.parseDouble(latS);
+//
+//                    trialDataList.add((new Count(experimenter, "",geo,lon,lat,object,c)));
+//
+//                    trialAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        trialAdapter = new CountCustomList(this, trialDataList);
+//
+//        trialList.setAdapter(trialAdapter);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                trialDataList.clear();
-                for(DataSnapshot ss: snapshot.getChildren())
-                {
-                    String enableGeo = ss.child("enableGeo").getValue().toString();
-                    String dateString = "2020-02-02";
-                    String experimenter = ss.child("experimenter").getValue().toString();
-                    String object = ss.child("object").getValue().toString();
-                    String count = ss.child("count").getValue().toString();
-                    Integer geo = Integer.parseInt(enableGeo);
-                    Integer c = Integer.parseInt(count);
-                    String lonS = ss.child("longitude").getValue().toString();
-                    String latS = ss.child("latitude").getValue().toString();
-                    Double lon = Double.parseDouble(lonS);
-                    Double lat = Double.parseDouble(latS);
-
-                    trialDataList.add((new Count(experimenter, "",geo,lon,lat,object,c)));
-
-
-//                if (snapshot.hasChild(ExperimentName)){
-//                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
-//                        Count count = datasnapshot.getValue(Count.class);
-//                        trialDataList.add(count);
-//
-//                    }
+                if (snapshot.hasChild(ExperimentName)){
+                    for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
+                        Count count = datasnapshot.getValue(Count.class);
+                        trialDataList.add(count);
+                    }
                     trialAdapter.notifyDataSetChanged();
                 }
             }
@@ -164,9 +176,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-        trialAdapter = new CountCustomList(this, trialDataList);
-
-        trialList.setAdapter(trialAdapter);
         Button addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,28 +311,36 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 //        newTrail.setTrailID(key);
 //        dataref.child(ExperimentName).child(key).setValue(newTrail);
 //    }
+//    @Override
+//    public void onOkPressed(Count newTrail) {
+//        newTrail.setEnableGeo(experiment.getEnableGeo());
+//        trialAdapter.add(newTrail);
+//        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("follow").child(expName).child("trials");
+//
+//        String key = df.push().getKey();
+//        newTrail.setTrialID(key);
+//        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//
+//                    Log.d("add trial", "successful with id ");
+//                } else {
+//                    Log.d("add trial", "not successful");
+//                }
+//            }
+//        });
+//
+//        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+//        dataref.child(ExperimentName).child(key).setValue(newTrail);
+//    }
     @Override
     public void onOkPressed(Count newTrail) {
         newTrail.setEnableGeo(experiment.getEnableGeo());
         trialAdapter.add(newTrail);
-        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("FollowedExperiment").child(expName).child("trials");
-
-        String key = df.push().getKey();
-        newTrail.setTrialID(key);
-        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-
-                    Log.d("add trial", "successful with id ");
-                } else {
-                    Log.d("add trial", "not successful");
-                }
-            }
-        });
-
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+        String key = dataref.push().getKey();
+        newTrail.setTrialID(key);
         dataref.child(ExperimentName).child(key).setValue(newTrail);
     }
-
 }
