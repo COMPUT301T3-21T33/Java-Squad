@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.java_squad.Geo.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -36,16 +37,12 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-    int enable;
     FirebaseDatabase db;
-    DatabaseReference df;
-    String userid;
-    String expName;
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
 
-    Button viewQuestion,back_btn;
+    Button viewQuestion,back_btn,viewMap;
     ImageButton follow;
 
     String ExperimentName;
@@ -71,7 +68,11 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
+        viewMap = findViewById(R.id.view_map);
 
+        if (experiment.getEnableGeo() == 1){
+            viewMap.setEnabled(true);
+        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -112,52 +113,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         //
         trialList.setAdapter(trialAdapter);
 
-        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
-                if (experiment.getEnableGeo() == 1){
-                    Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
-                    intent.putExtra("position", position);
-                    startActivityForResult(intent,2);
-                    startActivity(intent);
-                }
-            }
-        });
-
-//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                trialDataList.clear();
-//                for(DataSnapshot ss: snapshot.getChildren())
-//                {
-//                    String enableGeo = ss.child("enableGeo").getValue().toString();
-//                    String dateString = "2020-02-02";
-//                    String experimenter = ss.child("experimenter").getValue().toString();
-//                    String object = ss.child("object").getValue().toString();
-//                    String count = ss.child("count").getValue().toString();
-//                    Integer geo = Integer.parseInt(enableGeo);
-//                    Integer c = Integer.parseInt(count);
-//                    String lonS = ss.child("longitude").getValue().toString();
-//                    String latS = ss.child("latitude").getValue().toString();
-//                    Double lon = Double.parseDouble(lonS);
-//                    Double lat = Double.parseDouble(latS);
-//
-//                    trialDataList.add((new Count(experimenter, "",geo,lon,lat,object,c)));
-//
-//                    trialAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        trialAdapter = new CountCustomList(this, trialDataList);
-//
-//        trialList.setAdapter(trialAdapter);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -176,6 +131,19 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
+
+        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
+                if (experiment.getEnableGeo() == 1){
+                    Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,2);
+                    startActivity(intent);
+                }
+            }
+        });
+
         Button addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,29 +158,15 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-        //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
-//        trialList.setOnTouchListener(new ListView.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = event.getAction();
-//                switch (action) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Disallow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(true);
-//                        break;
-//
-//                    case MotionEvent.ACTION_UP:
-//                        // Allow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(false);
-//                        break;
-//                }
-//
-//                // Handle ListView touch events.
-//                v.onTouchEvent(event);
-//                return true;
-//            }
-//        });
-
+        viewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                Log.d("view map button clicked",experiment.getName());
+                startActivity(intent);
+            }
+        });
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,6 +244,12 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             Toast.makeText(RecordCountTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
 
             replaceTrial(position,trial);
+            DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Trail").child(ExperimentName);
+
+            HashMap updateData = new HashMap();
+            updateData.put("longitude", longitude);
+            updateData.put("latitude", latitude);
+            dataRef.child(trial.getTrialID()).updateChildren(updateData);
 
         } else {
             Log.d("record count","cannot receive coordinate");
@@ -303,37 +263,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         trialAdapter.notifyDataSetChanged();
     }
 
-//    @Override
-//    public void onOkPressed(Count newTrail) {
-//        trialAdapter.add(newTrail);
-//        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
-//        String key = dataref.push().getKey();
-//        newTrail.setTrailID(key);
-//        dataref.child(ExperimentName).child(key).setValue(newTrail);
-//    }
-//    @Override
-//    public void onOkPressed(Count newTrail) {
-//        newTrail.setEnableGeo(experiment.getEnableGeo());
-//        trialAdapter.add(newTrail);
-//        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("follow").child(expName).child("trials");
-//
-//        String key = df.push().getKey();
-//        newTrail.setTrialID(key);
-//        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if (task.isSuccessful()) {
-//
-//                    Log.d("add trial", "successful with id ");
-//                } else {
-//                    Log.d("add trial", "not successful");
-//                }
-//            }
-//        });
-//
-//        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
-//        dataref.child(ExperimentName).child(key).setValue(newTrail);
-//    }
+
     @Override
     public void onOkPressed(Count newTrail) {
         newTrail.setEnableGeo(experiment.getEnableGeo());

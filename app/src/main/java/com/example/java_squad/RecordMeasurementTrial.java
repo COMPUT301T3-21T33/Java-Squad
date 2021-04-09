@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.java_squad.Geo.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -28,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class RecordMeasurementTrial extends AppCompatActivity implements AddMeasurementTrialFragment.OnFragmentInteractionListener {
 
@@ -38,12 +41,11 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
     FirebaseDatabase db;
     DatabaseReference df;
     String userid;
-    String expName;
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
 
-    Button viewQuestion,back_btn,addTrialButton;
+    Button viewQuestion,back_btn,addTrialButton,viewMap;
     ImageButton follow;
 
     String ExperimentName;
@@ -71,7 +73,11 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
 
+        viewMap = findViewById(R.id.view_map);
 
+        if (experiment.getEnableGeo() == 1){
+            viewMap.setEnabled(true);
+        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -114,17 +120,6 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         trialAdapter = new MeasurementCustomList(this, trialDataList);
         //
         trialList.setAdapter(trialAdapter);
-        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
-                if (experiment.getEnableGeo() == 1){
-                    Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
-                    intent.putExtra("position", position);
-                    startActivityForResult(intent,4);
-                    startActivity(intent);
-                }
-            }
-        });
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -144,7 +139,17 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
-
+        trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
+                if (experiment.getEnableGeo() == 1){
+                    Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
+                    intent.putExtra("position", position);
+                    startActivityForResult(intent,4);
+                    startActivity(intent);
+                }
+            }
+        });
         addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +164,15 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 //new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
+            }
+        });
+        viewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                intent.putExtra("experimentName", experiment.getName());
+                Log.d("view map button clicked",experiment.getName());
+                startActivity(intent);
             }
         });
         viewQuestion = findViewById(R.id.view_question_button);
@@ -215,35 +229,12 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         });
     }
 
-
     public void MapsActivity(View view){
         Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
 //        intent.putExtra("user", user);
         startActivity(intent);
     }
 
-//    @Override
-//    public void onOkPressed(Measurement newTrail) {
-//        newTrail.setEnableGeo(experiment.getEnableGeo());
-//        trialAdapter.add(newTrail);
-//        df = FirebaseDatabase.getInstance().getReference("User").child(userid).child("follow").child(expName).child("trials");
-//        String key = df.push().getKey();
-//        newTrail.setTrialID(key);
-//        df.child(key).setValue(newTrail).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if (task.isSuccessful()) {
-//
-//                    Log.d("add trial", "successful with id ");
-//                } else {
-//                    Log.d("add trial", "not successful");
-//                }
-//            }
-//        });
-//
-//        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
-//        dataref.child(ExperimentName).child(key).setValue(newTrail);
-//    }
     @Override
     public void onOkPressed(Measurement newTrail) {
         newTrail.setEnableGeo(experiment.getEnableGeo());
@@ -269,6 +260,12 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             Toast.makeText(RecordMeasurementTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
 
             replaceTrial(position,trial);
+            DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Trail").child(ExperimentName);
+
+            HashMap updateData = new HashMap();
+            updateData.put("longitude", longitude);
+            updateData.put("latitude", latitude);
+            dataRef.child(trial.getTrialID()).updateChildren(updateData);
 
         } else {
             Log.d("record measurement","cannot receive coordinate");
