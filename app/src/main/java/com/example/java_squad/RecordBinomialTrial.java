@@ -249,11 +249,13 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         if (isfollow){
             viewQuestion.setClickable(true);
             addTrialButton.setClickable(true);
+            viewMap.setClickable(true);
 
         }
         else{
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
+            viewMap.setClickable(false);
         }
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,6 +263,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                 if(follow.getTag()==null) {
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
+                    viewMap.setClickable(true);
                     follow.setImageResource(R.drawable.ic_action_liking);
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
@@ -268,6 +271,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                     follow.setImageResource(R.drawable.ic_action_like);
                     df.child("follow").child(ExperimentName).removeValue();
                     viewQuestion.setClickable(false);
+                    viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
                 }
 
