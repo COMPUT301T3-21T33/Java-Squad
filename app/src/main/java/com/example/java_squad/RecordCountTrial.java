@@ -199,17 +199,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-        //view question
-        viewQuestion = findViewById(R.id.view_question_button);
-        viewQuestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
-                intent.putExtra("experimentName", experiment.getName());
-                startActivity(intent);
-
-            }
-        });
+       
         userid =intent.getStringExtra("id");
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
