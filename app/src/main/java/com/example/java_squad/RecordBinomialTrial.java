@@ -100,10 +100,12 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
-
-        viewQuestion.setClickable(false);
-        addTrialButton.setEnabled(false);
-        viewMap.setEnabled(false);
+        stat_btn = findViewById(R.id.view_stat_button);
+//
+//        stat_btn.setClickable(false);
+//        viewQuestion.setClickable(false);
+//        addTrialButton.setEnabled(false);
+//        viewMap.setEnabled(false);
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
@@ -179,7 +181,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         });
 
         //Add Statistic view button for binomial trials here
-        stat_btn =findViewById(R.id.view_stat_button);
+//        stat_btn =findViewById(R.id.view_stat_button);
         stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,21 +261,20 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                             stat_btn.setClickable(true);
 
                         }
-                        Log.d("if is followed exp name",datasnapshot.child("name").getValue().toString());
-
                     }
-                    Log.d("if is followed","has child follow");
-
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
+        if (!isfollow){
+            viewQuestion.setClickable(false);
+            addTrialButton.setClickable(false);
+            viewMap.setClickable(false);
+            stat_btn.setClickable(false);
+        }
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -75,10 +75,11 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
-
-        viewQuestion.setClickable(false);
-        addTrialButton.setClickable(false);
-        viewMap.setClickable(false);
+        stat_btn = findViewById(R.id.view_stat_button);
+//        stat_btn.setClickable(false);
+//        viewQuestion.setClickable(false);
+//        addTrialButton.setClickable(false);
+//        viewMap.setClickable(false);
 //
 //        if (experiment.getEnableGeo() == 1){
 //            viewMap.setEnabled(true);
@@ -149,7 +150,8 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         });
 
         //Add Statistic view button for integer count trials here
-        stat_btn = findViewById(R.id.view_stat_button);
+
+
         stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,6 +247,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
+            stat_btn.setClickable(false);
         }
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {

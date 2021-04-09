@@ -80,10 +80,12 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
+        stat_btn = findViewById(R.id.view_stat_button);
 
-        viewQuestion.setClickable(false);
-        addTrialButton.setClickable(false);
-        viewMap.setClickable(false);
+//        stat_btn.setClickable(false);
+//        viewQuestion.setClickable(false);
+//        addTrialButton.setClickable(false);
+//        viewMap.setClickable(false);
 
 //        if (experiment.getEnableGeo() == 1){
 //            viewMap.setEnabled(true);
@@ -157,7 +159,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         });
 
         //Add Statistic view button for measurement trials here
-        stat_btn =findViewById(R.id.view_stat_button);
+//        stat_btn =findViewById(R.id.view_stat_button);
         stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,6 +253,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
+            stat_btn.setClickable(false);
         }
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {

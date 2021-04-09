@@ -75,10 +75,10 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
-
-        viewQuestion.setClickable(false);
-        addTrialButton.setClickable(false);
-        viewMap.setClickable(false);
+//
+//        viewQuestion.setClickable(false);
+//        addTrialButton.setClickable(false);
+//        viewMap.setClickable(false);
 //        if (experiment.getEnableGeo() == 1){
 //            viewMap.setEnabled(true);
 //        }
@@ -238,6 +238,12 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
+        if (!isfollow){
+            viewQuestion.setClickable(false);
+            addTrialButton.setClickable(false);
+            viewMap.setClickable(false);
+            stat_btn.setClickable(false);
+        }
 
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
