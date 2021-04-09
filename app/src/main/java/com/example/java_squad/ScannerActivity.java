@@ -38,6 +38,13 @@ import java.util.UUID;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * This class creates the camera to scan barcode using the Zxing implementation
+ * When qrcode scanned, it will take the info from Trial database
+ * Reference: https://www.youtube.com/watch?v=AiNi9K94W5c&ab_channel=MdJamal
+ * @author Kyle
+ */
+
 public class ScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ZXingScannerView scannerView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -61,16 +68,14 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                         scannerView.startCamera();
                     }
-
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
                         Toast.makeText(getBaseContext(), "" + permissionDeniedResponse.isPermanentlyDenied(), Toast.LENGTH_SHORT).show();
                         if (permissionDeniedResponse.isPermanentlyDenied()) {
-                            //permission is permanently denied navigate to user setting
                             new AlertDialog.Builder(ScannerActivity.this)
                                     .setTitle("Camera permission was denied permanently.")
                                     .setMessage("Allow Camera access through your settings.")
-                                    .setPositiveButton("Go To Settings", new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("Go to Main page", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
