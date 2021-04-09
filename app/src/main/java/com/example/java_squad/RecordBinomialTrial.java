@@ -68,7 +68,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     Double longitude;
     Double latitude;
     Boolean isfollow = false;
-    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton, qrButton;
     ImageButton follow;
     Intent intent;
     String ExperimentName;
@@ -98,6 +98,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
         barcodeButton = findViewById(R.id.experiment_barcode);
+        qrButton = findViewById(R.id.generateCodeBTN);
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
@@ -249,6 +250,15 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                 intent.putExtra("scanning", true);
                 startActivity(intent);
 
+            }
+        });
+
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), QrCodeActivity.class);
+                intent.putExtra("Experiment",experiment);
+                startActivity(intent);
             }
         });
 
