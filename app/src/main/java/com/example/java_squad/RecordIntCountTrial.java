@@ -199,7 +199,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                         if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);
-                            viewQuestion.setClickable(true);
+                            isfollow = true;
                         }
                     }
                 }
