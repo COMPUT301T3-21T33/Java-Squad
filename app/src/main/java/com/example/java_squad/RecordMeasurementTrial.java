@@ -44,6 +44,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
+    Boolean  isfollow = false;
 
     Button viewQuestion,back_btn,addTrialButton,viewMap;
     ImageButton follow;
@@ -217,13 +218,32 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
+        if (isfollow){
+            viewQuestion.setClickable(true);
+            addTrialButton.setClickable(true);
+
+        }
+        else{
+            viewQuestion.setClickable(false);
+            addTrialButton.setClickable(false);
+        }
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(follow.getTag()==null) {
+                int res = (int) follow.getTag();
+                if(res!=R.drawable.ic_action_liking) {
                     viewQuestion.setClickable(true);
+                    addTrialButton.setClickable(true);
+                    follow.setImageResource(R.drawable.ic_action_liking);
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
+                else{
+                    follow.setImageResource(R.drawable.ic_action_like);
+                    df.child("follow").child(ExperimentName).removeValue();
+                    viewQuestion.setClickable(false);
+                    addTrialButton.setClickable(false);
+                }
+
             }
         });
         back_btn = findViewById(R.id.back_btn);
