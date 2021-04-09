@@ -56,7 +56,7 @@ public class ExperimentConstructor extends AppCompatActivity {
         trialType = findViewById(R.id.RadioGroup);
         enableGeo = findViewById(R.id.geoRadioGroup);
         submit = findViewById(R.id.button_submit);
-
+        //get database reference 
         df =  FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
         saveToExperiment = FirebaseDatabase.getInstance().getReference("Experiment");
 
@@ -80,7 +80,7 @@ public class ExperimentConstructor extends AppCompatActivity {
                 int geoidx = enableGeo.indexOfChild(geoRadioButton);
                 Log.d("Experiment Constructor",String.valueOf(geoidx));
                 Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin,geoidx);
-
+                //get user object for the user
                 FirebaseDatabase.getInstance().getReference("User").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -97,27 +97,27 @@ public class ExperimentConstructor extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
-
+                //check if the experiment name has benn already used
                 Query query = saveToExperiment.orderByChild("name").equalTo(Ename);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Boolean isEname = false;
+                        Boolean isEname = false;//if name has not yet been used
 
                         for (DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                             if (dataSnapshot.child("name").getValue().toString().equals(Ename))
                             {
-                                isEname = true;
+                                isEname = true;//name is been used 
                             }
                         }
-
+                        //check the input experiment is empty or not, cannot accept empty experiment name 
                         if(Ename.equals("") ) {
                             expName.setError("Name cannot be empty");
-                        }
+                        }//if the experiment name has been used 
                         else if (isEname){
                             expName.setError("This name have been used");
-                        }
+                        }//else everything is good create experiemnt and update daytabase
                         else{
                             df.child(Ename).setValue(newE);
                             Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin,geoidx);

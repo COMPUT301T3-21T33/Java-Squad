@@ -126,4 +126,8 @@ public class Trial implements Serializable{
     public String getTrialID(){
         return trialID;
     }
+    /**
+     * Setters for value
+     * @param value
+     */
 }
