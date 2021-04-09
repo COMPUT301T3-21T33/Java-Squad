@@ -83,14 +83,14 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         viewQuestion = findViewById(R.id.view_question_button);
         stat_btn = findViewById(R.id.view_stat_button);
 
-//        stat_btn.setClickable(false);
-//        viewQuestion.setClickable(false);
-//        addTrialButton.setClickable(false);
-//        viewMap.setClickable(false);
-
-//        if (experiment.getEnableGeo() == 1){
-//            viewMap.setEnabled(true);
-//        }
+        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
+        //else non clicked
+        if (!isfollow){
+            viewQuestion.setEnabled(false);
+            addTrialButton.setEnabled(false);
+            viewMap.setEnabled(false);
+            stat_btn.setEnabled(false);
+        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -231,12 +231,12 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
-                            viewQuestion.setClickable(true);
+                            viewQuestion.setEnabled(true);
                             addTrialButton.setEnabled(true);
                             if (experiment.getEnableGeo() == 1){
                                 viewMap.setEnabled(true);
                             }
-                            stat_btn.setClickable(true);
+                            stat_btn.setEnabled(true);
                         }
                     }
                 }
@@ -248,14 +248,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
-        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-        //else non clicked
-        if (!isfollow){
-            viewQuestion.setClickable(false);
-            addTrialButton.setClickable(false);
-            viewMap.setClickable(false);
-            stat_btn.setClickable(false);
-        }
+
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,10 +256,10 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 //if user did not follow this experiment
                 if(follow.getTag()==null) {
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-                    viewQuestion.setClickable(true);
-                    addTrialButton.setClickable(true);
-                    viewMap.setClickable(true);
-                    stat_btn.setClickable(true);
+                    viewQuestion.setEnabled(true);
+                    addTrialButton.setEnabled(true);
+                    viewMap.setEnabled(true);
+                    stat_btn.setEnabled(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
                     //update database
@@ -279,10 +272,10 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                     //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
-                    viewQuestion.setClickable(false);
-                    viewMap.setClickable(false);
-                    addTrialButton.setClickable(false);
-                    stat_btn.setClickable(false);
+                    viewQuestion.setEnabled(false);
+                    viewMap.setEnabled(false);
+                    addTrialButton.setEnabled(false);
+                    stat_btn.setEnabled(false);
                 }
 
             }

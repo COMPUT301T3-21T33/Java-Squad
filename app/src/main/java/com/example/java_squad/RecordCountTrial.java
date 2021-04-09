@@ -77,12 +77,12 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
 //
-//        viewQuestion.setClickable(false);
-//        addTrialButton.setClickable(false);
-//        viewMap.setClickable(false);
-//        if (experiment.getEnableGeo() == 1){
-//            viewMap.setEnabled(true);
-//        }
+        if (!isfollow){
+            viewQuestion.setEnabled(false);
+            addTrialButton.setEnabled(false);
+            viewMap.setEnabled(false);
+            stat_btn.setEnabled(false);
+        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -233,12 +233,12 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
-                            viewQuestion.setClickable(true);
+                            viewQuestion.setEnabled(true);
                             addTrialButton.setEnabled(true);
                             if (experiment.getEnableGeo() == 1){
                                 viewMap.setEnabled(true);
                             }
-                            stat_btn.setClickable(true);
+                            stat_btn.setEnabled(true);
                         }
                     }
                 }
@@ -250,12 +250,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-        if (!isfollow){
-            viewQuestion.setClickable(false);
-            addTrialButton.setClickable(false);
-            viewMap.setClickable(false);
-            stat_btn.setClickable(false);
-        }
+
+
 
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
@@ -264,10 +260,10 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 //if user did not follow this experiment
                 if(follow.getTag()==null) {
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-                    viewQuestion.setClickable(true);
-                    addTrialButton.setClickable(true);
-                    viewMap.setClickable(true);
-                    stat_btn.setClickable(true);
+                    viewQuestion.setEnabled(true);
+                    addTrialButton.setEnabled(true);
+                    viewMap.setEnabled(true);
+                    stat_btn.setEnabled(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
                     //update database
@@ -280,10 +276,10 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                     //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
-                    viewQuestion.setClickable(false);
-                    viewMap.setClickable(false);
-                    addTrialButton.setClickable(false);
-                    stat_btn.setClickable(false);
+                    viewQuestion.setEnabled(false);
+                    viewMap.setEnabled(false);
+                    addTrialButton.setEnabled(false);
+                    stat_btn.setEnabled(false);
                 }
 
             }
