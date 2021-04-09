@@ -1,166 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="5sp"
     tools:context=".ExperimentView">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/exp_name"
-            android:layout_width="match_parent"
+        <TableLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Experiment Name"
-            android:textSize="30sp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/exp_region"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Experiment Region (WIP)"
-            android:textSize="18sp" />
+            <TableRow>
 
-        <TextView
-            android:id="@+id/exp_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Date: xxxx-xx-xx"
-            android:textSize="18sp" />
+                <Button
+                    android:id="@+id/back_btn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:backgroundTint="@android:color/white"
+                    android:drawableLeft="@drawable/ic_action_name"></Button>
 
-        <TextView
-            android:id="@+id/exp_owner"
-            android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/exp_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Experiment Name"
+                    android:textSize="30sp" />
+
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Owner: xxxx"
-            android:textSize="18sp" />
+            android:orientation="horizontal">
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/exp_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_action_region"
+                    android:text="Experiment Region (WIP)"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/unpublish_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="60dp"
+                    android:text="unpublish"
+                    android:textSize="10dp" />
+
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TableRow>
+
+            <TextView
+                android:id="@+id/exp_owner"
+                android:layout_width="295dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_people"
+                android:text="Owner: xxxx"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/follow"
+                android:layout_width="46dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="60dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@android:color/white"
+                android:scaleType="fitCenter"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:src="@drawable/ic_action_like"
+                android:textSize="10sp" />
+
+
+        </TableRow>
+        </TableLayout>
+
 
         <TextView
             android:id="@+id/exp_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_type"
             android:text="Experiment Type: xxx"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ConstraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/exp_published"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="9dp"
-                android:text="Availability:"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ToggleButton
-                android:id="@+id/toggleButton_published"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:onClick="togglePublished"
-                android:text="ToggleButton"
-                android:textOff="PRIVATE"
-                android:textOn="PUBLIC"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/exp_published"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <TableRow>
+                <TextView
+                    android:id="@+id/exp_published"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="9dp"
+                    android:drawableLeft="@drawable/ic_action_avable"
+                    android:text="Availability:"
+                    android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/exp_active"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Status: In Progress"
-                android:textSize="24sp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/available_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="5dp"
+                    android:text="PUBLIC" />
+
+                <Button
+                    android:id="@+id/geolocation_enable"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="60dp"
+                    android:text="Enable Geo" />
+
+            </TableRow>
+        </TableLayout>
+
+
+
+        <TextView
+            android:id="@+id/exp_active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_status"
+            android:text="Status: In Progress"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/exp_desc_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_des"
             android:text="Description:"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/exp_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="380dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/border_ui"
             android:text="*Description goes here*"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/exp_rules_text"
-            android:layout_width="match_parent"
+        <TableLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rules:"
-            android:textSize="18sp" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/exp_rules"
-            android:layout_width="match_parent"
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/exp_rules_text"
+                    android:layout_width="54dp"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/ic_action_rule"
+                    android:text="Rules:"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/exp_rules"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*rules here*"
+                    android:textSize="18sp" />
+            </TableRow>
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="*rules here*"
-            android:textSize="18sp" />
+            android:orientation="horizontal">
 
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_action_trail"
+                    android:text="Trials:"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/add_trial"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="63dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="50dp"
+                    android:backgroundTint="@android:color/black"
+                    android:drawableLeft="@drawable/ic_action_add" />
+
+            </TableRow>
+        </TableLayout>
+
+        <ListView
+            android:id="@+id/owner_trial_list"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/border_ui">
+        </ListView>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/owner_trial_list"
+            tools:ignore="MissingConstraints">
+
+            <TableRow>
+                <Button
+                    android:id="@+id/statistic_owner"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="view Statistic" />
+            </TableRow>
+
+
+            <TableRow>
+                <Button
+                    android:id="@+id/view_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="view Question" />
+
+                <Button
+                    android:id="@+id/button_end_experiment"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="End Experiment" />
+            </TableRow>
+        </TableLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_end_experiment"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="endExperiment"
-        android:text="End Experiment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button_questions"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="View Questions"
-        app:layout_constraintBottom_toTopOf="@+id/button_end_experiment"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button_statistics"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="View Statistics"
-        app:layout_constraintBottom_toTopOf="@+id/button_questions"
-        app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

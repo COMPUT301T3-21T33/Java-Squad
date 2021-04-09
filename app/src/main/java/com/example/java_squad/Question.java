@@ -9,5 +9,29 @@ import java.util.List;
  */
 public class Question {
     private String text;
-    private List<Question> replies = new ArrayList<>();
+    private List<String> replies = new ArrayList<>();
+
+    public Question(String text) {
+        this.text = text;
+
+    }
+
+    public Question() {
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<String> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<String> replies) {
+        this.replies = replies;
+    }
 }

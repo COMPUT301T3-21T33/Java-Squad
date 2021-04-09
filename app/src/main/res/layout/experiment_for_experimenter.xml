@@ -8,11 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_name"
+                android:id="@+id/back_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:backgroundTint="@android:color/white"></Button>
             <TextView
                 android:id="@+id/experiment_name"
                 android:layout_width="wrap_content"
@@ -21,36 +29,19 @@
                 android:padding="10dp"
                 android:text="Experiment Name"
                 android:textSize="30sp" />
-            <Button
+            <ImageButton
                 android:id="@+id/follow_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Follow"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="bottom"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:src="@drawable/ic_action_like"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@android:color/white"
                 android:textSize="10sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-            <TextView
-                android:id="@+id/experiment_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Region:"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                />
-            <TextView
-                android:id="@+id/region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Region"
-                android:layout_weight="1.4"
-                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,29 +50,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
-                android:id="@+id/experiment_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Date:"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                />
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Date"
-                android:layout_weight="1.4"
-                android:textSize="20sp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-            <TextView
+                android:drawableLeft="@drawable/ic_action_people"
                 android:id="@+id/experiment_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,6 +74,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
+                android:drawableLeft="@drawable/ic_action_type"
                 android:id="@+id/experiment_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,6 +98,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
+                android:drawableLeft="@drawable/ic_action_avable"
                 android:id="@+id/experiment_availability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,6 +122,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
+                android:drawableLeft="@drawable/ic_action_status"
                 android:id="@+id/experiment_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,6 +141,7 @@
                 android:textSize="20sp" />
         </LinearLayout>
         <TextView
+            android:drawableLeft="@drawable/ic_action_des"
             android:id="@+id/experiment_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -196,6 +169,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
+                android:drawableLeft="@drawable/ic_action_trail"
                 android:id="@+id/experiment_trial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,15 +202,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
+
             <TextView
+                android:drawableLeft="@drawable/ic_action_all"
+
                 android:id="@+id/overall_stat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Overall:"
-                android:textSize="20sp"
                 android:layout_marginLeft="10dp"
-                />
+                android:text="Overall:"
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/overall"
                 android:layout_width="wrap_content"
@@ -246,15 +223,16 @@
                 android:layout_weight="1.4"
                 android:textSize="20sp" />
         </LinearLayout>
+
         <Button
             android:id="@+id/view_stat_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="View Statistics"
-            android:textSize="10sp"
             android:layout_marginLeft="10dp"
-            />
+            android:text="View Statistics"
+            android:textSize="10sp" />
+
         <Button
             android:id="@+id/view_question_button"
             android:layout_width="wrap_content"
@@ -264,5 +242,24 @@
             android:textSize="10sp"
             android:layout_marginLeft="10dp"
             />
+        <Button
+            android:id="@+id/view_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="View Map"
+            android:enabled="false"
+            android:textSize="10sp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <Button
+            android:id="@+id/scanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="QrCode"
+            android:textSize="10sp" />
     </LinearLayout>
 </ScrollView>

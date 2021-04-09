@@ -2,6 +2,8 @@ package com.example.java_squad;
 
 import com.example.java_squad.user.User;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +12,14 @@ import java.util.List;
  * !!Renamed to Experimental to merge code and work with search functionality
  * WIP. Written by Michael Harbidge
  */
-public class Experimental {
+public class Experimental implements Serializable {
     //Owner is assigned when constructing the Experiment, then cannot be changed.
     private User owner;
     private String name = "";
     private String description = "";
+
     private String rules = "";
+    private int enableGeo;
 
     //private Location location
     //dont know how to implement this yet
@@ -23,7 +27,7 @@ public class Experimental {
     //whether the experiment can still be contributed to.
     private boolean active = true;
     //visibility to other users.
-    private boolean published = false;
+    private boolean published = true;
 
     //users who have subscribed to the project
     private List<User> subscibers = new ArrayList<>();
@@ -35,9 +39,10 @@ public class Experimental {
 
     //minimum number of trials before results are considered
     private int minTrials;
-    private List<Trial> trials = new ArrayList<>();
+    public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
+    public ArrayList<BarcodeTrial> barcodeTrials = new ArrayList<>();
 
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
@@ -51,14 +56,32 @@ public class Experimental {
      * @param minTrials
      * Minimum number of trials for the results/stats to be calculated.
      */
-    Experimental(User owner,String name, String description, String rules, int type, int minTrials){
-        this.name = name;
+
+    Experimental(User owner,String name, String description, String rules, int type, int minTrials, int enableGeo){
         this.owner = owner;
+        this.name = name;
         this.description = description;
         this.rules = rules;
         this.type = type;
         this.minTrials = minTrials;
+        this.enableGeo = enableGeo;
     }
+    public Experimental() {
+
+    }
+
+    public Experimental(User user, String nameofE, String description, String rules, int t, int m) {
+    }
+
+    public int getEnableGeo() {
+        return enableGeo;
+    }
+
+    public void setEnableGeo(int enableGeo) {
+        this.enableGeo = enableGeo;
+    }
+
+    public String getOwnerName() { return owner.getUsername(); };
 
     /**
      * Updates name of the experiment.
@@ -77,6 +100,14 @@ public class Experimental {
     public void setDescription(String newDesc){ description = newDesc; }
 
     public String getDescription(){ return description; }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 
     /**
      * Updates the rules of the experiment
@@ -156,12 +187,14 @@ public class Experimental {
         return published;
     }
 
+
     /**
      * Ends the experiment, meaning no more results can be contributed.
      */
-    public void endExperiment(){
-        active = false;
+    public void setActive(boolean active) {
+        this.active = active;
     }
+
 
     public Boolean getActive() { return active; }
 

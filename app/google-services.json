@@ -71,35 +71,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1082968311743:android:7553f052e45c95d740c30a",
-        "android_client_info": {
-          "package_name": "io.github.java_squad"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1082968311743-3k6ifm4gucsbmspubjal6dlt7qkdechi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBS3_ZemkHKtDo6Bx1en3xT-i94Zau6VH4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1082968311743-3k6ifm4gucsbmspubjal6dlt7qkdechi.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"

@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.java_squad">
 
-    <uses-permission android:name = "android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,8 +15,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaSquad">
-        <activity android:name=".ExperimentView"></activity>
-        <activity android:name=".ExperimentConstructor" />
+        <activity android:name=".ShowAllOwnedActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="Your Experiment"></activity>
+        <activity android:name=".ViewReplyActivity"
+           />
+        <activity
+            android:name=".ViewQuestionActivity"
+            android:label="Question"
+             />
+        <activity
+            android:name=".ViewFollowActivity"
+            android:label="Followed Experiment"
+            android:parentActivityName=".SearchActivity" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:label="Edit Profile"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ExperimentView" />
+
+        <activity android:name=".Geo.MapsActivity"/>
+        <activity android:name=".Geo.SelectLocationActivity"/>
+        <activity
+            android:name=".ShowAllFollowedExperiments"
+            android:label="Experiment List"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".RecordMeasurementTrial"
+            android:label="Experiment"/>
+        <activity
+            android:name=".RecordCountTrial"
+            android:label="Experiment"/>
+        <activity
+            android:name=".RecordBinomialTrial"
+            android:label="Experiment"/>
+        <activity
+            android:name=".RecordIntCountTrial"
+            android:label="Experiment"/>
+        <activity
+            android:name=".ExperimentConstructor"
+            android:label="Add Experiment"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +64,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SearchActivity"
+            android:label="Search"
+            android:parentActivityName=".MainActivity"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB3JA1WdhqdDz1p3AxRCKAINhSPXLbfHvc" />
     </application>
 
 </manifest>
