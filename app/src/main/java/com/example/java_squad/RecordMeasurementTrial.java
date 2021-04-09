@@ -48,7 +48,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
     Double latitude;
     Boolean  isfollow = false;
 
-    Button viewQuestion,back_btn,addTrialButton,viewMap,stat_btn;
+    Button viewQuestion,back_btn,addTrialButton,viewMap,stat_btn,barcodeButton;
     ImageButton follow;
 
     String ExperimentName;
@@ -71,6 +71,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         TextView type = findViewById(R.id.type);
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
+        barcodeButton = findViewById(R.id.experiment_barcode);
 
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
@@ -292,6 +293,16 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), BarcodeActivity.class);
+                intent.putExtra("Experiment",experiment);
+                intent.putExtra("scanning", true);
+                startActivity(intent);
             }
         });
     }

@@ -46,7 +46,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     Double latitude;
     Boolean  isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton;
     ImageButton follow;
 
     String ExperimentName;
@@ -80,6 +80,11 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 //        viewQuestion.setClickable(false);
 //        addTrialButton.setClickable(false);
 //        viewMap.setClickable(false);
+        barcodeButton = findViewById(R.id.experiment_barcode);
+
+        viewQuestion.setClickable(false);
+        addTrialButton.setClickable(false);
+        viewMap.setClickable(false);
 //
 //        if (experiment.getEnableGeo() == 1){
 //            viewMap.setEnabled(true);
@@ -286,6 +291,17 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), BarcodeActivity.class);
+                intent.putExtra("Experiment",experiment);
+                intent.putExtra("scanning", true);
+                startActivity(intent);
+
             }
         });
     }

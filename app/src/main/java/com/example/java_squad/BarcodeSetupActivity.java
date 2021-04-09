@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -36,8 +37,13 @@ public class BarcodeSetupActivity extends AppCompatActivity {
     String barcode;
 
     EditText value;
+    EditText auxValue; // used for adding unit of measurement or object for those trials
 
     RadioGroup binomialValue;
+
+    DatabaseReference df;
+    FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +59,30 @@ public class BarcodeSetupActivity extends AppCompatActivity {
         experimentName.setText(expTitle);
 
         value = findViewById(R.id.editText_value);
+        auxValue = findViewById(R.id.editText_aux);
         binomialValue = findViewById(R.id.RadioGroup_bino);
 
-        if (currentExperiment.getType() == 1){
+        if (currentExperiment.getType() == 0 || currentExperiment.getType() == 3){
+            binomialValue.setVisibility(View.GONE);
+            value.setVisibility(View.VISIBLE);
+            auxValue.setVisibility(View.VISIBLE);
+            if (currentExperiment.getType() == 0)
+                auxValue.setHint("Object");
+            else
+                auxValue.setHint("Units");
+        }
+        else if (currentExperiment.getType() == 1){
             binomialValue.setVisibility(View.VISIBLE);
             value.setVisibility(View.GONE);
+            auxValue.setVisibility(View.GONE);
         }
         else{
             binomialValue.setVisibility(View.GONE);
             value.setVisibility(View.VISIBLE);
+            auxValue.setVisibility(View.GONE);
         }
+
+        //DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference();
 
     }
 
@@ -80,8 +100,9 @@ public class BarcodeSetupActivity extends AppCompatActivity {
 
         if (currentExperiment.getType() == 0) {
             int result = Integer.parseInt(value.getText().toString());
+            String object = auxValue.getText().toString();
 
-            Count trial = new Count("","",currentExperiment.getEnableGeo(), 0.0, 0.0,"", result);
+            Count trial = new Count("","",currentExperiment.getEnableGeo(), 0.0, 0.0,object, result);
             BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
             //NEEDS DATABASE LINK HERE
             currentExperiment.barcodeTrials.add(newTrial);
@@ -115,8 +136,9 @@ public class BarcodeSetupActivity extends AppCompatActivity {
         }
         else if (currentExperiment.getType() == 3){
             int result = Integer.parseInt(value.getText().toString());
+            String unit = auxValue.getText().toString();
 
-            Measurement trial = new Measurement("","",currentExperiment.getEnableGeo(), 0.0, 0.0, "",result);
+            Measurement trial = new Measurement("","",currentExperiment.getEnableGeo(), 0.0, 0.0, unit,result);
             BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
             //NEEDS DATABASE LINK HERE
             currentExperiment.barcodeTrials.add(newTrial);
