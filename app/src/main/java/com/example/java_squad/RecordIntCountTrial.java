@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,39 +28,39 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 /**
- * RecordIntCountTrial class showing all the information of a IntCount type experiment for experimenters
+ * RecordMeasurementTrial class showing all the information of a Measurement type experiment for experimenters
  */
-public class RecordIntCountTrial extends AppCompatActivity implements AddIntCountTrialFragment.OnFragmentInteractionListener {
-    //https://stackoverflow.com/questions/6210895/listview-inside-scrollview-is-not-scrolling-on-android#:~:text=You%20shouldn't%20put%20a,handled%20by%20the%20parent%20ScrollView%20.&text=For%20example%20you%20can%20add,ListView%20as%20headers%20or%20footers.
+public class RecordMeasurementTrial extends AppCompatActivity implements AddMeasurementTrialFragment.OnFragmentInteractionListener {
 
     ListView trialList; // Reference to listview inside activity_main.xml
-    ArrayAdapter<IntCount> trialAdapter; // Bridge between dataList and cityList.
-    ArrayList<IntCount> trialDataList; // Holds the data that will go into the listview
+    ArrayAdapter<Measurement> trialAdapter; // Bridge between dataList and cityList.
+    ArrayList<Measurement> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
+    FirebaseDatabase db;
     DatabaseReference df;
+    String userid;
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
-    String userid;
     Boolean  isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap,addTrialButton ;
+    Button viewQuestion,back_btn,addTrialButton,viewMap,stat_btn;
     ImageButton follow;
 
     String ExperimentName;
     Intent intent;
 
+
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.experiment_for_experimenter);
-
         intent = getIntent();
+
         experiment = (Experimental) intent.getSerializableExtra("experiment");
         Places.initialize(getApplicationContext(),"@string/API_key");
         ExperimentName = experiment.getName();
@@ -70,9 +71,11 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         TextView type = findViewById(R.id.type);
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
+
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
+
         viewMap = findViewById(R.id.view_map);
 
         if (experiment.getEnableGeo() == 1){
@@ -112,9 +115,12 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         type.setText(typeInStr);
 
         trialList = findViewById(R.id.trail_list);
-        trialDataList = new ArrayList<>();
 
-        trialAdapter = new IntCountCustomList(this, trialDataList);
+        // Get a top level reference to the collection
+//        userid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        userid = intent.getStringExtra("id");
+        trialDataList = new ArrayList<>();
+        trialAdapter = new MeasurementCustomList(this, trialDataList);
         //
         trialList.setAdapter(trialAdapter);
 
@@ -125,14 +131,14 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(ExperimentName)){
                     for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
-                        IntCount intCount = datasnapshot.getValue(IntCount.class);
-                        trialDataList.add(intCount);
-                        counter++;
+                        Measurement measurement = datasnapshot.getValue(Measurement.class);
+                        trialDataList.add(measurement);
+                        counter ++;
                     }
                     trialAdapter.notifyDataSetChanged();
                     if (counter < experiment.getMinTrials()){
                         String min = String.valueOf(experiment.getMinTrials());
-                        Toast.makeText(RecordIntCountTrial.this,"This experiment needs at least "+min+" trials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecordMeasurementTrial.this,"This experiment needs at least "+min+" trials", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -143,18 +149,18 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
 
-        //Add Statistic view button for integer count trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+        //Add Statistic view button for measurement trials here
+        stat_btn =findViewById(R.id.view_stat_button);
+        stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //pass this datalist to statistic_RecordIntCountTrial
-                Intent intent_s_IntC = new Intent(RecordIntCountTrial.this, Statistic_RecordIntCountTrial.class);
-                intent_s_IntC.putExtra("DataList_of_IntC_trials", trialDataList);
-                startActivity(intent_s_IntC);
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_C = new Intent(RecordMeasurementTrial.this, Statistic_RecordCountTrial.class);
+                intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
+                startActivity(intent_s_C);
                 //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
             }
         });
-
 
         trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -162,7 +168,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 if (experiment.getEnableGeo() == 1){
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
                     intent.putExtra("position", position);
-                    startActivityForResult(intent,3);
+                    startActivityForResult(intent,4);
                 }
             }
         });
@@ -173,11 +179,11 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 Bundle bundle = new Bundle();
                 bundle.putString("enable geo", String.valueOf(experiment.getEnableGeo()));
                 // set Fragmentclass Arguments
-                AddIntCountTrialFragment fragobj = new AddIntCountTrialFragment();
+                AddMeasurementTrialFragment fragobj = new AddMeasurementTrialFragment();
                 fragobj.setArguments(bundle);
                 fragobj.show(getSupportFragmentManager(), "add trial");
 
-                //new AddIntCountTrialFragment().show(getSupportFragmentManager(), "add trial");
+                //new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
                 Log.d("record msg activity","add experiment trial button pressed");
 
             }
@@ -191,6 +197,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 startActivity(intent);
             }
         });
+        
         //view question
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
@@ -202,7 +209,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
-        userid =intent.getStringExtra("id");
+
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
@@ -216,6 +223,10 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
+                            viewQuestion.setClickable(true);
+                            addTrialButton.setClickable(true);
+                            viewMap.setClickable(true);
+                            stat_btn.setClickable(true);
                         }
                     }
                 }
@@ -229,13 +240,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         });
         //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
         //else non clicked
-        if (isfollow){
-            viewQuestion.setClickable(true);
-            addTrialButton.setClickable(true);
-            viewMap.setClickable(true);
-
-        }
-        else{
+        if (!isfollow){
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
@@ -250,21 +255,23 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    stat_btn.setClickable(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
-                //if user follow this experiment 
+                //if user follow this experiment
                 else{
                     //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
+                    stat_btn.setClickable(false);
                 }
 
             }
@@ -278,7 +285,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
     }
-       
+
     public void MapsActivity(View view){
         Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
 //        intent.putExtra("user", user);
@@ -286,30 +293,39 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     }
 
     @Override
+    public void onOkPressed(Measurement newTrail) {
+        newTrail.setEnableGeo(experiment.getEnableGeo());
+        trialAdapter.add(newTrail);
+        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
+        String key = dataref.push().getKey();
+        newTrail.setTrialID(key);
+        dataref.child(ExperimentName).child(key).setValue(newTrail);
+    }
+    @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 3 && resultCode == RESULT_OK){
+        if (requestCode == 4 && resultCode == RESULT_OK){
             longitude = data.getDoubleExtra("longitude",0);
             latitude = data.getDoubleExtra("latitude",0);
             int position = data.getIntExtra("position",0);
 
-            IntCount trial = trialAdapter.getItem(position);
+            Measurement trial = trialAdapter.getItem(position);
             trial.setLongitude(longitude);
             trial.setLatitude(latitude);
             trial.setEnableGeo(0);
-            Log.d("get intcount",String.valueOf(trial.getLatitude()));
-            Toast.makeText(RecordIntCountTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+            Log.d("get measurement",String.valueOf(trial.getLatitude()));
+            Toast.makeText(RecordMeasurementTrial.this,"latitude = "+String.valueOf(latitude) + " longitude = "+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
 
             replaceTrial(position,trial);
-
             DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("Trail").child(ExperimentName);
+
             HashMap updateData = new HashMap();
             updateData.put("longitude", longitude);
             updateData.put("latitude", latitude);
             dataRef.child(trial.getTrialID()).updateChildren(updateData);
 
         } else {
-            Log.d("record intcount","cannot receive coordinate");
+            Log.d("record measurement","cannot receive coordinate");
         }
     }
     /**
@@ -319,21 +335,13 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
      * @param updatedTrial
      * the new trial to update
      */
-    private void replaceTrial(int index, IntCount updatedTrial) {
+
+    private void replaceTrial(int index, Measurement updatedTrial) {
 //        int currentExperimentIndex = trialDataList.indexOf(trial);
         trialDataList.set(index, updatedTrial);
-        trialAdapter = new IntCountCustomList(this, trialDataList);
+        trialAdapter = new MeasurementCustomList(this, trialDataList);
         trialList.setAdapter(trialAdapter);
         trialAdapter.notifyDataSetChanged();
-    }
 
-    @Override
-    public void onOkPressed(IntCount newTrail) {
-        newTrail.setEnableGeo(experiment.getEnableGeo());
-        trialAdapter.add(newTrail);
-        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
-        String key = dataref.push().getKey();
-        newTrail.setTrialID(key);
-        dataref.child(ExperimentName).child(key).setValue(newTrail);
     }
 }
