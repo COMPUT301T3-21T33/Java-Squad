@@ -135,28 +135,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <RadioButton
+                android:id="@+id/geoRadioButton_disable"
                 android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_height="wrap_content"
+                android:text="False"
+                android:layout_weight="1"
+                android:textSize="18sp" />
 
-                <RadioButton
-                    android:id="@+id/geoRadioButton_disable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="False"
-                    android:layout_weight="1"
-                    android:textSize="18sp" />
+            <RadioButton
+                android:id="@+id/geoRadioButton_enable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="True"
+                android:textSize="18sp" />
 
-                <RadioButton
-                    android:id="@+id/geoRadioButton_enable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="True"
-                    android:textSize="18sp" />
-            </LinearLayout>
         </RadioGroup>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/button_layout"

@@ -115,14 +115,20 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            int counter = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(ExperimentName)){
                     for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
                         Count count = datasnapshot.getValue(Count.class);
                         trialDataList.add(count);
+                        counter++;
                     }
                     trialAdapter.notifyDataSetChanged();
+                    if (counter < experiment.getMinTrials()){
+                        String min = String.valueOf(experiment.getMinTrials());
+                        Toast.makeText(RecordCountTrial.this,"This experiment needs at least "+min+" trials", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

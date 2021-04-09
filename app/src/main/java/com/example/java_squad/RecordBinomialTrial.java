@@ -150,14 +150,20 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trail");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            int counter = 0;
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(ExperimentName)){
                     for (DataSnapshot datasnapshot: snapshot.child(ExperimentName).getChildren()){
                         Binomial binomial = datasnapshot.getValue(Binomial.class);
                         trialDataList.add(binomial);
+                        counter ++;
                     }
                     trialAdapter.notifyDataSetChanged();
+                    if (counter < experiment.getMinTrials()){
+                        String min = String.valueOf(experiment.getMinTrials());
+                        Toast.makeText(RecordBinomialTrial.this,"This experiment needs at least "+min+" trials", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

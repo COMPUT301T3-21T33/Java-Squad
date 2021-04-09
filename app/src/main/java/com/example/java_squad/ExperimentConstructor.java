@@ -78,7 +78,7 @@ public class ExperimentConstructor extends AppCompatActivity {
                 int geoRadioButtonID = enableGeo.getCheckedRadioButtonId();
                 View geoRadioButton = enableGeo.findViewById(geoRadioButtonID);
                 int geoidx = enableGeo.indexOfChild(geoRadioButton);
-
+                Log.d("Experiment Constructor",String.valueOf(geoidx));
                 Experimental newE = new Experimental(new User(),Ename, Edescription,Erule,Etype, Emin,geoidx);
 
                 FirebaseDatabase.getInstance().getReference("User").addValueEventListener(new ValueEventListener() {
@@ -122,7 +122,6 @@ public class ExperimentConstructor extends AppCompatActivity {
                             df.child(Ename).setValue(newE);
                             Experimental addToExp = new Experimental(owner,Ename, Edescription,Erule,Etype, Emin,geoidx);
                             saveToExperiment.child(Ename).setValue(addToExp);
-
                         }
                     }
 
