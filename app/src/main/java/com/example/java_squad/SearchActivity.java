@@ -33,6 +33,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * search Activity, find keywords in the database and display some specific fields of activity
+ * @param: all parameters in the experiment in the database
+ * @return: active, ownername, descrption in the database
+ */
+
 public class SearchActivity extends AppCompatActivity implements ExperimentalAdapter.OnNoteListener  {
     List<Experimental> experimentals = new ArrayList<>();
     RecyclerView recyclerView;
