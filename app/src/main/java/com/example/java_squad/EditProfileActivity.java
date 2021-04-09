@@ -31,11 +31,7 @@ import java.util.HashMap;
 public class EditProfileActivity extends AppCompatActivity {
     EditText name, email;
     Button update;
-    FirebaseDatabase db;
     DatabaseReference df;
-    AuthCredential ac;
-    User user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,42 +41,49 @@ public class EditProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.username);
         email = findViewById(R.id.useremail);
         update = findViewById(R.id.updateprofile);
+        //get userid from mainActivity
         String userid = intent.getStringExtra("id");
+        //create database reference
         df = FirebaseDatabase.getInstance().getReference("User");
 
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //get usernme and useremail from input
                 String username = name.getText().toString();
                 String useremail = email.getText().toString();
 
-
+                //creat hashmap to store the data the user want to update
                 HashMap data = new HashMap();
                 data.put("username", username);
                 data.put("contact", useremail);
-
+                //creat query object to check if the username is already been used or not 
                 Query query = df.orderByChild("username").equalTo(username);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //creat boolean value, default is false
                         Boolean isUsername = false;
 
                         for (DataSnapshot dataSnapshot: snapshot.getChildren()){
 
                             if (dataSnapshot.child("username").getValue().toString().equals(username))
                             {
+                                //if find username in the database set isUsername to be true 
                                 isUsername = true;
                             }
                         }
-
+                        //if the input is empty, throw a error message on the screen 
                         if(username.equals("") || useremail.equals("")) {
                             if (username.equals("")){name.setError("Name cannot be empty");}
                             else{email.setError("Email cannot be empty");}
                         }
+                        //if the username is been used, throw a error message on screen 
                         else if (isUsername){
                             name.setError("This name have been used");
                         }
+                        //if the user name is not been used, update change to the database
                         else{
                             df.child(userid).updateChildren(data);
                             name.setText("");
