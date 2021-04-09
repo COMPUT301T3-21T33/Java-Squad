@@ -39,12 +39,14 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-    String userid;
+    FirebaseDatabase db;
+    FirebaseFirestore fs;
     Double longitude;
     Double latitude;
+    String userid;
     Boolean isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap,addTrialButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn;
     ImageButton follow;
 
     String ExperimentName;
@@ -146,7 +148,8 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         });
 
         //Add Statistic view button for count trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+        stat_btn =findViewById(R.id.view_stat_button);
+        stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //pass this datalist to statistic_RecordCountTrial
@@ -203,7 +206,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-       
+
         userid =intent.getStringExtra("id");
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
@@ -223,6 +226,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                             if (experiment.getEnableGeo() == 1){
                                 viewMap.setEnabled(true);
                             }
+                            stat_btn.setClickable(true);
                         }
                     }
                 }
@@ -245,21 +249,23 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    stat_btn.setClickable(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
-                //if user follow this experiment 
+                //if user follow this experiment
                 else{
                     //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
+                    stat_btn.setClickable(false);
                 }
 
             }

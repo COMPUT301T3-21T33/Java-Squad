@@ -68,7 +68,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
     Double longitude;
     Double latitude;
     Boolean isfollow = false;
-    Button viewQuestion,back_btn,viewMap,addTrialButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn;
     ImageButton follow;
     Intent intent;
     String ExperimentName;
@@ -179,13 +179,14 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         });
 
         //Add Statistic view button for binomial trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+        stat_btn =findViewById(R.id.view_stat_button);
+        stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //pass this datalist to statistic_RecordCountTrial
-                Intent intent_s_B = new Intent(RecordBinomialTrial.this, Statistic_RecordBinomialTrial.class);
-                intent_s_B.putExtra("DataList_of_B_trials", trialDataList);
-                startActivity(intent_s_B);
+                Intent intent_s_C = new Intent(RecordBinomialTrial.this, Statistic_RecordCountTrial.class);
+                intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
+                startActivity(intent_s_C);
                 //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
             }
         });
@@ -250,12 +251,13 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                             follow.setImageResource(R.drawable.ic_action_liking);
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
-
                             viewQuestion.setClickable(true);
                             addTrialButton.setEnabled(true);
                             if (experiment.getEnableGeo() == 1){
                                 viewMap.setEnabled(true);
                             }
+                            stat_btn.setClickable(true);
+
                         }
                         Log.d("if is followed exp name",datasnapshot.child("name").getValue().toString());
 
@@ -271,10 +273,6 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
-        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-        //else non clicked
-        Log.d("if is followed",String.valueOf(isfollow));
-
 
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
@@ -286,21 +284,23 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    stat_btn.setClickable(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
-                //if user follow this experiment 
+                //if user follow this experiment
                 else{
                     //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
+                    stat_btn.setClickable(false);
                 }
 
             }

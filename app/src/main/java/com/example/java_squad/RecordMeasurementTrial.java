@@ -48,7 +48,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
     Double latitude;
     Boolean  isfollow = false;
 
-    Button viewQuestion,back_btn,addTrialButton,viewMap;
+    Button viewQuestion,back_btn,addTrialButton,viewMap,stat_btn;
     ImageButton follow;
 
     String ExperimentName;
@@ -157,13 +157,14 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         });
 
         //Add Statistic view button for measurement trials here
-        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+        stat_btn =findViewById(R.id.view_stat_button);
+        stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //pass this datalist to statistic_RecordCountTrial
-                Intent intent_s_M = new Intent(RecordMeasurementTrial.this, Statistic_RecordMeasurementTrial.class);
-                intent_s_M.putExtra("DataList_of_M_trials", trialDataList);
-                startActivity(intent_s_M);
+                Intent intent_s_C = new Intent(RecordMeasurementTrial.this, Statistic_RecordCountTrial.class);
+                intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
+                startActivity(intent_s_C);
                 //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
             }
         });
@@ -232,6 +233,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                             if (experiment.getEnableGeo() == 1){
                                 viewMap.setEnabled(true);
                             }
+                            stat_btn.setClickable(true);
                         }
                     }
                 }
@@ -245,13 +247,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
         });
         //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
         //else non clicked
-        if (isfollow){
-            viewQuestion.setClickable(true);
-            addTrialButton.setClickable(true);
-            viewMap.setClickable(true);
-
-        }
-        else{
+        if (!isfollow){
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
             viewMap.setClickable(false);
@@ -266,21 +262,23 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
                     viewMap.setClickable(true);
+                    stat_btn.setClickable(true);
                     //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
-                //if user follow this experiment 
+                //if user follow this experiment
                 else{
                     //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
-                    //update database 
+                    //update database
                     df.child("follow").child(ExperimentName).removeValue();
                     //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
                     viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
+                    stat_btn.setClickable(false);
                 }
 
             }
