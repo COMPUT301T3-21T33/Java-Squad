@@ -13,10 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.example.java_squad.user.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,10 +42,12 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
     TextView expActive;
     TextView expDescription;
     TextView expRules;
-    Button EndExperiment,viewStatistic, follow, viewQuetion, enableGEO,addTrial;
+    Button EndExperiment,viewStatistic, viewQuestion, enableGEO,addTrial;
+    ImageButton follow;
 
     ListView trialList;
     ArrayAdapter<Trial> trialAdapter;
+    User owner;
     //Experimental experiment;
     ArrayAdapter<Count> trialAdapterCount; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataListCount; // Holds the data that will go into the listview
@@ -78,8 +82,9 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         df.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.child("username").getValue().toString();
-                expOwner.setText(name);
+                owner = snapshot.getValue(User.class);
+                expOwner.setText(owner.getUsername());
+
             }
 
             @Override
@@ -87,7 +92,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             }
         });
-
+        //Log.d("xibing", owner.getUsername());
 
         int exp_type = currentExperiment.getType();
         String typeInStr = "";
@@ -126,15 +131,26 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         addTrial = findViewById(R.id.add_trial);
 
         if (exp_type == 0) {
-            String[] experimenter = {};
-
-            String[] object = {};
-            Integer[] amount = {};
 
             trialDataListCount = new ArrayList<>();
-            for (int i = 0; i < experimenter.length; i++) {
-                trialDataListCount.add((new Count(experimenter[i],"",0,0.0,0.0, object[i],amount[i])));
-            }
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trial");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild(currentExperiment.getName())){
+                        for(DataSnapshot datasnapshot: snapshot.child(currentExperiment.getName()).getChildren()){
+                            Count count = datasnapshot.getValue(Count.class);
+                            trialDataListCount.add(count);
+                        }
+                        trialAdapterCount.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             trialAdapterCount = new CountCustomList(this, trialDataListCount);
 
             trialList.setAdapter(trialAdapterCount);
@@ -158,7 +174,8 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     trialDataListCount.remove(trial_count);
-                                    String id = trial_count.getTrialID();
+                                    trialAdapterCount.notifyDataSetChanged();
+                                    String id = trial_count.getTrailID();
                                     DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Trail")
                                             .child(currentExperiment.getName())
                                             .child(id);
@@ -176,16 +193,26 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
             //typeInStr = "Count";
         } else if (exp_type == 1) {
             //typeInStr = "Binomial";
-            String[] experimenter = {};
-            Date[] experiment_date = {};
-            String[] binomial = {};
 
             trialDataListBinomial = new ArrayList<>();
-            for (int i = 0; i < experimenter.length; i++) {
-                trialDataListBinomial.add((new Binomial(experimenter[i], "",0,0.0,0.0,binomial[i])));
-            }
-            trialAdapterBinomial = new BinomialCustomList(this, trialDataListBinomial);
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trial");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild(currentExperiment.getName())){
+                        for(DataSnapshot datasnapshot: snapshot.child(currentExperiment.getName()).getChildren()){
+                            Binomial binomial = datasnapshot.getValue(Binomial.class);
+                            trialDataListBinomial.add(binomial);
+                        }
+                        trialAdapterBinomial.notifyDataSetChanged();
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+            trialAdapterBinomial = new BinomialCustomList(this, trialDataListBinomial);
             trialList.setAdapter(trialAdapterBinomial);
             addTrial.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -195,20 +222,59 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
                 }
             });
+            trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("main activity","On item click to record trials");
+                    Binomial trial_binomial = (Binomial) adapterView.getAdapter().getItem(i);//trialList[i];
+                    new AlertDialog.Builder(ExperimentView.this)
+                            .setTitle("Ignore Trial")
+                            .setMessage("Would you like to ignore this trial?")
+                            .setPositiveButton("Ignore", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    trialDataListBinomial.remove(trial_binomial);
+                                    trialAdapterBinomial.notifyDataSetChanged();
+                                    String id = trial_binomial.getTrailID();
+                                    DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Trail")
+                                            .child(currentExperiment.getName())
+                                            .child(id);
+                                    myref.removeValue();
+
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create().show();
+                }
+            });
 
         } else if (exp_type == 2) {
             //typeInStr = "Non-neg Count";
-            String[] experimenter = {};
-            Date[] experiment_date = {};
-            Integer[] count = {};
-
             trialDataListIntCount = new ArrayList<>();
-            for (int i = 0; i < experimenter.length; i++) {
-                trialDataListIntCount.add((new IntCount(experimenter[i],null,0,0.0,0.0,count[i])));
-            }
-            trialAdapterIntCount = new IntCountCustomList(this, trialDataListIntCount);
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trial");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild(currentExperiment.getName())){
+                        for(DataSnapshot datasnapshot: snapshot.child(currentExperiment.getName()).getChildren()){
+                            IntCount intcount = datasnapshot.getValue(IntCount.class);
+                            trialDataListIntCount.add(intcount);
+                        }
+                        trialAdapterIntCount.notifyDataSetChanged();
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            trialAdapterIntCount = new IntCountCustomList(this, trialDataListIntCount);
             trialList.setAdapter(trialAdapterIntCount);
+
             addTrial.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -217,27 +283,93 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
                 }
             });
+            trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("main activity","On item click to record trials");
+                    IntCount trial_intcount = (IntCount) adapterView.getAdapter().getItem(i);//experiments[i];
+                    new AlertDialog.Builder(ExperimentView.this)
+                            .setTitle("Ignore Trial")
+                            .setMessage("Would you like to ignore this trial?")
+                            .setPositiveButton("Ignore", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    trialDataListIntCount.remove(trial_intcount);
+                                    trialAdapterIntCount.notifyDataSetChanged();
+                                    String id = trial_intcount.getTrailID();
+                                    DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Trail")
+                                            .child(currentExperiment.getName())
+                                            .child(id);
+                                    myref.removeValue();
+
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create().show();
+                }
+            });
 
         } else if (exp_type == 3) {
             //typeInStr = "Measurement";
-            String[] experimenter = {};
-            Date[] experiment_date = {};
-            String[] unit = {};
-            double[] amount = {};
-
             trialDataListMeasurement = new ArrayList<>();
-            for (int i = 0; i < experimenter.length; i++) {
-                trialDataListMeasurement.add((new Measurement(experimenter[i],null,0,0.0,0.0,unit[i],amount[i])));
-            }
-            trialAdapterMeasurement = new MeasurementCustomList(this, trialDataListMeasurement);
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Trial");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild(currentExperiment.getName())){
+                        for(DataSnapshot datasnapshot: snapshot.child(currentExperiment.getName()).getChildren()){
+                            Measurement measurement = datasnapshot.getValue(Measurement.class);
+                            trialDataListMeasurement.add(measurement);
+                        }
+                        trialAdapterMeasurement.notifyDataSetChanged();
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            trialAdapterMeasurement = new MeasurementCustomList(this, trialDataListMeasurement);
             trialList.setAdapter(trialAdapterMeasurement);
+
             addTrial.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new AddMeasurementTrialFragment().show(getSupportFragmentManager(), "add trial");
                     Log.d("record msg activity","add experiment trial button pressed");
 
+                }
+            });
+            trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("main activity","On item click to record trials");
+                    Measurement trial_measurement = (Measurement) adapterView.getAdapter().getItem(i);//experiments[i];
+                    new AlertDialog.Builder(ExperimentView.this)
+                            .setTitle("Ignore Trial")
+                            .setMessage("Would you like to ignore this trial?")
+                            .setPositiveButton("Ignore", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    trialDataListMeasurement.remove(trial_measurement);
+                                    trialAdapterMeasurement.notifyDataSetChanged();
+                                    String id = trial_measurement.getTrailID();
+                                    DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Trail")
+                                            .child(currentExperiment.getName())
+                                            .child(id);
+                                    myref.removeValue();
+
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create().show();
                 }
             });
 
@@ -283,6 +415,51 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
             }
         });
 
+        viewQuestion = findViewById(R.id.view_question);
+        viewQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExperimentView.this, ViewQuestionActivity.class);
+                intent.putExtra("experimentName", currentExperiment.getName());
+                startActivity(intent);
+
+            }
+        });
+
+
+        DatabaseReference dff = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        follow = findViewById(R.id.follow);
+        dff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(currentExperiment.getName())){
+                            follow.setImageResource(R.drawable.ic_action_liking);
+                            follow.setTag(R.drawable.ic_action_liking);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(follow.getTag()==null) {
+                    currentExperiment.setOwner(owner);
+                    dff.child("follow").child(currentExperiment.getName()).setValue(currentExperiment);
+                }
+            }
+        });
+
+
         Button back = findViewById(R.id.back_btn);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,7 +474,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterCount.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrialID(key);
+        newTrail1.setTrailID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
@@ -306,7 +483,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterBinomial.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrialID(key);
+        newTrail1.setTrailID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
@@ -316,7 +493,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterIntCount.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrialID(key);
+        newTrail1.setTrailID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
@@ -326,7 +503,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         trialAdapterMeasurement.add(newTrail1);
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference("Trail");
         String key = dataref.push().getKey();
-        newTrail1.setTrialID(key);
+        newTrail1.setTrailID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
 
