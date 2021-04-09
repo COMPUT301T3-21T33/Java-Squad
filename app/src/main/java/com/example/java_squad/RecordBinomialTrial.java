@@ -324,6 +324,13 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             Log.d("record binomial","cannot receive coordinate");
         }
     }
+    /**
+     * replace the old trial with the updated trial
+     * @param index
+     * the index of the trial that needs to be update
+     * @param updatedTrial
+     * the new trial to update
+     */
     private void replaceTrial(int index, Binomial updatedTrial){
 //        int currentExperimentIndex = trialDataList.indexOf(trial);
         trialDataList.set(index,updatedTrial);

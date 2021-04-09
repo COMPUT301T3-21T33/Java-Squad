@@ -149,7 +149,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
                     intent.putExtra("position", position);
                     startActivityForResult(intent,3);
-                    startActivity(intent);
                 }
             }
         });
@@ -281,6 +280,13 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             Log.d("record intcount","cannot receive coordinate");
         }
     }
+    /**
+     * replace the old trial with the updated trial
+     * @param index
+     * the index of the trial that needs to be update
+     * @param updatedTrial
+     * the new trial to update
+     */
     private void replaceTrial(int index, IntCount updatedTrial) {
 //        int currentExperimentIndex = trialDataList.indexOf(trial);
         trialDataList.set(index, updatedTrial);

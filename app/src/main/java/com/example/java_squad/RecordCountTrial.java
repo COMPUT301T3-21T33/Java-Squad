@@ -140,7 +140,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-
         trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
@@ -148,7 +147,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
                     intent.putExtra("position", position);
                     startActivityForResult(intent,2);
-                    startActivity(intent);
                 }
             }
         });
@@ -281,6 +279,13 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
             Log.d("record count","cannot receive coordinate");
         }
     }
+    /**
+     * replace the old trial with the updated trial
+     * @param index
+     * the index of the trial that needs to be update
+     * @param updatedTrial
+     * the new trial to update
+     */
     private void replaceTrial(int index, Count updatedTrial){
 //        int currentExperimentIndex = trialDataList.indexOf(trial);
         trialDataList.set(index,updatedTrial);
