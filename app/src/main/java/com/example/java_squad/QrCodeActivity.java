@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.auth.User;
@@ -26,6 +27,16 @@ public class QrCodeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button scan = findViewById(R.id.scanner);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QrCodeActivity.this, ScannerActivity.class);
+                intent.putExtra("Flag", "Scan");
+                startActivity(intent);
+            }
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generate_qr);
 
@@ -57,7 +68,6 @@ public class QrCodeActivity extends AppCompatActivity {
         value.setInputType(inputType);
 
         MaterialButton generate = findViewById(R.id.generateCodeBTN);
-
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
