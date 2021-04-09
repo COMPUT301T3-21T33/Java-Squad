@@ -39,8 +39,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     ArrayAdapter<Count> trialAdapter; // Bridge between dataList and cityList.
     ArrayList<Count> trialDataList; // Holds the data that will go into the listview
     Experimental experiment;
-    FirebaseDatabase db;
-    FirebaseFirestore fs;
+    String userid;
     Double longitude;
     Double latitude;
     Boolean isfollow = false;
@@ -211,7 +210,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
-
+        userid =intent.getStringExtra("id");
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
