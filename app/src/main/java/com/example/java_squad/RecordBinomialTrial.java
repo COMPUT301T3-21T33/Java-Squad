@@ -175,6 +175,19 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
+
+        //Add Statistic view button for binomial trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_B = new Intent(RecordBinomialTrial.this, Statistic_RecordBinomialTrial.class);
+                intent_s_B.putExtra("DataList_of_B_trials", trialDataList);
+                startActivity(intent_s_B);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
         trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){

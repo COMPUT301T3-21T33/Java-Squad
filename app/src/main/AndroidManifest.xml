@@ -53,6 +53,10 @@
         <activity
             android:name=".RecordIntCountTrial"
             android:label="Experiment"/>
+        <activity android:name=".Statistic_RecordMeasurementTrial"/>
+        <activity android:name=".Statistic_RecordIntCountTrial" />
+        <activity android:name=".Statistic_RecordCountTrial" />
+        <activity android:name=".Statistic_RecordBinomialTrial" />
         <activity
             android:name=".ExperimentConstructor"
             android:label="Add Experiment"

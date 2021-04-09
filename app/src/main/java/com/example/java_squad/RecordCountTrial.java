@@ -140,6 +140,20 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
 
             }
         });
+
+        //Add Statistic view button for count trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_C = new Intent(RecordCountTrial.this, Statistic_RecordCountTrial.class);
+                intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
+                startActivity(intent_s_C);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
         trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
