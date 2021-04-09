@@ -353,4 +353,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         trialList.setAdapter(trialAdapter);
         trialAdapter.notifyDataSetChanged();
     }
+
+    public void trialDataList(DocumentReference document, Trial trial) {
+    }
 }
