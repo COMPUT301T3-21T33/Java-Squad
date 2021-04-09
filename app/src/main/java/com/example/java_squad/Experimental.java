@@ -3,6 +3,7 @@ package com.example.java_squad;
 import com.example.java_squad.user.User;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class Experimental implements Serializable {
     public ArrayList<Trial> trials = new ArrayList<>();
 
     private List<Question> questions = new ArrayList<>();
+    public ArrayList<BarcodeTrial> barcodeTrials = new ArrayList<>();
 
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.

@@ -42,6 +42,7 @@ public class BarcodeActivity extends AppCompatActivity {
     private boolean scanning = true; //if true, scanning for existing barcode. if false, registering a new barcode.
 
     private Experimental currentExperiment;
+    private BarcodeTrial currentTrial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,8 @@ public class BarcodeActivity extends AppCompatActivity {
                 Log.i(MainActivity.class.getSimpleName(), "Barcode Found: " + barcode);
 
                 if (scanning){
-                    //execute barcode trial
+                    //NEEDS DATABASE LINK HERE
+                    currentTrial.addTrialToExp();
                 }
                 else{
                     intent.putExtra("barcode",barcode);
@@ -143,7 +145,16 @@ public class BarcodeActivity extends AppCompatActivity {
             public void onBarcodeFound(String _barcode) {
                 barcode = _barcode;
                 if (scanning){
-                    //check through trials
+                    boolean show = false;
+                    for (BarcodeTrial trial : currentExperiment.barcodeTrials){
+                        if (barcode == trial.getBarcode()){
+                            //if barcode matches an existing trial allow user to execute it
+                            show = true;
+                            currentTrial = trial;
+                        }
+                    }
+                    if (show)
+                        barcodeFoundButton.setVisibility(View.VISIBLE);
                 }
                 else
                     barcodeFoundButton.setVisibility(View.VISIBLE);
