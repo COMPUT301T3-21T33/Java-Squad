@@ -98,10 +98,12 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
         viewMap = findViewById(R.id.view_map);
+        addTrialButton = findViewById(R.id.add_trial_button);
+        viewQuestion = findViewById(R.id.view_question_button);
 
-        if (experiment.getEnableGeo() == 1){
-            viewMap.setEnabled(true);
-        }
+        viewQuestion.setClickable(false);
+        addTrialButton.setEnabled(false);
+        viewMap.setEnabled(false);
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
@@ -200,7 +202,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 
-        addTrialButton = findViewById(R.id.add_trial_button);
+
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +226,8 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             }
         });
 //view question
-        viewQuestion = findViewById(R.id.view_question_button);
+
+
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,11 +252,18 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
                             viewQuestion.setClickable(true);
-                            addTrialButton.setClickable(true);
-                            viewMap.setClickable(true);
+                            addTrialButton.setEnabled(true);
+                            if (experiment.getEnableGeo() == 1){
+                                viewMap.setEnabled(true);
+                            }
                             stat_btn.setClickable(true);
+
                         }
+                        Log.d("if is followed exp name",datasnapshot.child("name").getValue().toString());
+
                     }
+                    Log.d("if is followed","has child follow");
+
                 }
 
             }
@@ -263,13 +273,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
 
             }
         });
-        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-        //else non clicked
-        if (!isfollow){
-            viewQuestion.setClickable(false);
-            addTrialButton.setClickable(false);
-            viewMap.setClickable(false);
-        }
+
         //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override

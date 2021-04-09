@@ -72,10 +72,17 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         owner.setText(experiment.getOwnerName());
         description.setText(experiment.getDescription());
         viewMap = findViewById(R.id.view_map);
+        viewMap = findViewById(R.id.view_map);
+        addTrialButton = findViewById(R.id.add_trial_button);
+        viewQuestion = findViewById(R.id.view_question_button);
 
-        if (experiment.getEnableGeo() == 1){
-            viewMap.setEnabled(true);
-        }
+        viewQuestion.setClickable(false);
+        addTrialButton.setClickable(false);
+        viewMap.setClickable(false);
+//
+//        if (experiment.getEnableGeo() == 1){
+//            viewMap.setEnabled(true);
+//        }
         if (experiment.getPublished() == true){
             availability.setText("Public");
         }
@@ -165,7 +172,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 }
             }
         });
-        addTrialButton = findViewById(R.id.add_trial_button);
         addTrialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +197,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
         //view question
-        viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,9 +222,12 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                             follow.setTag(R.drawable.ic_action_liking);//set tag
                             isfollow = true; //set is follow to true
                             viewQuestion.setClickable(true);
-                            addTrialButton.setClickable(true);
-                            viewMap.setClickable(true);
+                            addTrialButton.setEnabled(true);
+                            if (experiment.getEnableGeo() == 1){
+                                viewMap.setEnabled(true);
+                            }
                             stat_btn.setClickable(true);
+
                         }
                     }
                 }
