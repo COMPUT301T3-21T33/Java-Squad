@@ -148,6 +148,19 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
+
+        //Add Statistic view button for measurement trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordCountTrial
+                Intent intent_s_M = new Intent(RecordMeasurementTrial.this, Statistic_RecordMeasurementTrial.class);
+                intent_s_M.putExtra("DataList_of_M_trials", trialDataList);
+                startActivity(intent_s_M);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
         trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
@@ -155,7 +168,6 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
                     intent.putExtra("position", position);
                     startActivityForResult(intent,4);
-                    startActivity(intent);
                 }
             }
         });
@@ -184,6 +196,8 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 startActivity(intent);
             }
         });
+        
+        //view question
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,8 +209,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             }
         });
 
-        viewQuestion.setClickable(false);
-        addTrialButton.setClickable(false);
+        //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
         df.addValueEventListener(new ValueEventListener() {
@@ -205,10 +218,10 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
                 if(snapshot.hasChild("follow")){
                     for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
                         if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            //if user followed this experiment, set the hearbutton to be full
                             follow.setImageResource(R.drawable.ic_action_liking);
-                            follow.setTag(R.drawable.ic_action_liking);
-                            viewQuestion.setClickable(true);
-                            addTrialButton.setClickable(true);
+                            follow.setTag(R.drawable.ic_action_liking);//set tag
+                            isfollow = true; //set is follow to true
                         }
                     }
                 }
@@ -220,34 +233,49 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
 
             }
         });
+        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
+        //else non clicked
         if (isfollow){
             viewQuestion.setClickable(true);
             addTrialButton.setClickable(true);
+            viewMap.setClickable(true);
 
         }
         else{
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
+            viewMap.setClickable(false);
         }
+        //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int res = (int) follow.getTag();
-                if(res!=R.drawable.ic_action_liking) {
+                //if user did not follow this experiment
+                if(follow.getTag()==null) {
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
+                    viewMap.setClickable(true);
+                    //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
+                    //update database 
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
+                //if user follow this experiment 
                 else{
+                    //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
+                    //update database 
                     df.child("follow").child(ExperimentName).removeValue();
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
+                    viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
                 }
 
             }
         });
+        //back button
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,6 +327,14 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             Log.d("record measurement","cannot receive coordinate");
         }
     }
+    /**
+     * replace the old trial with the updated trial
+     * @param index
+     * the index of the trial that needs to be update
+     * @param updatedTrial
+     * the new trial to update
+     */
+
     private void replaceTrial(int index, Measurement updatedTrial) {
 //        int currentExperimentIndex = trialDataList.indexOf(trial);
         trialDataList.set(index, updatedTrial);

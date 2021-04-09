@@ -45,6 +45,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     FirebaseFirestore fs;
     Double longitude;
     Double latitude;
+    String userid;
     Boolean  isfollow = false;
 
     Button viewQuestion,back_btn,viewMap,addTrialButton ;
@@ -142,6 +143,19 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
 
+        //Add Statistic view button for integer count trials here
+        findViewById(R.id.view_stat_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass this datalist to statistic_RecordIntCountTrial
+                Intent intent_s_IntC = new Intent(RecordIntCountTrial.this, Statistic_RecordIntCountTrial.class);
+                intent_s_IntC.putExtra("DataList_of_IntC_trials", trialDataList);
+                startActivity(intent_s_IntC);
+                //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
+            }
+        });
+
+
         trialList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView < ? > adapter, View view,int position, long arg){
@@ -149,7 +163,6 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                     Intent intent = new Intent(getBaseContext(),com.example.java_squad.Geo.SelectLocationActivity.class);
                     intent.putExtra("position", position);
                     startActivityForResult(intent,3);
-                    startActivity(intent);
                 }
             }
         });
@@ -178,6 +191,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 startActivity(intent);
             }
         });
+        //view question
         viewQuestion = findViewById(R.id.view_question_button);
         viewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,11 +199,11 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 Intent intent = new Intent(v.getContext(), ViewQuestionActivity.class);
                 intent.putExtra("experimentName", experiment.getName());
                 startActivity(intent);
+
             }
         });
-
-        String userid = intent.getStringExtra("id");
-        viewQuestion.setClickable(false);
+        userid =intent.getStringExtra("id");
+        //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
         DatabaseReference df = FirebaseDatabase.getInstance().getReference("User").child(userid);
         df.addValueEventListener(new ValueEventListener() {
@@ -198,9 +212,10 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
                 if(snapshot.hasChild("follow")){
                     for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
                         if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            //if user followed this experiment, set the hearbutton to be full
                             follow.setImageResource(R.drawable.ic_action_liking);
-                            follow.setTag(R.drawable.ic_action_liking);
-                            viewQuestion.setClickable(true);
+                            follow.setTag(R.drawable.ic_action_liking);//set tag
+                            isfollow = true; //set is follow to true
                         }
                     }
                 }
@@ -212,34 +227,49 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
+        //if isfollow is true set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
+        //else non clicked
         if (isfollow){
             viewQuestion.setClickable(true);
             addTrialButton.setClickable(true);
+            viewMap.setClickable(true);
 
         }
         else{
             viewQuestion.setClickable(false);
             addTrialButton.setClickable(false);
+            viewMap.setClickable(false);
         }
+        //when user click on follow
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if user did not follow this experiment
                 if(follow.getTag()==null) {
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
                     viewQuestion.setClickable(true);
                     addTrialButton.setClickable(true);
+                    viewMap.setClickable(true);
+                    //set image button to be full heart
                     follow.setImageResource(R.drawable.ic_action_liking);
+                    //update database 
                     df.child("follow").child(ExperimentName).setValue(experiment);
                 }
+                //if user follow this experiment 
                 else{
+                    //set image button to be empty heart
                     follow.setImageResource(R.drawable.ic_action_like);
+                    //update database 
                     df.child("follow").child(ExperimentName).removeValue();
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
                     viewQuestion.setClickable(false);
+                    viewMap.setClickable(false);
                     addTrialButton.setClickable(false);
                 }
 
             }
         });
-
+        //back button
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,6 +278,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             }
         });
     }
+       
     public void MapsActivity(View view){
         Intent intent = new Intent(this, com.example.java_squad.Geo.MapsActivity.class);
 //        intent.putExtra("user", user);
@@ -281,6 +312,13 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             Log.d("record intcount","cannot receive coordinate");
         }
     }
+    /**
+     * replace the old trial with the updated trial
+     * @param index
+     * the index of the trial that needs to be update
+     * @param updatedTrial
+     * the new trial to update
+     */
     private void replaceTrial(int index, IntCount updatedTrial) {
 //        int currentExperimentIndex = trialDataList.indexOf(trial);
         trialDataList.set(index, updatedTrial);
