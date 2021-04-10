@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BarcodeSetupActivity">
+    tools:context=".QrSetupActivity">
 
     <TextView
         android:id="@+id/textView_title"
@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Barcode Registration"
+        android:text="QrCode"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,30 +23,30 @@
         android:id="@+id/textView_currentExp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="Current Experiment:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView_title"
         app:layout_constraintTop_toBottomOf="@+id/textView_title" />
 
     <Button
-        android:id="@+id/button_add_barcode"
+        android:id="@+id/button_add_qrcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="Scan New Barcode"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="124dp"
+        android:text="Scan QrCode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_currentExp" />
-
     <TextView
-        android:id="@+id/textView_current_barcode"
+        android:id="@+id/textView_current_Qrcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Barcode: None"
+        android:text="QrCode: None"
         app:layout_constraintTop_toTopOf="@+id/button_add_qrcode"
-        tools:layout_editor_absoluteX="19dp" />
+        tools:layout_editor_absoluteX="19dp"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"

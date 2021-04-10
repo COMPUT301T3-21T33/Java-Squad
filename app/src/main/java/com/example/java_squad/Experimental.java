@@ -43,6 +43,7 @@ public class Experimental implements Serializable {
 
     private List<Question> questions = new ArrayList<>();
     public ArrayList<BarcodeTrial> barcodeTrials = new ArrayList<>();
+    public ArrayList<QrCodeTrial> QrCodeTrial = new ArrayList<>();
 
     /**
      * Constructor for Experiment class. Still WIP, as location is not added, and there is no input validation.
