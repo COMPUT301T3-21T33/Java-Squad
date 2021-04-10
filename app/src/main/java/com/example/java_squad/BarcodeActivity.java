@@ -55,7 +55,7 @@ public class BarcodeActivity extends AppCompatActivity {
         currentExperiment = (Experimental) intent.getSerializableExtra("Experiment");
         scanning = intent.getBooleanExtra("scanning", true);
 
-        barcodeFoundButton = findViewById(R.id.button);
+        barcodeFoundButton = findViewById(R.id.button_codeFound);
         barcodeFoundButton.setVisibility(View.INVISIBLE);
         if (!scanning)
             barcodeFoundButton.setText("Register Barcode");

@@ -4,20 +4,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.util.Size;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -28,7 +22,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
@@ -63,7 +56,7 @@ public class QrCodeActivity extends AppCompatActivity {
         currentExperiment = (Experimental) intent.getSerializableExtra("Experiment");
         scanning = intent.getBooleanExtra("scanning", true);
 
-        qrcodeFoundButton = findViewById(R.id.buttonqrcodeFound);
+        qrcodeFoundButton = findViewById(R.id.button_codeFound);
         qrcodeFoundButton.setVisibility(View.INVISIBLE);
         if (!scanning)
             qrcodeFoundButton.setText("Get QRCode");

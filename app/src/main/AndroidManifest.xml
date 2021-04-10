@@ -33,7 +33,9 @@
             android:label="Edit Profile"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ExperimentView" />
-
+        <activity android:name=".BarcodeSetupActivity"
+            android:parentActivityName=".ExperimentView" />
+        <activity android:name=".BarcodeActivity" />
         <activity android:name=".Geo.MapsActivity"/>
         <activity android:name=".Geo.SelectLocationActivity"/>
         <activity

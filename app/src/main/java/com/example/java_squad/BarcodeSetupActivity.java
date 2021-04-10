@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,16 +35,12 @@ public class BarcodeSetupActivity extends AppCompatActivity {
     ArrayAdapter<BarcodeTrial> barcodeAdapter;
     ArrayList<BarcodeTrial> barcodeTrials;
 
-    String barcode;
+    String barcode = "";
 
     EditText value;
     EditText auxValue; // used for adding unit of measurement or object for those trials
 
     RadioGroup binomialValue;
-
-    DatabaseReference df;
-    FirebaseFirestore db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +48,7 @@ public class BarcodeSetupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barcode_setup);
 
         Intent intent = getIntent();
-        currentExperiment = (Experimental) intent.getSerializableExtra("Experiment");
+        currentExperiment = (Experimental) intent.getSerializableExtra("experiment");
 
         experimentName = findViewById(R.id.textView_currentExp);
         currentBarcode = findViewById(R.id.textView_current_barcode);
@@ -82,13 +79,11 @@ public class BarcodeSetupActivity extends AppCompatActivity {
             auxValue.setVisibility(View.GONE);
         }
 
-        //DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference();
-
     }
 
-    private void launchScanner(View view){
+    public void launchScanner(View view){
         Intent intent = new Intent(this, BarcodeActivity.class);
-        intent.putExtra("Experiment",currentExperiment);
+        intent.putExtra("experiment",currentExperiment);
         intent.putExtra("scanning", false);
         startActivity(intent);
         barcode = intent.getStringExtra("barcode");
@@ -96,52 +91,58 @@ public class BarcodeSetupActivity extends AppCompatActivity {
         currentBarcode.setText(dispBarcode);
     }
 
-    private void addBarcodeTrial(View view) {
+    public void addBarcodeTrial(View view) {
 
-        if (currentExperiment.getType() == 0) {
-            int result = Integer.parseInt(value.getText().toString());
-            String object = auxValue.getText().toString();
-
-            Count trial = new Count("","",currentExperiment.getEnableGeo(), 0.0, 0.0,object, result);
-            BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
-            //NEEDS DATABASE LINK HERE
-            currentExperiment.barcodeTrials.add(newTrial);
-
+        if (barcode == null || barcode == ""){
+            Toast.makeText(BarcodeSetupActivity.this, "No barcode has been scanned",
+                    Toast.LENGTH_LONG).show();
         }
-        else if (currentExperiment.getType() == 1){
-            //binomial
-            int radioButtonID = binomialValue.getCheckedRadioButtonId();
-            View radioButton = binomialValue.findViewById(radioButtonID);
+        else{
+            if (currentExperiment.getType() == 0) {
+                int result = Integer.parseInt(value.getText().toString());
+                String object = auxValue.getText().toString();
 
-            int pass = binomialValue.indexOfChild(radioButton);
-            String result;
-            if (pass != 0)
-                result = "pass";
-            else
-                result = "fail";
+                Count trial = new Count("","",currentExperiment.getEnableGeo(), 0.0, 0.0,object, result);
+                BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
+                //NEEDS DATABASE LINK HERE
+                currentExperiment.barcodeTrials.add(newTrial);
 
-            Binomial trial = new Binomial("","",currentExperiment.getEnableGeo(), 0.0, 0.0, result);
-            BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
-            //NEEDS DATABASE LINK HERE
-            currentExperiment.barcodeTrials.add(newTrial);
-        }
-        else if (currentExperiment.getType() == 2){
-            int result = Integer.parseInt(value.getText().toString());
+            }
+            else if (currentExperiment.getType() == 1){
+                //binomial
+                int radioButtonID = binomialValue.getCheckedRadioButtonId();
+                View radioButton = binomialValue.findViewById(radioButtonID);
 
-            IntCount trial = new IntCount("","",currentExperiment.getEnableGeo(), 0.0, 0.0, result);
-            BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
-            //NEEDS DATABASE LINK HERE
-            currentExperiment.barcodeTrials.add(newTrial);
+                int pass = binomialValue.indexOfChild(radioButton);
+                String result;
+                if (pass != 0)
+                    result = "pass";
+                else
+                    result = "fail";
 
-        }
-        else if (currentExperiment.getType() == 3){
-            int result = Integer.parseInt(value.getText().toString());
-            String unit = auxValue.getText().toString();
+                Binomial trial = new Binomial("","",currentExperiment.getEnableGeo(), 0.0, 0.0, result);
+                BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
+                //NEEDS DATABASE LINK HERE
+                currentExperiment.barcodeTrials.add(newTrial);
+            }
+            else if (currentExperiment.getType() == 2){
+                int result = Integer.parseInt(value.getText().toString());
 
-            Measurement trial = new Measurement("","",currentExperiment.getEnableGeo(), 0.0, 0.0, unit,result);
-            BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
-            //NEEDS DATABASE LINK HERE
-            currentExperiment.barcodeTrials.add(newTrial);
+                IntCount trial = new IntCount("","",currentExperiment.getEnableGeo(), 0.0, 0.0, result);
+                BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
+                //NEEDS DATABASE LINK HERE
+                currentExperiment.barcodeTrials.add(newTrial);
+
+            }
+            else if (currentExperiment.getType() == 3){
+                int result = Integer.parseInt(value.getText().toString());
+                String unit = auxValue.getText().toString();
+
+                Measurement trial = new Measurement("","",currentExperiment.getEnableGeo(), 0.0, 0.0, unit,result);
+                BarcodeTrial newTrial = new BarcodeTrial(barcode, trial, currentExperiment);
+                //NEEDS DATABASE LINK HERE
+                currentExperiment.barcodeTrials.add(newTrial);
+            }
         }
     }
 }

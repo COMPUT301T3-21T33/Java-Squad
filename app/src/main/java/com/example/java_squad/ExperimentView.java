@@ -93,6 +93,16 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             }
         });
+
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), BarcodeSetupActivity.class);
+                intent.putExtra("experiment",currentExperiment);
+                startActivity(intent);
+
+            }
+        });
         //Log.d("xibing", owner.getUsername());
 
         int exp_type = currentExperiment.getType();
@@ -371,16 +381,6 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
                         }
                     }).create().show();
-                }
-            });
-
-            barcodeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), BarcodeSetupActivity.class);
-                    intent.putExtra("Experiment",currentExperiment);
-                    startActivity(intent);
-
                 }
             });
 
