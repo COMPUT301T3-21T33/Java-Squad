@@ -65,6 +65,18 @@ MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild("userID") == false){
                     myRef.setValue(user);
+                    username.setText("No name has been update");
+                    useremail.setText("No email has been update");
+                }
+                else{
+                    String name = snapshot.child("username").getValue().toString();
+                    String email = snapshot.child("contact").getValue().toString();
+
+                    if (name==""){username.setText("No name has been update"); }
+                    else{username.setText(name);}
+
+                    if(email.equals(null)){useremail.setText("No email has been update");}
+                    else{useremail.setText(email);}
                 }
 
             }
@@ -82,16 +94,7 @@ MainActivity extends AppCompatActivity {
             databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String name = snapshot.child("username").getValue().toString();
-                String email = snapshot.child("contact").getValue().toString();
-
-                if (name.equals(null)){username.setText("No name has been update"); }
-                else{username.setText(name);}
-
-                if(email.equals(null)){useremail.setText("No email has been update");}
-                else{useremail.setText(email);}
-
-
+                
                 if (snapshot.hasChild("Experiment")){
                     allExpDataList.clear();
                     for (DataSnapshot datasnapshot: snapshot.child("Experiment").getChildren()){
