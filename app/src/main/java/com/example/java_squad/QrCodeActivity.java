@@ -63,7 +63,7 @@ public class QrCodeActivity extends AppCompatActivity {
         currentExperiment = (Experimental) intent.getSerializableExtra("Experiment");
         scanning = intent.getBooleanExtra("scanning", true);
 
-        qrcodeFoundButton = findViewById(R.id.button);
+        qrcodeFoundButton = findViewById(R.id.buttonqrcodeFound);
         qrcodeFoundButton.setVisibility(View.INVISIBLE);
         if (!scanning)
             qrcodeFoundButton.setText("Get QRCode");
