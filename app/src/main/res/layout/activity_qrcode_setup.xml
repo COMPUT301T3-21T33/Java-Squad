@@ -107,7 +107,9 @@
             android:layout_weight="0"
             android:text="Submit" />
 
+
     </LinearLayout>
+
 
     <ListView
         android:id="@+id/QrCode_trial_list"
