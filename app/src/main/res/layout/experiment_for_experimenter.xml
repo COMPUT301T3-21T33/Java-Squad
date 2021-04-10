@@ -262,7 +262,7 @@
             />
 
         <Button
-            android:id="@+id/generateCodeBTN"
+            android:id="@+id/experiment_qr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
