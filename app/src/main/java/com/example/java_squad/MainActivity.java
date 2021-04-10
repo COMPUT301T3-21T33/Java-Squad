@@ -71,13 +71,14 @@ MainActivity extends AppCompatActivity {
                 else{
                     String name = snapshot.child("username").getValue().toString();
                     String email = snapshot.child("contact").getValue().toString();
-
-                    if (name==""){username.setText("No name has been update"); }
+                   
+                    if (name.equals("")){username.setText("No name has been update"); }
                     else{username.setText(name);}
 
-                    if(email.equals(null)){useremail.setText("No email has been update");}
+                    if(email.equals("")){useremail.setText("No email has been update");}
                     else{useremail.setText(email);}
                 }
+
 
             }
             @Override
