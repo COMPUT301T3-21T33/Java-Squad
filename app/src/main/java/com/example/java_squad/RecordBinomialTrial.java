@@ -98,7 +98,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
         barcodeButton = findViewById(R.id.experiment_barcode);
-        qrButton = findViewById(R.id.generateCodeBTN);
+        qrButton = findViewById(R.id.experiment_qr);
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
