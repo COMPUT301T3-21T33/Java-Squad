@@ -59,20 +59,16 @@ MainActivity extends AppCompatActivity {
         //if user is first time use this account update database with she/his id
         //else pass
         user = new User("","",userid);
+        user = new User("","",userid);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("User");
-        Query query = myRef.equalTo(userid);
-        query.addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
-                    String parent = childSnapshot.getKey();
-                    if (parent != userid){
+                if(snapshot.hasChild(userid) == false){ 
                         myRef.child(userid).setValue(user);
                         username.setText("No name has been update");
                         useremail.setText("No email has been update");
-                    }
-                    }
-
+                    } 
             }
 
             @Override
