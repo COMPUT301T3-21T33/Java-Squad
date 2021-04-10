@@ -76,7 +76,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         viewMap = findViewById(R.id.view_map);
         addTrialButton = findViewById(R.id.add_trial_button);
         viewQuestion = findViewById(R.id.view_question_button);
-//
+        stat_btn =findViewById(R.id.view_stat_button);
         if (!isfollow){
             viewQuestion.setEnabled(false);
             addTrialButton.setEnabled(false);
@@ -149,7 +149,6 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         });
 
         //Add Statistic view button for count trials here
-        stat_btn =findViewById(R.id.view_stat_button);
         stat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
