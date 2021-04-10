@@ -196,13 +196,14 @@
         </TableLayout>
 
         <TableLayout
-            android:layout_width="wrap_content"
+            android:layout_width="377dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="377dp"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
@@ -220,6 +221,14 @@
                     android:layout_marginLeft="50dp"
                     android:backgroundTint="@android:color/black"
                     android:drawableLeft="@drawable/ic_action_add" />
+
+                <Button
+                    android:id="@+id/button_barcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Register Codes"
+                    android:translationX="30dp" />
 
             </TableRow>
         </TableLayout>
@@ -251,6 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="view Statistic" />
+
             </TableRow>
 
 
@@ -272,6 +282,7 @@
                     android:text="End Experiment" />
             </TableRow>
         </TableLayout>
+
     </LinearLayout>
 
 

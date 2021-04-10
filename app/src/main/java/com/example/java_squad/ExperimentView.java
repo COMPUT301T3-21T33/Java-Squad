@@ -42,7 +42,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
     TextView expActive;
     TextView expDescription;
     TextView expRules;
-    Button EndExperiment,viewStatistic, viewQuestion, enableGEO,addTrial;
+    Button EndExperiment,viewStatistic, viewQuestion, enableGEO,addTrial,barcodeButton;
     ImageButton follow;
 
     ListView trialList;
@@ -74,6 +74,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         expDescription = findViewById(R.id.exp_description);
         expRules = findViewById(R.id.exp_rules);
         expAvail = findViewById(R.id.available_text);
+        barcodeButton = findViewById(R.id.button_barcode);
 
         expName.setText(currentExperiment.getName());
         //Whatever the func is to get owners name
@@ -373,6 +374,16 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
                 }
             });
 
+            barcodeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), BarcodeSetupActivity.class);
+                    intent.putExtra("Experiment",currentExperiment);
+                    startActivity(intent);
+
+                }
+            });
+
         }
 
 
@@ -506,5 +517,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         newTrail1.setTrialID(key);
         dataref.child(currentExperiment.getName()).child(key).setValue(newTrail1);
     }
+
+
 
 }
