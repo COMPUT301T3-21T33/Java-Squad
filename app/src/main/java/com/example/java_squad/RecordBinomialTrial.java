@@ -263,7 +263,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), QrSetupActivity.class);
-                intent.putExtra("Experiment",experiment);
+                intent.putExtra("experiment",experiment);
                 startActivity(intent);
             }
         });

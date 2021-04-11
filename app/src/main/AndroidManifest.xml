@@ -59,6 +59,8 @@
         <activity android:name=".Statistic_RecordIntCountTrial" />
         <activity android:name=".Statistic_RecordCountTrial" />
         <activity android:name=".Statistic_RecordBinomialTrial" />
+        <activity android:name=".QrSetupActivity"
+            android:parentActivityName=".ExperimentView" />
         <activity android:name=".QrCodeActivity" />
         <activity
             android:name=".ExperimentConstructor"

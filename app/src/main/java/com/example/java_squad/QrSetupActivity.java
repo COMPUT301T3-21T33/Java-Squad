@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-public class QrSetupActivity extends AppCompatActivity{
+public class QrSetupActivity extends AppCompatActivity {
     Experimental currentExperiment;
 
     TextView experimentName;
@@ -30,7 +31,7 @@ public class QrSetupActivity extends AppCompatActivity{
     ArrayAdapter<QrCodeTrial> qrCodeTrialArrayAdapter;
     ArrayList<QrCodeTrial> qrCodeTrials;
 
-    String qrcode;
+    String qrcode = "";
 
     EditText value;
     EditText auxValue;
@@ -46,7 +47,7 @@ public class QrSetupActivity extends AppCompatActivity{
         setContentView(R.layout.activity_qrcode_setup);
 
         Intent intent = getIntent();
-        currentExperiment = (Experimental) intent.getSerializableExtra("Experiment");
+        currentExperiment = (Experimental) intent.getSerializableExtra("experiment");
 
         experimentName = findViewById(R.id.textView_currentExp);
         currentQrcode = findViewById(R.id.textView_current_Qrcode);
@@ -58,7 +59,7 @@ public class QrSetupActivity extends AppCompatActivity{
         auxValue = findViewById(R.id.editText_aux);
         binomialValue = findViewById(R.id.RadioGroup_bino);
 
-        if (currentExperiment.getType() == 0 || currentExperiment.getType() == 3){
+        if (currentExperiment.getType() == 0 || currentExperiment.getType() == 3) {
             binomialValue.setVisibility(View.GONE);
             value.setVisibility(View.VISIBLE);
             auxValue.setVisibility(View.VISIBLE);
@@ -66,13 +67,11 @@ public class QrSetupActivity extends AppCompatActivity{
                 auxValue.setHint("Object");
             else
                 auxValue.setHint("Units");
-        }
-        else if (currentExperiment.getType() == 1){
+        } else if (currentExperiment.getType() == 1) {
             binomialValue.setVisibility(View.VISIBLE);
             value.setVisibility(View.GONE);
             auxValue.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             binomialValue.setVisibility(View.GONE);
             value.setVisibility(View.VISIBLE);
             auxValue.setVisibility(View.GONE);
@@ -80,9 +79,9 @@ public class QrSetupActivity extends AppCompatActivity{
 
     }
 
-    private void launchScanner(View view){
+    public void launchScanner(View view) {
         Intent intent = new Intent(this, QrCodeActivity.class);
-        intent.putExtra("Experiment",currentExperiment);
+        intent.putExtra("experiment", currentExperiment);
         intent.putExtra("scanning", false);
         startActivity(intent);
         qrcode = intent.getStringExtra("qrcode");
@@ -90,49 +89,50 @@ public class QrSetupActivity extends AppCompatActivity{
         currentQrcode.setText(dispQrcode);
     }
 
-    private void addqrcodeTrial(View view) {
+    public void addqrcodeTrial(View view) {
 
         if (currentExperiment.getType() == 0) {
-            int result = Integer.parseInt(value.getText().toString());
-            String object = auxValue.getText().toString();
+            if (qrcode == null || qrcode == "") {
+                Toast.makeText(QrSetupActivity.this, "No barcode has been scanned",
+                        Toast.LENGTH_LONG).show();
+            }
+        } else {
+            if (currentExperiment.getType() == 0) {
+                int result = Integer.parseInt(value.getText().toString());
+                String object = auxValue.getText().toString();
 
-            Count trial = new Count("","",currentExperiment.getEnableGeo(), 0.0, 0.0,object, result);
-            QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
-            currentExperiment.QrCodeTrial.add(newTrial);
+                Count trial = new Count("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, object, result);
+                QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
+                currentExperiment.QrCodeTrial.add(newTrial);
+            } else if (currentExperiment.getType() == 1) {
+                int radioButtonID = binomialValue.getCheckedRadioButtonId();
+                View radioButton = binomialValue.findViewById(radioButtonID);
 
-        }
-        else if (currentExperiment.getType() == 1){
-            //binomial
-            int radioButtonID = binomialValue.getCheckedRadioButtonId();
-            View radioButton = binomialValue.findViewById(radioButtonID);
+                int pass = binomialValue.indexOfChild(radioButton);
+                String result;
+                if (pass != 0)
+                    result = "pass";
+                else
+                    result = "fail";
 
-            int pass = binomialValue.indexOfChild(radioButton);
-            String result;
-            if (pass != 0)
-                result = "pass";
-            else
-                result = "fail";
+                Binomial trial = new Binomial("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, result);
+                QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
+                currentExperiment.QrCodeTrial.add(newTrial);
+            } else if (currentExperiment.getType() == 2) {
+                int result = Integer.parseInt(value.getText().toString());
 
-            Binomial trial = new Binomial("","",currentExperiment.getEnableGeo(), 0.0, 0.0, result);
-            QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
-            currentExperiment.QrCodeTrial.add(newTrial);
-        }
-        else if (currentExperiment.getType() == 2){
-            int result = Integer.parseInt(value.getText().toString());
+                IntCount trial = new IntCount("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, result);
+                QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
+                currentExperiment.QrCodeTrial.add(newTrial);
 
-            IntCount trial = new IntCount("","",currentExperiment.getEnableGeo(), 0.0, 0.0, result);
-            QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
-            currentExperiment.QrCodeTrial.add(newTrial);
+            } else if (currentExperiment.getType() == 3) {
+                int result = Integer.parseInt(value.getText().toString());
+                String unit = auxValue.getText().toString();
 
-        }
-        else if (currentExperiment.getType() == 3){
-            int result = Integer.parseInt(value.getText().toString());
-            String unit = auxValue.getText().toString();
-
-            Measurement trial = new Measurement("","",currentExperiment.getEnableGeo(), 0.0, 0.0, unit,result);
-            QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
-            currentExperiment.QrCodeTrial.add(newTrial);
+                Measurement trial = new Measurement("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, unit, result);
+                QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
+                currentExperiment.QrCodeTrial.add(newTrial);
+            }
         }
     }
-
 }
