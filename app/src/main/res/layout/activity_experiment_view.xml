@@ -254,12 +254,22 @@
             tools:ignore="MissingConstraints">
 
             <TableRow>
+
                 <Button
                     android:id="@+id/statistic_owner"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="view Statistic" />
+
+                <Button
+                    android:id="@+id/button_qrcode"
+                    android:layout_width="174dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="QrCode"
+                    android:textSize="14sp" />
 
             </TableRow>
 

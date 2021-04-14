@@ -41,12 +41,16 @@ public class QRCode implements ImageAnalysis.Analyzer {
         this.listener = listener;
     }
 
-    public Bitmap Bitmap(String content){
+    public QRCode() {
+
+    }
+
+    public Bitmap Bitmap(QrCodeTrial content){
         BitMatrix bitMatrix = null;
 
         // use try-catch block to encode a bit matrix
         try {
-            bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, 512, 512);
+            bitMatrix = writer.encode(String.valueOf(content), BarcodeFormat.QR_CODE, 512, 512);
         } catch (WriterException writerException) {
             writerException.printStackTrace();
         }

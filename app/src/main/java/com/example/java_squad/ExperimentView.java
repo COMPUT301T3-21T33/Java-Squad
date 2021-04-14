@@ -42,7 +42,7 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
     TextView expActive;
     TextView expDescription;
     TextView expRules;
-    Button EndExperiment,viewStatistic, viewQuestion, enableGEO,addTrial,barcodeButton;
+    Button EndExperiment,viewStatistic, viewQuestion, enableGEO,addTrial,barcodeButton, qrButton;
     ImageButton follow;
 
     ListView trialList;
@@ -75,6 +75,8 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
         expRules = findViewById(R.id.exp_rules);
         expAvail = findViewById(R.id.available_text);
         barcodeButton = findViewById(R.id.button_barcode);
+        qrButton = findViewById(R.id.button_qrcode);
+
 
         expName.setText(currentExperiment.getName());
         //Whatever the func is to get owners name
@@ -90,6 +92,16 @@ public class ExperimentView extends AppCompatActivity implements AddCountTrialFr
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), QrSetupActivity.class);
+                intent.putExtra("experiment",currentExperiment);
+                startActivity(intent);
 
             }
         });

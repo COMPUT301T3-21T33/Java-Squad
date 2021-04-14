@@ -108,6 +108,22 @@
             android:onClick="addqrcodeTrial"
             android:text="Submit" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+            <ImageView
+                android:id="@+id/ReplaceImageQrCode"
+                android:layout_width="348dp"
+                android:layout_height="227dp"
+                android:src="@drawable/ic_generate_qr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 
@@ -117,6 +133,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="111dp" />
+        tools:layout_editor_absoluteX="111dp" >
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

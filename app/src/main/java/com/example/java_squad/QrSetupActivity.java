@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 public class QrSetupActivity extends AppCompatActivity {
     Experimental currentExperiment;
+    QRCode QRcode = new QRCode();
 
     TextView experimentName;
     TextView currentQrcode;
@@ -118,6 +120,8 @@ public class QrSetupActivity extends AppCompatActivity {
                 Binomial trial = new Binomial("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, result);
                 QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
                 currentExperiment.QrCodeTrial.add(newTrial);
+                ImageView QRCode = findViewById(R.id.ReplaceImageQrCode);
+                QRCode.setImageBitmap(QRcode.Bitmap(newTrial));
             } else if (currentExperiment.getType() == 2) {
                 int result = Integer.parseInt(value.getText().toString());
 
