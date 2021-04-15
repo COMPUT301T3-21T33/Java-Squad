@@ -179,6 +179,7 @@ public class ExperimentViewCount extends AppCompatActivity implements AddCountTr
                 experiment.setEnableGeo(1);
                 HashMap geo = new HashMap();
                 geo.put("enableGeo", 1);
+                viewMap.setEnabled(true);
                 DatabaseReference updateGeo = FirebaseDatabase.getInstance().getReference("Experiment");
                 updateGeo.child(ExperimentName).updateChildren(geo);
                 DatabaseReference updateGeoTOuser = FirebaseDatabase.getInstance().getReference("User").child(userid);
