@@ -182,7 +182,7 @@ public class RecordMeasurementTrial extends AppCompatActivity implements AddMeas
             @Override
             public void onClick(View v) {
                 //pass this datalist to statistic_RecordCountTrial
-                Intent intent_s_C = new Intent(RecordMeasurementTrial.this, Statistic_RecordCountTrial.class);
+                Intent intent_s_C = new Intent(RecordMeasurementTrial.this, Statistic_RecordMeasurementTrial.class);
                 intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
                 startActivity(intent_s_C);
                 //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
