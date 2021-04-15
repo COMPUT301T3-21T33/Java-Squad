@@ -253,15 +253,19 @@
                     android:layout_marginLeft="50dp"
                     android:backgroundTint="@android:color/black"
                     android:drawableLeft="@drawable/ic_action_add" />
-                <Button
-                    android:id="@+id/button_barcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="Register Codes"
-                    android:translationX="30dp" />
+
             </TableRow>
         </TableLayout>
+
+        <Button
+            android:id="@+id/button_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_gravity="right"
+            android:layout_marginRight="30dp"
+            android:text="Register Codes"
+            android:translationX="30dp" />
 
         <ListView
             android:id="@+id/owner_trial_list"

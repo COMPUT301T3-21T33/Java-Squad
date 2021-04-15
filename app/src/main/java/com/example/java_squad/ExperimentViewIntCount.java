@@ -108,19 +108,34 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
 //            geo.setText("Disabled");
 //        }
 
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
+        DatabaseReference myRef3 = FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
+        myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(experiment.getName())) {
+                    Experimental experi = snapshot.child(experiment.getName()).getValue(Experimental.class);
+                    if (experi.getPublished()){
+                        availability.setText("Public");
+                    }
+                    else {
+                        availability.setText("Private");
+                    }
+                    if (experi.getActive()){
+                        status.setText("Status: In progress");
+                    }
+                    else{
+                        if(addTrialButton != null){addTrialButton.setVisibility(View.GONE);}
+                        //addTrialButton.setClickable(false);
+                        status.setText("Status: End");
+                    }
+                }
+            }
 
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         int exp_type = experiment.getType();
         String typeInStr = "";
@@ -279,9 +294,9 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
             @Override
             public void onClick(View v) {
                 experiment.setActive(false);
-                status.setText("Status: Finished");
+                status.setText("Status: End");
                 EndExperiment.setClickable(false);
-                addTrialButton.setClickable(false);
+                addTrialButton.setVisibility(View.GONE);
                 HashMap data = new HashMap();
                 boolean isfalse = false;
                 data.put("active", isfalse);

@@ -123,19 +123,38 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             stat_btn.setEnabled(false);
         }
 
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
+        userid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
+
+        DatabaseReference myRef3 = FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
+        myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(experiment.getName())) {
+                    Experimental experi = snapshot.child(experiment.getName()).getValue(Experimental.class);
+                    if (experi.getPublished()){
+                        availability.setText("Public");
+                    }
+                    else {
+                        availability.setText("Private");
+                    }
+                    if (experi.getActive()){
+                        status.setText("In progress");
+                    }
+                    else{
+                        if(addTrialButton != null){addTrialButton.setVisibility(View.GONE);}
+                        //addTrialButton.setClickable(false);
+                        status.setText("End");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         int exp_type = experiment.getType();
         String typeInStr = "";
@@ -158,7 +177,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
         trialList = findViewById(R.id.trail_list);
 
         // Get a top level reference to the collection
-        userid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        //userid  = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         trialDataList = new ArrayList<>();
         trialAdapter = new BinomialCustomList(this, trialDataList);
         trialList.setAdapter(trialAdapter);
