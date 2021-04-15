@@ -46,7 +46,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
     Double latitude;
     Boolean  isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton, qrButton;
     ImageButton follow;
 
     String ExperimentName;
@@ -78,6 +78,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
         stat_btn = findViewById(R.id.view_stat_button);
 
         barcodeButton = findViewById(R.id.experiment_barcode);
+        qrButton = findViewById(R.id.experiment_qr);
 
         if (!isfollow){
             viewQuestion.setEnabled(false);
@@ -282,6 +283,15 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), QrSetupActivity.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
             }
         });
 

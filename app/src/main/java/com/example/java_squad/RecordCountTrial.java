@@ -46,7 +46,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
     String userid;
     Boolean isfollow = false;
 
-    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn,barcodeButton, qrButton;
     ImageButton follow;
 
     String ExperimentName;
@@ -69,6 +69,7 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
         TextView availability = findViewById(R.id.availability);
         TextView status = findViewById(R.id.status);
         barcodeButton = findViewById(R.id.experiment_barcode);
+        qrButton = findViewById(R.id.experiment_qr);
 
         experimentName.setText(experiment.getName());
         owner.setText(experiment.getOwnerName());
@@ -204,6 +205,15 @@ public class RecordCountTrial extends AppCompatActivity implements AddCountTrial
                 intent.putExtra("experimentName", experiment.getName());
                 startActivity(intent);
 
+            }
+        });
+
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), QrSetupActivity.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
             }
         });
 
