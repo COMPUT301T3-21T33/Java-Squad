@@ -44,7 +44,7 @@ public class ExperimentViewCount extends AppCompatActivity implements AddCountTr
     Double longitude;
     Double latitude;
     Boolean isfollow = false;
-    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn, EndExperiment, expPublish;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn, EndExperiment, expPublish, qrButton, barcodeButton;
     ImageButton follow;
     Intent intent;
     String ExperimentName;
@@ -379,6 +379,29 @@ public class ExperimentViewCount extends AppCompatActivity implements AddCountTr
 
             }
         });
+
+
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), BarcodeActivity.class);
+                intent.putExtra("Experiment",experiment);
+                intent.putExtra("scanning", true);
+                startActivity(intent);
+
+            }
+        });
+
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), QrSetupActivity.class);
+                intent.putExtra("experiment",experiment);
+                startActivity(intent);
+            }
+        });
+
+
         //back button
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
