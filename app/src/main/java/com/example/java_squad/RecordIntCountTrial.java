@@ -85,19 +85,35 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
             viewMap.setEnabled(false);
             stat_btn.setEnabled(false);
         }
-        if (experiment.getPublished() == true){
-            availability.setText("Public");
-        }
-        else{
-            availability.setText("Private");
-        }
+        userid = intent.getStringExtra("id");
+        DatabaseReference myRef3 = FirebaseDatabase.getInstance().getReference("User").child(userid).child("Experiment");
+        myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(experiment.getName())) {
+                    Experimental experi = snapshot.child(experiment.getName()).getValue(Experimental.class);
+                    if (experi.getPublished()){
+                        availability.setText("Public");
+                    }
+                    else {
+                        availability.setText("Private");
+                    }
+                    if (experi.getActive()){
+                        status.setText("In progress");
+                    }
+                    else{
+                        if(addTrialButton != null){addTrialButton.setVisibility(View.GONE);}
+                        //addTrialButton.setClickable(false);
+                        status.setText("End");
+                    }
+                }
+            }
 
-        if (experiment.getActive() == true){
-            status.setText("In progress");
-        }
-        else{
-            status.setText("End");
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         int exp_type = experiment.getType();
         String typeInStr = "";
@@ -209,7 +225,7 @@ public class RecordIntCountTrial extends AppCompatActivity implements AddIntCoun
 
             }
         });
-        userid =intent.getStringExtra("id");
+        //userid =intent.getStringExtra("id");
 
         //check in database if the user follow this experiment or not
         follow = findViewById(R.id.follow_button);
