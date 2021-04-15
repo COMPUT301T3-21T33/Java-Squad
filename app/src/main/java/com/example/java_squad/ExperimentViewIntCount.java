@@ -44,7 +44,8 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
     Double longitude;
     Double latitude;
     Boolean isfollow = false;
-    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn, EndExperiment, expPublish, qrButton, barcodeButton;
+    Button viewQuestion,back_btn,viewMap,addTrialButton,stat_btn, EndExperiment,
+            qrButton, barcodeButton,expPublish;
     ImageButton follow;
     Intent intent;
     String ExperimentName;
@@ -75,6 +76,8 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
         TextView availability = findViewById(R.id.available_text);
         TextView status = findViewById(R.id.exp_active);
         viewMap = findViewById(R.id.view_map_owner);
+        qrButton = findViewById(R.id.button_qrcode);
+        barcodeButton = findViewById(R.id.button_barcode);
 
         if (experiment.getEnableGeo() == 1){
             viewMap.setEnabled(true);
@@ -172,7 +175,20 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
 
         //trialAdapter = new BinomialCustomList(this, trialDataList);
         //trialList.setAdapter(trialAdapter);
+        Button enableGEO = findViewById(R.id.geolocation_enable);
+        enableGEO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                experiment.setEnableGeo(1);
+                HashMap geo = new HashMap();
+                geo.put("enableGeo", 1);
+                DatabaseReference updateGeo = FirebaseDatabase.getInstance().getReference("Experiment");
+                updateGeo.child(ExperimentName).updateChildren(geo);
+                DatabaseReference updateGeoTOuser = FirebaseDatabase.getInstance().getReference("User").child(userid);
+                updateGeoTOuser.child("Experiment").child(ExperimentName).updateChildren(geo);
 
+            }
+        });
         //Add Statistic view button for binomial trials here
         stat_btn =findViewById(R.id.statistic_owner);
         //Add Statistic view button for integer count trials here
@@ -304,82 +320,6 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
             }
         });
 
-        //check in database if the user follow this experiment or not
-        follow = findViewById(R.id.follow);
-        DatabaseReference df123  = FirebaseDatabase.getInstance().getReference("User").child(userid);
-        df123.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild("follow")){
-                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
-                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
-                            //if user followed this experiment, set the hearbutton to be full
-                            follow.setImageResource(R.drawable.ic_action_liking);
-                            follow.setTag(R.drawable.ic_action_liking);//set tag
-                            isfollow = true; //set is follow to true
-                            viewQuestion.setClickable(true);
-                            addTrialButton.setEnabled(true);
-                            stat_btn.setClickable(true);
-                            if (experiment.getEnableGeo() == 1){
-                                viewMap.setEnabled(true);
-                            }
-                            stat_btn.setClickable(true);
-
-                        }
-                        Log.d("if is followed exp name",datasnapshot.child("name").getValue().toString());
-
-                    }
-                    Log.d("if is followed","has child follow");
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        if (!isfollow){
-            viewQuestion.setClickable(false);
-            addTrialButton.setEnabled(false);
-            stat_btn.setClickable(false);
-            viewMap.setClickable(false);
-        }
-
-        //when user click on follow
-        follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if user did not follow this experiment
-                if(follow.getTag()==null) {
-                    //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
-                    viewQuestion.setClickable(true);
-                    addTrialButton.setClickable(true);
-                    viewMap.setClickable(true);
-                    stat_btn.setClickable(true);
-                    //set image button to be full heart
-                    follow.setImageResource(R.drawable.ic_action_liking);
-                    //update database
-                    experiment.setOwner(owner1);
-                    df123.child("follow").child(ExperimentName).setValue(experiment);
-                }
-                //if user follow this experiment
-                else{
-                    //set image button to be empty heart
-                    follow.setImageResource(R.drawable.ic_action_like);
-                    //update database
-                    df123.child("follow").child(ExperimentName).removeValue();
-                    //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
-                    viewQuestion.setClickable(false);
-                    viewMap.setClickable(false);
-                    addTrialButton.setClickable(false);
-                    stat_btn.setClickable(false);
-                }
-
-            }
-        });
-
         barcodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -400,7 +340,62 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
             }
         });
 
+        //check in database if the user follow this experiment or not
+        follow = findViewById(R.id.follow);
+        DatabaseReference df123  = FirebaseDatabase.getInstance().getReference("User").child(userid);
+        df123.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("follow")){
+                    for(DataSnapshot datasnapshot: snapshot.child("follow").getChildren()){
+                        if (datasnapshot.child("name").getValue().toString().equals(ExperimentName)){
+                            //if user followed this experiment, set the hearbutton to be full
+                            follow.setImageResource(R.drawable.ic_action_liking);
+                            follow.setTag(R.drawable.ic_action_liking);//set tag
+                            isfollow = true; //set is follow to true
 
+                        }
+                        Log.d("if is followed exp name",datasnapshot.child("name").getValue().toString());
+
+                    }
+                    Log.d("if is followed","has child follow");
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //when user click on follow
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //if user did not follow this experiment
+                if(follow.getTag()==null) {
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be clicked
+
+                    //set image button to be full heart
+                    follow.setImageResource(R.drawable.ic_action_liking);
+                    //update database
+                    experiment.setOwner(owner1);
+                    df123.child("follow").child(ExperimentName).setValue(experiment);
+                }
+                //if user follow this experiment
+                else{
+                    //set image button to be empty heart
+                    follow.setImageResource(R.drawable.ic_action_like);
+                    //update database
+                    df123.child("follow").child(ExperimentName).removeValue();
+                    //set the viewquestion, addtril, viewmap, viewstatistic button to be unclicked
+
+                }
+
+            }
+        });
         //back button
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
