@@ -182,6 +182,7 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
                 experiment.setEnableGeo(1);
                 HashMap geo = new HashMap();
                 geo.put("enableGeo", 1);
+                viewMap.setEnabled(true);
                 DatabaseReference updateGeo = FirebaseDatabase.getInstance().getReference("Experiment");
                 updateGeo.child(ExperimentName).updateChildren(geo);
                 DatabaseReference updateGeoTOuser = FirebaseDatabase.getInstance().getReference("User").child(userid);
@@ -300,6 +301,7 @@ public class ExperimentViewIntCount extends AppCompatActivity implements AddIntC
                 availability.setText("PRIVATE");
                 experiment.setPublished(false);
                 HashMap data = new HashMap();
+                
                 boolean isf = false;
                 data.put("published", isf);
                 databaseReference.child("Experiment").child(experiment.getName()).updateChildren(data);
