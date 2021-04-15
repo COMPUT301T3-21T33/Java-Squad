@@ -183,7 +183,7 @@
                 android:id="@+id/add_trial_button"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="54dp"
-                android:layout_height="32dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:backgroundTint="@android:color/white"
@@ -250,16 +250,16 @@
             android:textSize="10sp"
             android:layout_marginLeft="10dp"
             />
+
         <Button
             android:id="@+id/view_map"
-            android:layout_width="wrap_content"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="View Map"
-            android:enabled="false"
-            android:textSize="10sp"
             android:layout_marginLeft="10dp"
-            />
+            android:enabled="false"
+            android:text="View Map"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/experiment_qr"

@@ -71,7 +71,6 @@ public class AddMeasurementTrialFragment extends DialogFragment {
         amount= view.findViewById(R.id.amount);
         unit = view.findViewById(R.id.unit);
         experimenter= view.findViewById(R.id.author);
-        date= view.findViewById(R.id.date);
 //        final Bundle arg = getArguments();
         DateConverter dateConverter = new DateConverter();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
