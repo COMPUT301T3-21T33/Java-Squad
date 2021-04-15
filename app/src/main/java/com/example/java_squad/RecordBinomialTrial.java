@@ -213,7 +213,7 @@ public class RecordBinomialTrial extends AppCompatActivity implements AddBinomia
             @Override
             public void onClick(View v) {
                 //pass this datalist to statistic_RecordCountTrial
-                Intent intent_s_C = new Intent(RecordBinomialTrial.this, Statistic_RecordCountTrial.class);
+                Intent intent_s_C = new Intent(RecordBinomialTrial.this, Statistic_RecordBinomialTrial.class);
                 intent_s_C.putExtra("DataList_of_C_trials", trialDataList);
                 startActivity(intent_s_C);
                 //startActivity(new Intent(getApplicationContext(), Statistic_RecordIntCountTrial.class));
