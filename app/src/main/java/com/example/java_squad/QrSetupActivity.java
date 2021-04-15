@@ -128,6 +128,8 @@ public class QrSetupActivity extends AppCompatActivity {
                 IntCount trial = new IntCount("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, result);
                 QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
                 currentExperiment.QrCodeTrial.add(newTrial);
+                ImageView QRCode = findViewById(R.id.ReplaceImageQrCode);
+                QRCode.setImageBitmap(QRcode.Bitmap(newTrial));
 
             } else if (currentExperiment.getType() == 3) {
                 int result = Integer.parseInt(value.getText().toString());
@@ -136,6 +138,8 @@ public class QrSetupActivity extends AppCompatActivity {
                 Measurement trial = new Measurement("", "", currentExperiment.getEnableGeo(), 0.0, 0.0, unit, result);
                 QrCodeTrial newTrial = new QrCodeTrial(qrcode, trial, currentExperiment);
                 currentExperiment.QrCodeTrial.add(newTrial);
+                ImageView QRCode = findViewById(R.id.ReplaceImageQrCode);
+                QRCode.setImageBitmap(QRcode.Bitmap(newTrial));
             }
         }
     }
